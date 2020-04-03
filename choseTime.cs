@@ -19,7 +19,7 @@ namespace kxrealtime
     {
         private Form frmBack;
         private int btnWidthTmp = 400;
-        private int difWidth = 100;
+        private int difWidth = 80;
         private utilDialog parentForm;
         private string paperTitle = "";
         private float paperScore;
@@ -75,6 +75,8 @@ namespace kxrealtime
             int wTmp = panel1.Width;
             button2.Top = hTmp / 2 + panel1.Top;
             button3.Top = hTmp / 2 + panel1.Top;
+            int countTmp = txtArr.Count();
+            btnWidthTmp = (wTmp - difWidth* countTmp) / countTmp;
             for (int i=0; i<txtArr.Length; i++)
             {
                 var btnTmp = new Button();
@@ -122,12 +124,45 @@ namespace kxrealtime
                     
                 } else
                 {
+                    // 延时操作
+                    if (this.testId != null)
+                    {
+                        var examTmp = Globals.ThisAddIn.findExamInfoByTestId(this.testId);
+                        if (examTmp != null)
+                        {
+                            examTmp.duringTime += this.paperTime;
+                            this.paperTime = examTmp.duringTime;
+                        }
+                    }
                     createExam(paperId);
+                    sendPaperExt(paperId, false);
                     sendKXOUT(this.paperId, this.testId);
+
+                    // send exam time
+                    sendChangeTime(this.paperId, this.testId);
                 }
                 closeFn();
                 this.parentForm.checkMod();
             }
+        }
+
+        private void sendChangeTime(string paperId, string testId)
+        {
+            object sendData = (new
+            {
+                key = "exam",
+                type = "TEST_TIME",
+                data = new
+                {
+                    time = this.paperTime,
+                    paperId = paperId,
+                    testId = testId
+                },
+                timestamp = utils.Utils.getTimeStamp()
+            });
+            JObject o = JObject.FromObject(sendData);
+            string tmp = o.ToString();
+            Globals.ThisAddIn.SendTchInfo(tmp);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -291,7 +326,8 @@ namespace kxrealtime
                 slideName = curSld.Name,
                 startTimeStamp = utils.Utils.getTimeStamp(),
                 duringTime = this.paperTime,
-                noTime = isQ
+                noTime = isQ,
+                paperTitle = this.paperTitle
             };
             Globals.ThisAddIn.kxSlideExam.Add(slideExam);
 
@@ -358,12 +394,6 @@ namespace kxrealtime
             if(this.testId != null)
             {
                 postData.id = this.testId;
-                var examTmp = Globals.ThisAddIn.findExamInfoByTestId(this.testId);
-                if(examTmp != null)
-                {
-                    examTmp.duringTime += this.paperTime;
-                    postData.cost_time = examTmp.duringTime;
-                }
             }
             RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.POST, args, postData);
             if (response.ErrorException != null)

@@ -17,5 +17,7 @@ namespace kxrealtime.kxdata
 
         public bool noTime { get; set; }
 
+        public string paperTitle { get; set; }
+
     }
 }

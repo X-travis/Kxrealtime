@@ -42,6 +42,7 @@
             this.group3 = this.Factory.CreateRibbonGroup();
             this.box1 = this.Factory.CreateRibbonBox();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.button4 = this.Factory.CreateRibbonButton();
             this.button5 = this.Factory.CreateRibbonButton();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button9 = this.Factory.CreateRibbonButton();
@@ -50,7 +51,6 @@
             this.button2 = this.Factory.CreateRibbonButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button11 = this.Factory.CreateRibbonButton();
-            this.button4 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
@@ -121,6 +121,16 @@
             this.group1.Label = "插入题目";
             this.group1.Name = "group1";
             // 
+            // button4
+            // 
+            this.button4.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button4.Image = global::kxrealtime.Properties.Resources.subject_new1;
+            this.button4.Label = "               主观题 ";
+            this.button4.Name = "button4";
+            this.button4.ScreenTip = "插入主观题";
+            this.button4.ShowImage = true;
+            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
+            // 
             // button5
             // 
             this.button5.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -151,7 +161,7 @@
             // button10
             // 
             this.button10.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button10.Image = global::kxrealtime.Properties.Resources.stop;
+            this.button10.Image = global::kxrealtime.Properties.Resources.stop1;
             this.button10.Label = "结束本次授课";
             this.button10.Name = "button10";
             this.button10.ShowImage = true;
@@ -160,7 +170,7 @@
             // button1
             // 
             this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button1.Image = global::kxrealtime.Properties.Resources.single_new;
+            this.button1.Image = global::kxrealtime.Properties.Resources.single_new1;
             this.button1.Label = "                    单选题";
             this.button1.Name = "button1";
             this.button1.ScreenTip = "插入单项选择题";
@@ -171,7 +181,7 @@
             // 
             this.button2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.button2.Description = "多选题";
-            this.button2.Image = global::kxrealtime.Properties.Resources.multi_new;
+            this.button2.Image = global::kxrealtime.Properties.Resources.multi_new1;
             this.button2.Label = "                     多选题";
             this.button2.Name = "button2";
             this.button2.ScreenTip = "插入多项选择题";
@@ -181,7 +191,7 @@
             // button3
             // 
             this.button3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button3.Image = global::kxrealtime.Properties.Resources.fill_new;
+            this.button3.Image = global::kxrealtime.Properties.Resources.fill_new1;
             this.button3.Label = "                填空题 ";
             this.button3.Name = "button3";
             this.button3.ScreenTip = "插入填空题";
@@ -191,21 +201,11 @@
             // button11
             // 
             this.button11.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button11.Image = global::kxrealtime.Properties.Resources.vote_new;
+            this.button11.Image = global::kxrealtime.Properties.Resources.vote_new1;
             this.button11.Label = "             投票";
             this.button11.Name = "button11";
             this.button11.ShowImage = true;
             this.button11.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button11_Click);
-            // 
-            // button4
-            // 
-            this.button4.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button4.Image = global::kxrealtime.Properties.Resources.subject_new;
-            this.button4.Label = "               主观题 ";
-            this.button4.Name = "button4";
-            this.button4.ScreenTip = "插入主观题";
-            this.button4.ShowImage = true;
-            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
             // Ribbon1
             // 

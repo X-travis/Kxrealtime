@@ -151,7 +151,8 @@
             // utilsPanel
             // 
             this.utilsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.utilsPanel.BackColor = System.Drawing.Color.Black;
+            this.utilsPanel.BackColor = System.Drawing.Color.White;
+            this.utilsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.utilsPanel.Controls.Add(this.label2);
             this.utilsPanel.Controls.Add(this.button7);
             this.utilsPanel.Controls.Add(this.button6);
@@ -171,8 +172,8 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(252, 11);
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(250, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 19);
             this.label2.TabIndex = 7;
@@ -183,8 +184,8 @@
             // 
             this.button7.FlatAppearance.BorderSize = 0;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Image = global::kxrealtime.Properties.Resources.course_qrcode;
+            this.button7.ForeColor = System.Drawing.Color.Black;
+            this.button7.Image = global::kxrealtime.Properties.Resources.course_qrcode1;
             this.button7.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button7.Location = new System.Drawing.Point(196, 127);
             this.button7.Name = "button7";
@@ -199,14 +200,14 @@
             // 
             this.button6.FlatAppearance.BorderSize = 0;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Image = global::kxrealtime.Properties.Resources.contribute;
+            this.button6.ForeColor = System.Drawing.Color.Black;
+            this.button6.Image = global::kxrealtime.Properties.Resources.contribute1;
             this.button6.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button6.Location = new System.Drawing.Point(106, 127);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(67, 77);
             this.button6.TabIndex = 5;
-            this.button6.Text = "发起投稿";
+            this.button6.Text = "查看投稿";
             this.button6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
@@ -215,8 +216,8 @@
             // 
             this.button5.FlatAppearance.BorderSize = 0;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Image = global::kxrealtime.Properties.Resources.unstandand;
+            this.button5.ForeColor = System.Drawing.Color.Black;
+            this.button5.Image = global::kxrealtime.Properties.Resources.unstandand1;
             this.button5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button5.Location = new System.Drawing.Point(15, 127);
             this.button5.Name = "button5";
@@ -231,8 +232,8 @@
             // 
             this.button4.FlatAppearance.BorderSize = 0;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Image = global::kxrealtime.Properties.Resources.sign_qrcode;
+            this.button4.ForeColor = System.Drawing.Color.Black;
+            this.button4.Image = global::kxrealtime.Properties.Resources.sign_qrcode_big;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button4.Location = new System.Drawing.Point(196, 42);
             this.button4.Name = "button4";
@@ -247,8 +248,8 @@
             // 
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Image = global::kxrealtime.Properties.Resources.check_stu;
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Image = global::kxrealtime.Properties.Resources.check_stu_big;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.button3.Location = new System.Drawing.Point(106, 42);
             this.button3.Name = "button3";
@@ -261,14 +262,15 @@
             // 
             // button2
             // 
+            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Image = global::kxrealtime.Properties.Resources.divide_group;
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.Image = global::kxrealtime.Properties.Resources.divide_group1;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button2.Location = new System.Drawing.Point(15, 42);
+            this.button2.Location = new System.Drawing.Point(15, 44);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(67, 77);
+            this.button2.Size = new System.Drawing.Size(67, 74);
             this.button2.TabIndex = 1;
             this.button2.Text = "分组";
             this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -278,7 +280,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(13, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 12);
@@ -303,7 +305,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Snow;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(809, 545);
             this.Controls.Add(this.utilsBtn);
             this.Controls.Add(this.utilsPanel);
@@ -318,7 +320,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "utilDialog";
             this.TopMost = true;
-            this.TransparencyKey = System.Drawing.Color.Snow;
+            this.TransparencyKey = System.Drawing.SystemColors.Control;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.utilDialog_Load);
             this.examUtils.ResumeLayout(false);

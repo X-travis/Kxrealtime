@@ -33,7 +33,7 @@
     <PublishUrl>D:\新建文件夹 %282%29\kx\</PublishUrl>
     <InstallUrl />
     <TargetCulture>zh-chs</TargetCulture>
-    <ApplicationVersion>1.0.0.20</ApplicationVersion>
+    <ApplicationVersion>1.0.0.22</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -234,6 +234,11 @@
     <Compile Include="loginDialog.Designer.cs">
       <DependentUpon>loginDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="utilDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,14 +277,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Ribbon1.resx">
       <DependentUpon>Ribbon1.cs</DependentUpon>
     </EmbeddedResource>
@@ -329,13 +329,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\single.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\multi.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fill.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\subject.png" />
@@ -356,19 +350,10 @@
     <None Include="Resources\util.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\single1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\invote.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\single-new.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\multi-new.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fill-new.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\vote-new.png" />
@@ -399,6 +384,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\set.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fill-new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unstandand1.png" />
+    <None Include="Resources\subject-new1.png" />
+    <None Include="Resources\vote-new1.png" />
+    <None Include="Resources\multi-new1.png" />
+    <None Include="Resources\fill-new1.png" />
+    <None Include="Resources\divde-group-big.png" />
+    <None Include="Resources\divide-group1.png" />
+    <None Include="Resources\check-stu-big1.png" />
+    <None Include="Resources\sign-qrcode-big.png" />
+    <None Include="Resources\contribute1.png" />
+    <None Include="Resources\course-qrcode1.png" />
+    <Content Include="Resources\single-new.png" />
+    <None Include="Resources\single-new1.png" />
+    <None Include="Resources\stop1.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

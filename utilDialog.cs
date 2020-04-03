@@ -36,7 +36,7 @@ namespace kxrealtime
             var tmp = utils.Utils.getScreenPosition();
             this.Location = tmp;
             //var otherLocation = utils.Utils.getScreenPosition(true);
-            //this.utilsBtn.Left = otherLocation.X - tmp.X;
+            this.utilsBtn.Top = this.Height/2;
             
         }
 
@@ -47,6 +47,19 @@ namespace kxrealtime
 
         private void sendBtn_Click(object sender, EventArgs e)
         {
+            var result = this.getExamInfo();
+            if(result != null)
+            {
+                Int64 difTime = result.startTimeStamp + result.duringTime - utils.Utils.getTimeStamp();
+                // clear old the info of exam
+                if (result.noTime || difTime < 1000)
+                {
+                    Globals.ThisAddIn.removeExamItem(this.paperId);
+                    this.paperId = null;
+                    this.testId = null;
+                }
+            }
+            
             showTimeChoice();
         }
 
@@ -56,6 +69,7 @@ namespace kxrealtime
             this.Location = tmp;
             checkMod();
             //isSendMod(false);
+            this.utilsBtn.Top = this.Height / 2;
             this.Show();
         }
 
@@ -64,16 +78,22 @@ namespace kxrealtime
             examUtils.Visible = false;
             sendBtn.Visible = false;
             checkAns.Visible = false;
+            this.utilsBtn.Top = this.Height / 2;
             this.Show();
+        }
+
+        private slideExamInfo getExamInfo()
+        {
+            var curIdx = Globals.ThisAddIn.PlaySlideIdx;
+            var curSld = Globals.ThisAddIn.Application.ActivePresentation.Slides[curIdx];
+            var curSldName = curSld.Name;
+            return Globals.ThisAddIn.findExamInfo(curSldName);
         }
 
         public void checkMod()
         {
             this.paperId = null;
-            var curIdx = Globals.ThisAddIn.PlaySlideIdx;
-            var curSld = Globals.ThisAddIn.Application.ActivePresentation.Slides[curIdx];
-            var curSldName = curSld.Name;
-            var result = Globals.ThisAddIn.findExamInfo(curSldName);
+            var result = this.getExamInfo();
             isSendMod(result == null);
             if(result != null)
             {
@@ -103,11 +123,7 @@ namespace kxrealtime
                 Int64 difTime = eData.startTimeStamp + eData.duringTime - utils.Utils.getTimeStamp();
                 if (difTime < 0)
                 {
-                    timeLeft.Visible = true;
-                    delayBtn.Visible = true;
-                    stopBtn.Visible = false;
-                    examUtils.Visible = true;
-                    timeLeft.Text = "练习结束";
+                    this.stopMod();
                 }
                 else
                 {
@@ -115,10 +131,19 @@ namespace kxrealtime
                     startTiming(difTime);
                     delayBtn.Visible = true;
                     // todo
-                    stopBtn.Visible = false;
+                    stopBtn.Visible = true;
                     examUtils.Visible = true;
                 }
             }
+        }
+
+        private void stopMod()
+        {
+            timeLeft.Visible = true;
+            delayBtn.Visible = false;
+            stopBtn.Visible = false;
+            examUtils.Visible = true;
+            timeLeft.Text = "练习结束";
         }
 
         private void startTiming(Int64 leftTime)
@@ -140,7 +165,7 @@ namespace kxrealtime
                     myTimer.Stop();
                     this.myTimer.Dispose();
                     this.myTimer = null;
-
+                    this.delayBtn.Visible = false;
                 }
             }); //给timer挂起事件
             myTimer.Enabled = true;
@@ -177,7 +202,7 @@ namespace kxrealtime
             {
                 if(shapeTmp.Name.Contains("kx-title-"))
                 {
-                    return shapeTmp.Name == singleTitle || shapeTmp.Name == mulitTitle;
+                    return shapeTmp.Name == singleTitle || shapeTmp.Name == mulitTitle || shapeTmp.Name == singleVoteTitle || shapeTmp.Name == mulitVoteTitle;
                 }
             }
             return false;
@@ -230,7 +255,80 @@ namespace kxrealtime
 
         private void stopBtn_Click(object sender, EventArgs e)
         {
+            var examInfo = this.getExamInfo();
+            createExam(examInfo);
+            sendStop(examInfo.paperId, examInfo.testId);
+        }
 
+        private void sendStop(string paperId, string testId)
+        {
+            object sendData = (new
+            {
+                key = "exam",
+                type = "TEST_STOP",
+                data = new
+                {
+                    paperId = paperId,
+                    testId = testId
+                },
+                timestamp = utils.Utils.getTimeStamp()
+            });
+            JObject o = JObject.FromObject(sendData);
+            string tmp = o.ToString();
+            Globals.ThisAddIn.SendTchInfo(tmp);
+        }
+
+        private string createExam(slideExamInfo eInfo)
+        {
+            Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/upsertTest");
+            Dictionary<string, string> args = new Dictionary<string, string> { };
+            args.Add("token", utils.KXINFO.KXTOKEN);
+            var curTime = utils.Utils.getTimeStamp();
+            var postData = new createExamInfo()
+            {
+                aids = new List<string>() { paperId },
+                owner = "30",
+                multi = 100,
+                start_time = eInfo.startTimeStamp,
+                end_time = eInfo.startTimeStamp + 1000,
+                title = eInfo.paperTitle,
+                cost_time = eInfo.duringTime,
+                id = testId
+            };
+            RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.POST, args, postData);
+            if (response.ErrorException != null)
+            {
+                utils.Utils.LOG("usr/api/upsertTest api error: " + response.ErrorException.Message);
+                return null;
+            }
+            else
+            {
+                JObject data = JObject.Parse(response.Content);
+                string code = (string)data["code"];
+                if (code != "0")
+                {
+                    if (code == "401")
+                    {
+                        this.Visible = false;
+                        Globals.ThisAddIn.loginOut();
+                        MessageBox.Show("登录失效请重新登录");
+                    }
+                    utils.Utils.LOG("usr/api/upsertTest api error: code" + code);
+                }
+                else
+                {
+                    eInfo.duringTime = 0;
+                    if (this.myTimer != null)
+                    {
+                        this.myTimer.Stop();
+                        this.myTimer.Dispose();
+                        this.myTimer = null;
+                    }
+                    this.stopMod();
+                    return (string)data["data"]["id"];
+                }
+            }
+            return null;
         }
 
         private void utilsBtn_Click(object sender, EventArgs e)

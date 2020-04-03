@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace kxrealtime.utils
@@ -32,14 +34,31 @@ namespace kxrealtime.utils
             int yTmp = primaryScreenArea.Top;
             int wTmp = primaryScreenArea.Width;
             int hTmp = primaryScreenArea.Height;
-            imgGraphics.CopyFromScreen(xTmp, yTmp, xTmp, yTmp, new Size(wTmp, hTmp));
+            imgGraphics.CopyFromScreen(xTmp, yTmp, xTmp, yTmp, new System.Drawing.Size(wTmp, hTmp));
             ImageConverter converter = new ImageConverter();
             return (byte[])converter.ConvertTo(image, typeof(byte[]));
         }
 
-        public static Point getScreenPosition(bool isPrimary = false)
+        [DllImport("user32")]
+        private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lpRect, MonitorEnumProc callback, int dwData);
+
+        private delegate bool MonitorEnumProc(IntPtr hDesktop, IntPtr hdc, ref Rect pRect, int dwData);
+
+
+        public static System.Drawing.Point getScreenPosition(bool isPrimary = false)
         {
-            Point curPoint = new Point(Screen.PrimaryScreen.Bounds.Left, Screen.PrimaryScreen.Bounds.Top);
+            /*int monCount = 0;
+            MonitorEnumProc callback = (IntPtr hDesktop, IntPtr hdc, ref Rect prect, int d) =>
+            {
+
+                return ++monCount > 0;
+            };
+            if (EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, callback, 0))
+                Console.WriteLine("You have {0} monitors", monCount);
+            else
+                Console.WriteLine("An error occured while enumerating monitors");*/
+
+            System.Drawing.Point curPoint = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Left, Screen.PrimaryScreen.Bounds.Top);
             if(isPrimary)
             {
                 return curPoint;
@@ -48,7 +67,7 @@ namespace kxrealtime.utils
             {
                 if (!curScreen.Primary)
                 {
-                    curPoint = new Point(curScreen.Bounds.Left, curScreen.Bounds.Top);
+                    curPoint = new System.Drawing.Point(curScreen.Bounds.Left, curScreen.Bounds.Top);
                 }
             }
             return curPoint;

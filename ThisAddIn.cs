@@ -35,6 +35,7 @@ namespace kxrealtime
             this.Application.SlideShowNextSlide += Application_SlideShowNextSlide;
             this.Application.SlideShowOnNext += Application_SlideShowOnNext;
             this.Application.SlideShowOnPrevious += Application_SlideShowOnPrevious;
+            
             CurHttpReq = utils.request.GetClient();
             
         }
@@ -250,6 +251,15 @@ namespace kxrealtime
                 }
             }
             return null;
+        }
+
+        public void removeExamItem(string paperId)
+        {
+            var itemToRemove = kxSlideExam.Single(r => r.paperId == paperId);
+            if (itemToRemove != null)
+            {
+                kxSlideExam.Remove(itemToRemove);
+            }
         }
 
         #region VSTO 生成的代码
