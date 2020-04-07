@@ -274,12 +274,8 @@ namespace kxrealtime
 
         private void createScreenWin(string classId, string className)
         {
+            Globals.ThisAddIn.canShowAddClass = true;
             Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
-            // 邀请进入班级窗口
-            var curWn = new addClass(classId, className);
-            curWn.Location = utils.Utils.getScreenPosition();
-            curWn.Show();
-            Globals.Ribbons.Ribbon1.ChangeTchBtn(true);
             return;
         }
 
@@ -301,17 +297,26 @@ namespace kxrealtime
             if (response.ErrorException != null)
             {
                 utils.Utils.LOG("usr/upsertTeachRecord api error: " + response.ErrorException.Message);
+                throw new Exception("error");
             }
             else
             {
-
-                JObject data = JObject.Parse(response.Content);
-                string code = (string)data["code"];
-                if (code != "0")
+                try
                 {
-                    System.Diagnostics.Debug.WriteLine("send stop tch record" + code);
-                    utils.Utils.LOG("usr/upsertTeachRecord api error: code" + code);
+                    JObject data = JObject.Parse(response.Content);
+                    string code = (string)data["code"];
+                    if (code != "0")
+                    {
+                        System.Diagnostics.Debug.WriteLine("send stop tch record" + code);
+                        utils.Utils.LOG("usr/upsertTeachRecord api error: code" + code);
+                        throw new Exception("error");
+                    }
+                }catch(JsonReaderException e)
+                {
+                    utils.Utils.LOG("close course error upsertTeachRecord, received data not json");
+                    throw new Exception("error");
                 }
+                
             }
         }
     }

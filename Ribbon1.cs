@@ -67,16 +67,20 @@ namespace kxrealtime
             PowerPoint.Shape sendBtn = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeActionButtonCustom, curW - 150, curH - 60, 100, 40);
             sendBtn.TextFrame.TextRange.InsertAfter("发送题目");
             sendBtn.Name = "kx-sending";
-            
+            sendBtn.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 170, 170, 170).ToArgb();
+            sendBtn.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 170, 170, 170).ToArgb();
+
             //sendBtn.TextFrame.TextRange.ActionSettings[PowerPoint.PpMouseActivation.ppMouseClick].Action = PowerPoint.PpActionType.ppActionRunMacro;
             //sendBtn.TextFrame.TextRange.ActionSettings[PowerPoint.PpMouseActivation.ppMouseClick].Run = "createText";
 
 
             // 题干
             PowerPoint.Shape textBoxTitle = slide.Shapes.AddTextbox(
-                Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 100, curW - 120, 400);
+                Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 100, curW - 120, 100);
             textBoxTitle.TextFrame.TextRange.InsertAfter("此处插入描述");
             textBoxTitle.Name = "kx-question";
+            textBoxTitle.Height = 80;
+  
 
             // 题干额外信息
             PowerPoint.Shape qInfo = slide.Shapes.AddTextbox(
@@ -100,11 +104,18 @@ namespace kxrealtime
                 scoreCom.TextFrame.TextRange.InsertAfter("10分");
                 scoreCom.Name = "kx-score";
             }
-           
 
-            PowerPoint.Shape setBtn = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeActionButtonCustom, curW - 150, 0, 100, 40);
-            setBtn.TextFrame.TextRange.InsertBefore("设置");
+
+            //PowerPoint.Shape setBtn = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeActionButtonCustom, curW - 150, 0, 100, 40);
+            //setBtn.TextFrame.TextRange.InsertBefore("设置");
+            //setBtn.Name = "kx-setting";
+
+            Globals.ThisAddIn.initSetting();
+            string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var settingImg = curDir + @"\kxrealtime\imgs\setting.png";
+            PowerPoint.Shape setBtn = slide.Shapes.AddPicture(settingImg, Office.MsoTriState.msoTrue, Office.MsoTriState.msoTrue, curW - 150, 0, 100, 40);
             setBtn.Name = "kx-setting";
+
 
             if (questionType == singleSelCtl.TypeSelEnum.singleSel || questionType == singleSelCtl.TypeSelEnum.multiSel || questionType == singleSelCtl.TypeSelEnum.voteSingleSel || questionType == singleSelCtl.TypeSelEnum.voteMultiSel)
             {
@@ -648,11 +659,16 @@ namespace kxrealtime
             JObject o = JObject.FromObject(sendData);
             string tmp = o.ToString();
             Globals.ThisAddIn.SendTchInfo(tmp);
-            curChoseForm.stopTching();
-            Globals.ThisAddIn.CloseTchSocket();
-            Globals.ThisAddIn.kxSlideExam.Clear();
-            ChangeTchBtn(false);
-            curChoseForm.Close();
+            try
+            {
+                curChoseForm.stopTching();
+                Globals.ThisAddIn.CloseTchSocket();
+                Globals.ThisAddIn.kxSlideExam.Clear();
+                ChangeTchBtn(false);
+                curChoseForm.Close();
+            }
+            catch (Exception) { }
+            
         }
 
         public void ChangeTchBtn(bool tching)

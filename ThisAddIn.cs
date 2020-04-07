@@ -20,8 +20,10 @@ namespace kxrealtime
         private bool isKxPage;
         private PowerPoint.PpSelectionType lastType;
         public RestSharp.RestClient CurHttpReq;
+        public bool canShowAddClass = false;
         private IWebsocketClient TchWebSocket;
         private utilDialog utilDialogInstance;
+
 
         // slide exame
         public List<slideExamInfo> kxSlideExam = new List<slideExamInfo>();
@@ -37,7 +39,6 @@ namespace kxrealtime
             this.Application.SlideShowOnPrevious += Application_SlideShowOnPrevious;
             
             CurHttpReq = utils.request.GetClient();
-            
         }
 
         private void Application_SlideShowOnPrevious(PowerPoint.SlideShowWindow Wn)
@@ -59,19 +60,86 @@ namespace kxrealtime
             }
             this.PlaySlideIdx = Wn.View.Slide.SlideIndex;
             sendScreen(Wn);
-            if(this.utilDialogInstance == null)
+            if(this.utilDialogInstance != null)
+            {
+                this.checkUtils(Wn);
+            } else
+            {
+                slideHandle(Wn);
+            }
+        }
+
+        private void checkUtils(PowerPoint.SlideShowWindow Wn)
+        {
+            if (this.utilDialogInstance == null)
             {
                 this.utilDialogInstance = new utilDialog();
             }
-            
-            if(Wn.View.Slide.Name.Contains("kx-slide"))
+            this.utilDialogInstance.Location = utils.Utils.getScreenPosition();
+            if (Wn.View.Slide.Name.Contains("kx-slide"))
             {
                 this.utilDialogInstance.showSendBtn();
-            } else
+            }
+            else
             {
                 //this.utilDialogInstance.Close();
                 this.utilDialogInstance.onlyUtils();
             }
+            if (this.canShowAddClass)
+            {
+                this.openAddClass();
+                this.canShowAddClass = false;
+            }
+        }
+
+        private void slideHandle(PowerPoint.SlideShowWindow Wn)
+        {
+            System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();//实例化　
+            myTimer.Tick += new EventHandler((s, e) =>
+            {
+                this.checkUtils(Wn);
+                myTimer.Stop();
+                myTimer.Dispose();
+                myTimer = null;
+            }); //给timer挂起事件
+            myTimer.Enabled = true;
+            myTimer.Interval = 500;
+        }
+
+        private void openAddClass()
+        {
+            // 邀请进入班级窗口
+            var classId = (utils.KXINFO.KXCHOSECLASSID).ToString();
+            var className = utils.KXINFO.KXCHOSECLASSNAME;
+            var curWn = new addClass(classId, className);
+            curWn.Location = utils.Utils.getScreenPosition();
+            curWn.Show();
+            Globals.Ribbons.Ribbon1.ChangeTchBtn(true);
+        }
+
+        public void initSetting()
+        {
+            string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var fileDict = curDir + @"\kxrealtime\imgs";
+            var imgPath = fileDict + @"\setting.png";
+            if(File.Exists(imgPath))
+            {
+                return;
+            }
+            if (!Directory.Exists(fileDict))
+            {
+                try
+                {
+                    Directory.CreateDirectory(fileDict);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("创建文件失败" + e.Message);
+                }
+
+            }
+            System.Drawing.Bitmap rs = (System.Drawing.Bitmap)(Properties.Resources.setting);
+            rs.Save(fileDict + @"\setting.png");
         }
 
         private void sendScreen(PowerPoint.SlideShowWindow Wn)
@@ -113,6 +181,7 @@ namespace kxrealtime
             } else
             {
                 utils.Utils.LOG("授课连接中断，请重新开启授课");
+                TchWebSocket.Reconnect();
             }
         }
 

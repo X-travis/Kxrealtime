@@ -33,10 +33,14 @@ namespace kxrealtime.utils
                     return client;
                 });
                 IWebsocketClient websocketClent = new WebsocketClient(url, factory);
-                websocketClent.ReconnectTimeout = TimeSpan.FromSeconds(30);
+                websocketClent.ReconnectTimeout = TimeSpan.FromSeconds(20);
                 websocketClent.ReconnectionHappened.Subscribe(info => System.Diagnostics.Debug.WriteLine("reconnect " + info.Type));
                 websocketClent.DisconnectionHappened.Subscribe(info =>
-                    System.Diagnostics.Debug.WriteLine($"Disconnection happened, type: {info.Type}"));
+                {
+                    System.Diagnostics.Debug.WriteLine($"Disconnection happened, type: {info.Type}");
+                });
+                    
+
 
                 System.Diagnostics.Debug.WriteLine(websocketClent.Url);
                 websocketClent.Start();

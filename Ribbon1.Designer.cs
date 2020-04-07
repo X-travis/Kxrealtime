@@ -36,21 +36,21 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
+            this.button5 = this.Factory.CreateRibbonButton();
             this.menu1 = this.Factory.CreateRibbonMenu();
             this.button7 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
             this.group3 = this.Factory.CreateRibbonGroup();
-            this.box1 = this.Factory.CreateRibbonBox();
-            this.group1 = this.Factory.CreateRibbonGroup();
-            this.button4 = this.Factory.CreateRibbonButton();
-            this.button5 = this.Factory.CreateRibbonButton();
             this.button6 = this.Factory.CreateRibbonButton();
+            this.box1 = this.Factory.CreateRibbonBox();
             this.button9 = this.Factory.CreateRibbonButton();
             this.button10 = this.Factory.CreateRibbonButton();
+            this.group1 = this.Factory.CreateRibbonGroup();
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button11 = this.Factory.CreateRibbonButton();
+            this.button4 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
@@ -72,6 +72,15 @@
             this.group2.Items.Add(this.menu1);
             this.group2.Label = "用户登录";
             this.group2.Name = "group2";
+            // 
+            // button5
+            // 
+            this.button5.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button5.Image = global::kxrealtime.Properties.Resources.wechat;
+            this.button5.Label = "微信扫一扫";
+            this.button5.Name = "button5";
+            this.button5.ShowImage = true;
+            this.button5.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button5_Click);
             // 
             // menu1
             // 
@@ -104,42 +113,6 @@
             this.group3.Label = "课堂教学";
             this.group3.Name = "group3";
             // 
-            // box1
-            // 
-            this.box1.Items.Add(this.button9);
-            this.box1.Items.Add(this.button10);
-            this.box1.Name = "box1";
-            this.box1.Visible = false;
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.button1);
-            this.group1.Items.Add(this.button2);
-            this.group1.Items.Add(this.button3);
-            this.group1.Items.Add(this.button11);
-            this.group1.Items.Add(this.button4);
-            this.group1.Label = "插入题目";
-            this.group1.Name = "group1";
-            // 
-            // button4
-            // 
-            this.button4.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button4.Image = global::kxrealtime.Properties.Resources.subject_new1;
-            this.button4.Label = "               主观题 ";
-            this.button4.Name = "button4";
-            this.button4.ScreenTip = "插入主观题";
-            this.button4.ShowImage = true;
-            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button5.Image = global::kxrealtime.Properties.Resources.wechat;
-            this.button5.Label = "微信扫一扫";
-            this.button5.Name = "button5";
-            this.button5.ShowImage = true;
-            this.button5.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button5_Click);
-            // 
             // button6
             // 
             this.button6.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -148,6 +121,13 @@
             this.button6.Name = "button6";
             this.button6.ShowImage = true;
             this.button6.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button6_Click);
+            // 
+            // box1
+            // 
+            this.box1.Items.Add(this.button9);
+            this.box1.Items.Add(this.button10);
+            this.box1.Name = "box1";
+            this.box1.Visible = false;
             // 
             // button9
             // 
@@ -166,6 +146,16 @@
             this.button10.Name = "button10";
             this.button10.ShowImage = true;
             this.button10.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button10_Click);
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.button1);
+            this.group1.Items.Add(this.button2);
+            this.group1.Items.Add(this.button3);
+            this.group1.Items.Add(this.button11);
+            this.group1.Items.Add(this.button4);
+            this.group1.Label = "插入题目";
+            this.group1.Name = "group1";
             // 
             // button1
             // 
@@ -206,6 +196,16 @@
             this.button11.Name = "button11";
             this.button11.ShowImage = true;
             this.button11.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button11_Click);
+            // 
+            // button4
+            // 
+            this.button4.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button4.Image = global::kxrealtime.Properties.Resources.subject_new1;
+            this.button4.Label = "               主观题 ";
+            this.button4.Name = "button4";
+            this.button4.ScreenTip = "插入主观题";
+            this.button4.ShowImage = true;
+            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
             // Ribbon1
             // 

@@ -364,8 +364,6 @@ namespace kxrealtime
             this.infoForm.TransparencyKey = System.Drawing.Color.AliceBlue;
             this.infoForm.Location = utils.Utils.getScreenPosition();
 
-            this.infoForm.KeyUp += InfoForm_KeyUp;
-
             if (this.infoWebPage != null)
             {
                 this.infoWebPage.Dispose();
@@ -377,15 +375,22 @@ namespace kxrealtime
             this.infoWebPage.Dock = DockStyle.Fill;
             this.infoWebPage.Refresh();
             this.infoWebPage.ObjectForScripting = this;
+            this.infoWebPage.DocumentCompleted += InfoWebPage_DocumentCompleted;
+            
 
 
             this.infoForm.Controls.Add(this.infoWebPage);
             this.infoForm.Show();
         }
 
-        private void InfoForm_KeyUp(object sender, KeyEventArgs e)
+        private void InfoWebPage_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            this.infoWebPage.Document.Body.KeyPress += Body_KeyPress; ;
+        }
+
+        private void Body_KeyPress(object sender, HtmlElementEventArgs e)
+        {
+            if (e.KeyPressedCode == (char)Keys.Escape)
             {
                 this.CloseWin();
             }

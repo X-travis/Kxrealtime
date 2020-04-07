@@ -33,7 +33,7 @@
     <PublishUrl>D:\新建文件夹 %282%29\kx\</PublishUrl>
     <InstallUrl />
     <TargetCulture>zh-chs</TargetCulture>
-    <ApplicationVersion>1.0.0.22</ApplicationVersion>
+    <ApplicationVersion>1.0.0.23</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -400,6 +400,7 @@
     <None Include="Resources\sign-qrcode-big.png" />
     <None Include="Resources\contribute1.png" />
     <None Include="Resources\course-qrcode1.png" />
+    <None Include="Resources\setting.png" />
     <Content Include="Resources\single-new.png" />
     <None Include="Resources\single-new1.png" />
     <None Include="Resources\stop1.png" />

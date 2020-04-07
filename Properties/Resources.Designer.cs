@@ -253,6 +253,16 @@ namespace kxrealtime.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap setting {
+            get {
+                object obj = ResourceManager.GetObject("setting", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap sign_qrcode {
             get {
                 object obj = ResourceManager.GetObject("sign-qrcode", resourceCulture);
@@ -436,16 +446,6 @@ namespace kxrealtime.Properties {
         internal static System.Drawing.Bitmap wechat {
             get {
                 object obj = ResourceManager.GetObject("wechat", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap 单选题 {
-            get {
-                object obj = ResourceManager.GetObject("单选题", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

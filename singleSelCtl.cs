@@ -57,12 +57,12 @@ namespace kxrealtime
             ComboBox comboBox = (ComboBox)sender;
             //Globals.ThisAddIn.Application.ActiveWindow.Panes[2].Activate();
 
-            int currentSlideIndex = Globals.ThisAddIn.CurSlideIdx;
-            PowerPoint.Shapes curShapes = Globals.ThisAddIn.Application.ActivePresentation.Slides[currentSlideIndex].Shapes;
-            foreach (PowerPoint.Shape shapeTmp in curShapes)
-            {
-                System.Diagnostics.Debug.WriteLine(shapeTmp.TextFrame.TextRange.Text);
-            }
+            //int currentSlideIndex = Globals.ThisAddIn.CurSlideIdx;
+            //PowerPoint.Shapes curShapes = Globals.ThisAddIn.Application.ActivePresentation.Slides[currentSlideIndex].Shapes;
+            //foreach (PowerPoint.Shape shapeTmp in curShapes)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(shapeTmp.TextFrame.TextRange.Text);
+            //}
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
