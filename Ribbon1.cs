@@ -392,7 +392,7 @@ namespace kxrealtime
             curLoginDialog.getClose.Visible = false;
             curLoginDialog.getTitle.Visible = false;
             curLoginDialog.getLogo.Visible = false;
-            string connectID = "1001";// utils.Utils.createGUID();
+            string connectID = utils.Utils.createGUID();
             var loginContentTmp = curLoginDialog.getContent;
             loginContentTmp.Controls.Clear();
             loginPictureBox = getLoginQR(connectID);
@@ -480,6 +480,15 @@ namespace kxrealtime
             });
         }
 
+        public void closeLoginConnect()
+        {
+            if (this.loginWebSocket != null)
+            {
+                this.loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
+                this.loginWebSocket = null;
+            }
+        }
+
         private void CloseLoginDialog()
         {
             this.curLoginDialog.Close();
@@ -505,7 +514,7 @@ namespace kxrealtime
             }
             catch(WebException e)
             {
-                utils.Utils.LOG("loginsuccess load url error： " + e.Message);
+                //utils.Utils.LOG("loginsuccess load url error： " + e.Message);
             }
             
             pictureBox.Width = 300;

@@ -24,7 +24,7 @@ namespace kxrealtime.utils
                     {
                         Options =
                         {
-                            KeepAliveInterval = TimeSpan.FromSeconds(30),
+                            KeepAliveInterval = TimeSpan.FromMilliseconds(20000),
                             // Proxy = ...
                             // ClientCertificates = ...
                         }
@@ -33,7 +33,7 @@ namespace kxrealtime.utils
                     return client;
                 });
                 IWebsocketClient websocketClent = new WebsocketClient(url, factory);
-                websocketClent.ReconnectTimeout = TimeSpan.FromSeconds(20);
+                websocketClent.ReconnectTimeout = null;// TimeSpan.FromSeconds(1800);
                 websocketClent.ReconnectionHappened.Subscribe(info => System.Diagnostics.Debug.WriteLine("reconnect " + info.Type));
                 websocketClent.DisconnectionHappened.Subscribe(info =>
                 {

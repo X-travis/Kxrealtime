@@ -31,7 +31,7 @@ namespace kxrealtime
         private void initWebPage()
         {
             var timeStamp = utils.Utils.getTimeStamp();
-            var url = $"{utils.KXINFO.KXADMINURL}/?timestamp={timeStamp}#/pptComponents/startTeach";
+            var url = $"{utils.KXINFO.KXADMINURL}/?timestamp={timeStamp}&token={utils.KXINFO.KXTOKEN}#/pptComponents/startTeach";
             this.curWebBrowser = new WebBrowser();
             this.curWebBrowser.Navigate(new Uri(url));
             this.curWebBrowser.Visible = true;
@@ -45,7 +45,7 @@ namespace kxrealtime
 
         private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            this.sendData();
+            //this.sendData();
         }
 
         private void sendData()
