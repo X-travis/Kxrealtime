@@ -24,7 +24,7 @@ namespace kxrealtime.utils
                     {
                         Options =
                         {
-                            KeepAliveInterval = TimeSpan.FromMilliseconds(20000),
+                            KeepAliveInterval = TimeSpan.FromSeconds(60),
                             // Proxy = ...
                             // ClientCertificates = ...
                         }

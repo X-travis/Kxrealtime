@@ -295,6 +295,7 @@ namespace kxrealtime
                 return;
             }
             TchWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "USER");
+            TchWebSocket.Dispose();
             TchWebSocket = null;
         }
 

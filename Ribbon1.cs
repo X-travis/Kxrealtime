@@ -365,6 +365,10 @@ namespace kxrealtime
 
         private void button5_Click(object sender, RibbonControlEventArgs e)
         {
+            if(this.curLoginDialog != null)
+            {
+                return;
+            }
             Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
             Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
 
@@ -464,13 +468,11 @@ namespace kxrealtime
                     // 或者
                     // Action<string> actionDelegate = delegate(string txt) { this.label2.Text = txt; };
                     this.curLoginDialog.Invoke(actionDelegate);
-                    // close websocket
-                    loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
+                    
                     this.button5.Visible = false;
                     this.menu1.Visible = true;
                     this.menu1.Label = utils.KXINFO.KXUNAME;
-                   
-                    loginWebSocket = null;
+                    this.closeLoginConnect();
                 }
                 catch(Exception e)
                 {
@@ -485,18 +487,25 @@ namespace kxrealtime
             if (this.loginWebSocket != null)
             {
                 this.loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
+                
+                this.loginWebSocket.Dispose();
                 this.loginWebSocket = null;
             }
+            this.curLoginDialog = null;
         }
 
         private void CloseLoginDialog()
         {
-            this.curLoginDialog.Close();
             if(loginDialog.frmBack != null)
             {
                 loginDialog.frmBack.Close();
             }
-            this.curLoginDialog = null;
+            if(this.curLoginDialog != null)
+            {
+                this.curLoginDialog.Close();
+                this.curLoginDialog = null;
+            }
+            
             // need rechose the class info
             ChangeTchBtn(false);
             Globals.ThisAddIn.CloseTchSocket();

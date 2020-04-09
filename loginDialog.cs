@@ -94,6 +94,7 @@ namespace kxrealtime
             }
             this.Close();
             frmBack = null;
+            Globals.Ribbons.Ribbon1.closeLoginConnect();
         }
     }
 }
