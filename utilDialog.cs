@@ -290,7 +290,7 @@ namespace kxrealtime
                 owner = "30",
                 multi = 100,
                 start_time = eInfo.startTimeStamp,
-                end_time = eInfo.startTimeStamp + 1000,
+                end_time = eInfo.startTimeStamp + eInfo.duringTime,
                 title = eInfo.paperTitle,
                 cost_time = eInfo.duringTime,
                 id = testId

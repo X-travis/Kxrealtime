@@ -216,7 +216,7 @@ namespace kxrealtime
             {
                 if (Sel.Type == PowerPoint.PpSelectionType.ppSelectionShapes)
                 {
-                    if (Sel.ShapeRange.Count == 1 && Sel.ShapeRange.Name == "kx-setting" && Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null)
+                    if (Sel.ShapeRange.Count == 1 && Sel.ShapeRange.Name == "kx-setting" && Globals.Ribbons.Ribbon1 != null)
                     {
                         Globals.Ribbons.Ribbon1.resestContent(Sel.SlideRange);
                         Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible = true;

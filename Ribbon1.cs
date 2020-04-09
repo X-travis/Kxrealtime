@@ -325,6 +325,10 @@ namespace kxrealtime
         // 重新检测ppt内容
         public void resestContent(PowerPoint.SlideRange slide)
         {
+            if(this.myCustomTaskPane == null)
+            {
+                this.initPanes("");
+            }
             PowerPoint.Shapes curShapes = slide.Shapes;
             bool isSel = false;
             bool isFill = false;

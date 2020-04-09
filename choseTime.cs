@@ -124,6 +124,7 @@ namespace kxrealtime
                     
                 } else
                 {
+                    var curTime = utils.Utils.getTimeStamp();
                     // 延时操作
                     if (this.testId != null)
                     {
@@ -132,9 +133,10 @@ namespace kxrealtime
                         {
                             examTmp.duringTime += this.paperTime;
                             this.paperTime = examTmp.duringTime;
+                            curTime = examTmp.startTimeStamp;
                         }
                     }
-                    createExam(paperId);
+                    createExam(paperId, curTime);
                     sendPaperExt(paperId, false);
                     sendKXOUT(this.paperId, this.testId);
 
@@ -286,7 +288,8 @@ namespace kxrealtime
             }//
             if(curTitle != voteSingleSelTitle && curTitle != voteMultiSelTitle)
             {
-                testId = createExam(paperId);
+                var curTime = utils.Utils.getTimeStamp();
+                testId = createExam(paperId, curTime);
                 if (testId == null)
                 {
                     MessageBox.Show("创建考试失败");
@@ -375,19 +378,19 @@ namespace kxrealtime
             return null;
         }
 
-        private string createExam(string paperId)
+        private string createExam(string paperId, long sTime)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/upsertTest");
             Dictionary<string, string> args = new Dictionary<string, string> { };
             args.Add("token", utils.KXINFO.KXTOKEN);
-            var curTime = utils.Utils.getTimeStamp();
+            //var curTime = utils.Utils.getTimeStamp();
             var postData = new createExamInfo()
             {
                 aids = new List<string>() { paperId },
                 owner = "30",
                 multi = 100,
-                start_time = curTime,
-                end_time = curTime + 24*3600000,
+                start_time = sTime,
+                end_time = sTime + this.paperTime,
                 title = this.paperTitle,
                 cost_time = this.paperTime
             };
