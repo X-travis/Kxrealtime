@@ -104,6 +104,10 @@ namespace kxrealtime
                         }
                         comboBox1.ValueMember = "tid";
                         comboBox1.DisplayMember = "name";
+                        if(listArr.Count == 0)
+                        {
+                            this.showTip("暂无课程信息，请前往酷课堂添加课程");
+                        }
                     }catch(Exception e)
                     {
 
@@ -148,6 +152,10 @@ namespace kxrealtime
                         }
                         comboBox2.ValueMember = "tid";
                         comboBox2.DisplayMember = "title";
+                        if (listArr.Count == 0)
+                        {
+                            this.showTip("暂无班级信息，请前往酷课堂添加班级");
+                        }
                     }
                     catch(Exception e)
                     {
@@ -212,17 +220,22 @@ namespace kxrealtime
             this.Visible = false;
         }
 
+        private void showTip(string text)
+        {
+            panel1.Controls.Clear();
+            System.Windows.Forms.Label label = new System.Windows.Forms.Label();
+            label.Text = text;
+            label.ForeColor = System.Drawing.Color.Red;
+            label.Visible = true;
+            label.Width = 200;
+            panel1.Controls.Add(label);
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             if(chapterID == 0 || classID == 0 || courseID == 0)
             {
-                panel1.Controls.Clear();
-                System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-                label.Text = "请选择上述内容";
-                label.ForeColor = System.Drawing.Color.Red;
-                label.Visible = true;
-                label.Width = 200;
-                panel1.Controls.Add(label);
+                this.showTip("请选择上述内容");
                 return;
             }
             var curArgs = new SendArgs();

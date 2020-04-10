@@ -59,7 +59,7 @@ namespace kxrealtime
                 return;
             }
             this.PlaySlideIdx = Wn.View.Slide.SlideIndex;
-            sendScreen(Wn);
+            sendScreen(Wn, this.PlaySlideIdx);
             if(this.utilDialogInstance != null)
             {
                 this.checkUtils(Wn);
@@ -142,7 +142,7 @@ namespace kxrealtime
             rs.Save(fileDict + @"\setting.png");
         }
 
-        private void sendScreen(PowerPoint.SlideShowWindow Wn)
+        private void sendScreen(PowerPoint.SlideShowWindow Wn, int curIdx)
         {
             // 开启了授课
             if (TchWebSocket != null && TchWebSocket.IsRunning)
@@ -170,7 +170,7 @@ namespace kxrealtime
 
                     }
                     curSld.Export(imgFile, "png");
-                    utils.request.UploadImg($"{utils.KXINFO.KXURL}/usr/upload?session_id={utils.KXINFO.KXSID}", imgFile);
+                    utils.request.UploadImg($"{utils.KXINFO.KXURL}/usr/upload?session_id={utils.KXINFO.KXSID}", imgFile, curIdx);
                 }catch(Exception e)
                 {
                     utils.Utils.LOG("export失败" + e.Message);
@@ -180,7 +180,7 @@ namespace kxrealtime
                 
             } else
             {
-                utils.Utils.LOG("授课连接中断，请重新开启授课");
+                utils.Utils.LOG("授课连接中...");
                 TchWebSocket.Reconnect();
             }
         }

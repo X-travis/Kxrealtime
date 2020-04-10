@@ -410,7 +410,7 @@ namespace kxrealtime
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string checkQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}/#/pptComponents/signInQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&title={utils.KXINFO.KXCHOSECOURSETITLE}&session_id={utils.KXINFO.KXSID}";
+            string checkQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}/#/pptComponents/signInQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}";
             createWebForm(checkQRCode);
         }
 
@@ -429,7 +429,7 @@ namespace kxrealtime
         private void button7_Click(object sender, EventArgs e)
         {
             var courseTitle = utils.KXINFO.KXCHOSECOURSETITLE;
-            string courseQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}/#/pptComponents/courseQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&title={courseTitle}&session_id={utils.KXINFO.KXSID}  ";
+            string courseQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}/#/pptComponents/courseQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={courseTitle}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}  ";
             createWebForm(courseQRCode);
         }
 

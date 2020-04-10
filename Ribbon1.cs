@@ -50,7 +50,7 @@ namespace kxrealtime
         {
             PowerPoint.CustomLayout ppt_layout = app.ActivePresentation.SlideMaster.CustomLayouts[PowerPoint.PpSlideLayout.ppLayoutText];
             PowerPoint.Slide slide;
-            int curSld = app.ActivePresentation.Slides.Count;
+            int curSld = Globals.ThisAddIn.CurSlideIdx;// app.ActivePresentation.Slides.Count;
             slide = app.ActivePresentation.Slides.AddSlide(curSld + 1, ppt_layout);
             slide.Select();
             if(slide.Shapes.Count > 0)

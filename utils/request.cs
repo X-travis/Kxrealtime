@@ -59,7 +59,7 @@ namespace kxrealtime.utils
         }
 
         // 上传图片
-        public static void UploadImg(string postUrl, string file)
+        public static void UploadImg(string postUrl, string file, int curIdx)
         {
             var task = new Task<upsertTeachContent>(() =>
             {
@@ -111,7 +111,8 @@ namespace kxrealtime.utils
                     data = new
                     {
                         img = itemTmp.snapshot,
-                        imgId = itemTmp.tid
+                        imgId = itemTmp.tid,
+                        pn = curIdx
                     },
                     timestamp = utils.Utils.getTimeStamp()
                 }) ;
@@ -121,7 +122,6 @@ namespace kxrealtime.utils
                 recordTch(oData);
             });
             task.Start();
-            System.Diagnostics.Debug.WriteLine("START TASK");
         }
 
         public static upsertTeachContent recordTchImg(string url)
