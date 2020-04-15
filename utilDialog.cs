@@ -185,12 +185,12 @@ namespace kxrealtime
 
         public void isSendMod(bool flag)
         {
-            var canShowCheck = curType();
+            var canShowCheck = true;
             checkAns.Visible = !flag && canShowCheck;
             sendBtn.Visible = true;// flag;
         }
 
-        public bool curType()
+        public string curType()
         {
             var curIdx = Globals.ThisAddIn.PlaySlideIdx;
             var curSld = Globals.ThisAddIn.Application.ActivePresentation.Slides[curIdx];
@@ -202,10 +202,11 @@ namespace kxrealtime
             {
                 if(shapeTmp.Name.Contains("kx-title-"))
                 {
-                    return shapeTmp.Name == singleTitle || shapeTmp.Name == mulitTitle || shapeTmp.Name == singleVoteTitle || shapeTmp.Name == mulitVoteTitle;
+                    return shapeTmp.Name;
+                    //return shapeTmp.Name == singleTitle || shapeTmp.Name == mulitTitle || shapeTmp.Name == singleVoteTitle || shapeTmp.Name == mulitVoteTitle;
                 }
             }
-            return false;
+            return "";
         }
 
         public void showTimeChoice()
@@ -221,9 +222,17 @@ namespace kxrealtime
             //webBrowser1.Height = 500;
             //webBrowser1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             webBrowser1.Dock = DockStyle.Fill;
-            var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}");
+            var textTitle = "kx-title-" + singleSelCtl.TypeSelEnum.textQuestion;
+            var fillTitle = "kx-title-" + singleSelCtl.TypeSelEnum.fillQuestion;
+            var typeTmp = this.curType();
+            var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}");
+            if(typeTmp == textTitle || typeTmp == fillTitle)
+            {
+                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/answerList?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&sessionId={utils.KXINFO.KXSID}");
+            }
             webBrowser1.Navigate(uriTmp);
             webBrowser1.Visible = true;
+            webBrowser1.Refresh();
 
             var formTmp = new Form();
             formTmp.Width = 800;
@@ -358,7 +367,7 @@ namespace kxrealtime
             this.infoForm.ShowInTaskbar = false;
             this.infoForm.WindowState = FormWindowState.Maximized;
             this.infoForm.TopMost = true;
-            this.infoForm.Opacity = 0.9;
+            this.infoForm.Opacity = 0.98;
             this.infoForm.BackColor = System.Drawing.Color.AliceBlue;
             this.infoForm.Owner = this;
             this.infoForm.TransparencyKey = System.Drawing.Color.AliceBlue;

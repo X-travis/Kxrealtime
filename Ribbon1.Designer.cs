@@ -70,7 +70,7 @@
             // 
             this.group2.Items.Add(this.button5);
             this.group2.Items.Add(this.menu1);
-            this.group2.Label = "用户登录";
+            this.group2.Label = "教师登录";
             this.group2.Name = "group2";
             // 
             // button5
@@ -161,7 +161,7 @@
             // 
             this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.button1.Image = global::kxrealtime.Properties.Resources.single_new1;
-            this.button1.Label = "                    单选题";
+            this.button1.Label = "                单选题";
             this.button1.Name = "button1";
             this.button1.ScreenTip = "插入单项选择题";
             this.button1.ShowImage = true;

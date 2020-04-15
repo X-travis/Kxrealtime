@@ -37,6 +37,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.loadingBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.loadingBox)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -135,11 +137,27 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoScroll = true;
+            this.panel1.AutoSize = true;
             this.panel1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.panel1.Location = new System.Drawing.Point(78, 245);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(402, 23);
+            this.panel1.Size = new System.Drawing.Size(402, 25);
             this.panel1.TabIndex = 8;
+            // 
+            // loadingBox
+            // 
+            this.loadingBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.loadingBox.Image = global::kxrealtime.Properties.Resources.page_loading;
+            this.loadingBox.Location = new System.Drawing.Point(118, 304);
+            this.loadingBox.Name = "loadingBox";
+            this.loadingBox.Size = new System.Drawing.Size(50, 49);
+            this.loadingBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.loadingBox.TabIndex = 9;
+            this.loadingBox.TabStop = false;
+            this.loadingBox.Visible = false;
             // 
             // choseClass
             // 
@@ -147,6 +165,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(538, 389);
+            this.Controls.Add(this.loadingBox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.label3);
@@ -160,6 +179,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "授课";
+            ((System.ComponentModel.ISupportInitialize)(this.loadingBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,5 +196,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox loadingBox;
     }
 }

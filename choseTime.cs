@@ -26,6 +26,8 @@ namespace kxrealtime
         private Int64 paperTime;
         private string paperId;
         private string testId;
+        private bool isSending = false;
+
         public choseTime(utilDialog ownerForm)
         {
             InitializeComponent();
@@ -57,6 +59,7 @@ namespace kxrealtime
             this.createSel();
             this.paperId = paperId;
             this.testId = testId;
+            this.loadingPB.Visible = false;
         }
 
         public void closeFn()
@@ -65,6 +68,7 @@ namespace kxrealtime
             this.testId = null;
             this.Close();
             this.frmBack.Close();
+            this.loadingPB.Visible = false;
         }
 
         private void createSel()
@@ -108,44 +112,61 @@ namespace kxrealtime
 
         private void BtnTmp_Click(object sender, EventArgs e)
         {
-            Button curBtn = sender as Button;
-            if(curBtn != null)
+            if(this.isSending)
             {
-                this.paperTime = Int64.Parse(curBtn.Name) * 1000;
-                if(this.paperId == null || this.paperId.Length == 0)
-                {
-                    try
-                    {
-                        sendPageFn();
-                    }catch(Exception)
-                    {
-                        return;
-                    }
-                    
-                } else
-                {
-                    var curTime = utils.Utils.getTimeStamp();
-                    // 延时操作
-                    if (this.testId != null)
-                    {
-                        var examTmp = Globals.ThisAddIn.findExamInfoByTestId(this.testId);
-                        if (examTmp != null)
-                        {
-                            examTmp.duringTime += this.paperTime;
-                            this.paperTime = examTmp.duringTime;
-                            curTime = examTmp.startTimeStamp;
-                        }
-                    }
-                    createExam(paperId, curTime);
-                    sendPaperExt(paperId, false);
-                    sendKXOUT(this.paperId, this.testId);
-
-                    // send exam time
-                    sendChangeTime(this.paperId, this.testId);
-                }
-                closeFn();
-                this.parentForm.checkMod();
+                return;
             }
+            this.isSending = true;
+            this.loadingPB.Visible = true;
+            Button curBtn = sender as Button;
+            try
+            {
+                if (curBtn != null)
+                {
+                    this.paperTime = Int64.Parse(curBtn.Name) * 1000;
+                    if (this.paperId == null || this.paperId.Length == 0)
+                    {
+                        try
+                        {
+                            this.sendPage();
+                        }
+                        catch (Exception)
+                        {
+                            this.isSending = false;
+                            this.loadingPB.Visible = false;
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        var curTime = utils.Utils.getTimeStamp();
+                        // 延时操作
+                        if (this.testId != null)
+                        {
+                            var examTmp = Globals.ThisAddIn.findExamInfoByTestId(this.testId);
+                            if (examTmp != null)
+                            {
+                                examTmp.duringTime += this.paperTime;
+                                this.paperTime = examTmp.duringTime;
+                                curTime = examTmp.startTimeStamp;
+                            }
+                        }
+                        createExam(paperId, curTime);
+                        sendPaperExt(paperId, false);
+                        sendKXOUT(this.paperId, this.testId);
+
+                        // send exam time
+                        sendChangeTime(this.paperId, this.testId);
+                        this.allClose();
+                    }
+                }
+            }catch(Exception)
+            {
+
+            }
+            this.isSending = false;
+            this.loadingPB.Visible = false;
         }
 
         private void sendChangeTime(string paperId, string testId)
@@ -190,6 +211,26 @@ namespace kxrealtime
                 {
                     col.Left += way * (btnWidthTmp + difWidth);
                 }
+            }
+        }
+
+        private void allClose()
+        {
+            closeFn();
+            this.parentForm.checkMod();
+            this.isSending = false;
+        }
+
+        private async void sendPage()
+        {
+            await Task.Run(() =>
+            {
+                this.sendPageFn();
+            });
+            if (this.IsHandleCreated)
+            {
+                Action actionDelegate = this.allClose;
+                this.Invoke(actionDelegate);
             }
         }
 
@@ -776,7 +817,7 @@ namespace kxrealtime
                     {
                         tidTmp = (string)data["data"]["teach_resource_list"][0]["tid"];
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         utils.Utils.LOG("read teach_resource_list.0.tid error");
                     }
@@ -786,6 +827,7 @@ namespace kxrealtime
                         key = "classroom",
                         value = utils.KXINFO.KXCHOSECLASSID,
                         type = "TEST",
+                        teach_record_id = utils.KXINFO.KXTCHRECORDID,
                         data = new
                         {
                             course = new

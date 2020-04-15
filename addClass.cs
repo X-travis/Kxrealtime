@@ -118,5 +118,12 @@ namespace kxrealtime
         {
             this.sendData();
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.curWebBrowser.Dispose();
+            this.Visible = false;
+            this.Close();
+        }
     }
 }

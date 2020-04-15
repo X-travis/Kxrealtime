@@ -25,7 +25,6 @@ namespace kxrealtime
         private singleSelCtl singleSelCtlInstance;
         public Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
         public Microsoft.Office.Tools.CustomTaskPane loginPane;
-        private loginCtl loginCtlInstance;
         private IWebsocketClient loginWebSocket;
         private PictureBox loginPictureBox;
 
@@ -369,33 +368,13 @@ namespace kxrealtime
 
         private void button5_Click(object sender, RibbonControlEventArgs e)
         {
-            if(this.curLoginDialog != null)
+            if (this.curLoginDialog != null)
             {
+                this.curLoginDialog.Focus();
                 return;
             }
-            Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
-            Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
-
-            /*if (loginCtlInstance == null)
-            {
-                loginCtlInstance = new loginCtl();
-            }
-            
-            if(loginPane == null)
-            {
-                loginPane = Globals.ThisAddIn.CustomTaskPanes.Add(loginCtlInstance, "扫码登录");
-                loginPane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionFloating;
-                loginPane.Height = 800;
-                loginPane.Width = 800;
-                loginPane.DockPositionRestrict = Office.MsoCTPDockPositionRestrict.msoCTPDockPositionRestrictNoChange;
-
-            }
-
-            if(loginPane.Visible)
-            {
-                return;
-            }*/
-
+            //Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
+            //Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
             curLoginDialog = new loginDialog();
             curLoginDialog.getClose.Visible = false;
             curLoginDialog.getTitle.Visible = false;
@@ -411,7 +390,6 @@ namespace kxrealtime
             curLoginDialog.getClose.Visible = true;
             curLoginDialog.getTitle.Visible = true;
             curLoginDialog.getLogo.Visible = true;
-
             Label tipText = new Label();
             tipText.Visible = true;
             tipText.Text = "使用微信扫码登录";
@@ -424,8 +402,7 @@ namespace kxrealtime
             tipText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             loginContentTmp.Controls.Add(loginPictureBox);
             loginContentTmp.Controls.Add(tipText);
-            this.initLoginListener(connectID);
-
+            initLoginListener(connectID);
         }
 
         private PictureBox getLoginQR(string connectID)
@@ -453,15 +430,16 @@ namespace kxrealtime
 
         private void initLoginListener(string curID)
         {
-            if(loginWebSocket != null)
+            if (loginWebSocket != null)
             {
                 loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
             }
             loginWebSocket = utils.webSocketClient.StartWebSocket($"{utils.KXINFO.KXSOCKETURL}/mobileLogin?client_id={curID}");
-            loginWebSocket.MessageReceived.Subscribe(msg => {
+            loginWebSocket.MessageReceived.Subscribe(msg =>
+            {
                 try
                 {
-                    if(loginWebSocket == null)
+                    if (loginWebSocket == null)
                     {
                         return;
                     }
@@ -472,19 +450,19 @@ namespace kxrealtime
                     // 或者
                     // Action<string> actionDelegate = delegate(string txt) { this.label2.Text = txt; };
                     this.curLoginDialog.Invoke(actionDelegate);
-                    
+
                     this.button5.Visible = false;
                     this.menu1.Visible = true;
                     this.menu1.Label = utils.KXINFO.KXUNAME;
                     this.closeLoginConnect();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    MessageBox.Show("登录失败");
+                    MessageBox.Show("登录失败" + e.Message);
                 }
-               
             });
-        }
+           }
+
 
         public void closeLoginConnect()
         {
@@ -525,7 +503,7 @@ namespace kxrealtime
                 pictureBox.Load(url);
                 menu1.Image = pictureBox.Image;
             }
-            catch(WebException e)
+            catch(WebException)
             {
                 //utils.Utils.LOG("loginsuccess load url error： " + e.Message);
             }
@@ -548,7 +526,7 @@ namespace kxrealtime
             tipText.Font = new System.Drawing.Font(tipText.Font.Name, 14F);
             tipText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
-            var loginContentTmp = curLoginDialog.getContent;
+            Panel loginContentTmp = curLoginDialog.getContent;
             loginContentTmp.Controls.Clear();
 
             loginContentTmp.Controls.Add(pictureBox);
@@ -670,12 +648,17 @@ namespace kxrealtime
         // close couse
         private void button10_Click(object sender, RibbonControlEventArgs e)
         {
+            this.stopTch();
+        }
+
+        public void stopTch()
+        {
             object sendData = (new
             {
                 key = "classroom",
                 value = utils.KXINFO.KXCHOSECLASSID,
                 type = "COURSE_END",
-                data = new {},
+                data = new { },
                 timestamp = utils.Utils.getTimeStamp()
             });
             JObject o = JObject.FromObject(sendData);
@@ -690,7 +673,6 @@ namespace kxrealtime
                 curChoseForm.Close();
             }
             catch (Exception) { }
-            
         }
 
         public void ChangeTchBtn(bool tching)

@@ -86,7 +86,7 @@ namespace kxrealtime.utils
                             url = (string)data["data"];
                             return recordTchImg(url);
                         }
-                        catch (Exception e) { }
+                        catch (Exception) { }
 
                     }
                     return null;
@@ -108,6 +108,7 @@ namespace kxrealtime.utils
                     key = "classroom",
                     value = utils.KXINFO.KXCHOSECLASSID,
                     type = "PPT",
+                    teach_record_id = utils.KXINFO.KXTCHRECORDID,
                     data = new
                     {
                         img = itemTmp.snapshot,
@@ -115,7 +116,7 @@ namespace kxrealtime.utils
                         pn = curIdx
                     },
                     timestamp = utils.Utils.getTimeStamp()
-                }) ;
+                });
                 JObject o = JObject.FromObject(oData);
                 string tmp = o.ToString();
                 Globals.ThisAddIn.SendTchInfo(tmp);

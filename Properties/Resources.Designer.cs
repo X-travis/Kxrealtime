@@ -93,6 +93,16 @@ namespace kxrealtime.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap close_btn {
+            get {
+                object obj = ResourceManager.GetObject("close_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap contribute {
             get {
                 object obj = ResourceManager.GetObject("contribute", resourceCulture);
@@ -236,6 +246,16 @@ namespace kxrealtime.Properties {
         internal static System.Drawing.Bitmap multi_new1 {
             get {
                 object obj = ResourceManager.GetObject("multi-new1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap page_loading {
+            get {
+                object obj = ResourceManager.GetObject("page_loading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -39,25 +39,8 @@ namespace kxrealtime.utils
             return (byte[])converter.ConvertTo(image, typeof(byte[]));
         }
 
-        [DllImport("user32")]
-        private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lpRect, MonitorEnumProc callback, int dwData);
-
-        private delegate bool MonitorEnumProc(IntPtr hDesktop, IntPtr hdc, ref Rect pRect, int dwData);
-
-
         public static System.Drawing.Point getScreenPosition(bool isPrimary = false)
         {
-            /*int monCount = 0;
-            MonitorEnumProc callback = (IntPtr hDesktop, IntPtr hdc, ref Rect prect, int d) =>
-            {
-
-                return ++monCount > 0;
-            };
-            if (EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, callback, 0))
-                Console.WriteLine("You have {0} monitors", monCount);
-            else
-                Console.WriteLine("An error occured while enumerating monitors");*/
-
             System.Drawing.Point curPoint = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Left, Screen.PrimaryScreen.Bounds.Top);
             if(isPrimary)
             {

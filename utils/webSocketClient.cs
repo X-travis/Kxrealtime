@@ -33,11 +33,11 @@ namespace kxrealtime.utils
                     return client;
                 });
                 IWebsocketClient websocketClent = new WebsocketClient(url, factory);
-                websocketClent.ReconnectTimeout = null;// TimeSpan.FromSeconds(1800);
-                websocketClent.ReconnectionHappened.Subscribe(info => System.Diagnostics.Debug.WriteLine("reconnect " + info.Type));
+                //websocketClent.ReconnectTimeout = null;// TimeSpan.FromSeconds(1800);
+                websocketClent.ReconnectionHappened.Subscribe(info => System.Diagnostics.Debug.WriteLine("reconnect " + info.ToString()));
                 websocketClent.DisconnectionHappened.Subscribe(info =>
                 {
-                    System.Diagnostics.Debug.WriteLine($"Disconnection happened, type: {info.Type}");
+                    System.Diagnostics.Debug.WriteLine($"Disconnection happened, type: {info.ToString()}");
                 });
                     
 
@@ -49,6 +49,7 @@ namespace kxrealtime.utils
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
+                utils.Utils.LOG(e.Message);
                 return null;
             }
 

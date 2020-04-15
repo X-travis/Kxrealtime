@@ -108,9 +108,9 @@ namespace kxrealtime
                         {
                             this.showTip("暂无课程信息，请前往酷课堂添加课程");
                         }
-                    }catch(Exception e)
+                    }catch(Exception)
                     {
-
+                        this.showTip("暂无课程信息，请前往酷课堂添加课程");
                     }
                     
                 }
@@ -157,9 +157,9 @@ namespace kxrealtime
                             this.showTip("暂无班级信息，请前往酷课堂添加班级");
                         }
                     }
-                    catch(Exception e)
+                    catch(Exception)
                     {
-
+                        this.showTip("暂无班级信息，请前往酷课堂添加班级");
                     }
                     
                 }
@@ -208,7 +208,14 @@ namespace kxrealtime
                         }
                         comboBox3.ValueMember = "tid";
                         comboBox3.DisplayMember = "title";
-                    }catch(Exception e) { }
+                        if (listArr.Count == 0)
+                        {
+                            this.showTip("暂无课时信息，请前往酷课堂添加课时");
+                        }
+                    }
+                    catch(Exception) {
+                        this.showTip("暂无课时信息，请前往酷课堂添加课时");
+                    }
                     
                 }
             }
@@ -228,6 +235,7 @@ namespace kxrealtime
             label.ForeColor = System.Drawing.Color.Red;
             label.Visible = true;
             label.Width = 200;
+            label.AutoSize = true;
             panel1.Controls.Add(label);
         }
 
@@ -238,6 +246,8 @@ namespace kxrealtime
                 this.showTip("请选择上述内容");
                 return;
             }
+            this.loadingBox.Visible = true;
+            this.loadingBox.Dock = DockStyle.Fill;
             var curArgs = new SendArgs();
             curArgs.chapter_id = chapterID;
             curArgs.class_id = classID;
@@ -249,6 +259,7 @@ namespace kxrealtime
             queryArgs.Add("session_id", utils.KXINFO.KXSID);
             var reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/upsertTeachRecord?session_id={utils.KXINFO.KXSID}");
             RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.POST, queryArgs, curArgsArr);
+            this.loadingBox.Visible = false ;
             if (response.ErrorException != null)
             {
                 utils.Utils.LOG("usr/upsertTeachRecord api error: " + response.ErrorException.Message);
@@ -324,7 +335,7 @@ namespace kxrealtime
                         utils.Utils.LOG("usr/upsertTeachRecord api error: code" + code);
                         throw new Exception("error");
                     }
-                }catch(JsonReaderException e)
+                }catch(JsonReaderException)
                 {
                     utils.Utils.LOG("close course error upsertTeachRecord, received data not json");
                     throw new Exception("error");

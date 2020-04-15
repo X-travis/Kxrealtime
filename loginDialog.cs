@@ -62,7 +62,7 @@ namespace kxrealtime
                 frmBack.ShowInTaskbar = false;
                 //frmBack.Size = frmTop.Size;
                 frmBack.WindowState = FormWindowState.Maximized;
-                frmBack.TopMost = true;
+                frmBack.TopMost = false;
                
             }
            

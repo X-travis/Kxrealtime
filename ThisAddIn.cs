@@ -15,18 +15,66 @@ namespace kxrealtime
 {
     public partial class ThisAddIn
     {
-        public int CurSlideIdx = 1;
-        public int PlaySlideIdx = 1;
+        private int curSlideIdx = 1;
+        private int playSlideIdx = 1;
         private bool isKxPage;
         private PowerPoint.PpSelectionType lastType;
-        public RestSharp.RestClient CurHttpReq;
-        public bool canShowAddClass = false;
+        private RestSharp.RestClient curHttpReq;
+        private bool canShowAddClassFlag = false;
         private IWebsocketClient TchWebSocket;
         private utilDialog utilDialogInstance;
 
+        public int CurSlideIdx
+        {
+            get
+            {
+                return this.curSlideIdx;
+            }
+            set
+            {
+                this.curSlideIdx = value;
+            }
+        }
+
+        public int PlaySlideIdx
+        {
+            get
+            {
+                return this.playSlideIdx;
+            }
+        }
+
+        public RestSharp.RestClient CurHttpReq
+        {
+            get
+            {
+                return this.curHttpReq;
+            }
+        }
+
+        public bool canShowAddClass
+        {
+            get
+            {
+                return this.canShowAddClassFlag;
+            }
+            set
+            {
+                this.canShowAddClassFlag = value;
+            }
+        }
+
 
         // slide exame
-        public List<slideExamInfo> kxSlideExam = new List<slideExamInfo>();
+        private List<slideExamInfo> kxSlideExamList = new List<slideExamInfo>();
+
+        public List<slideExamInfo> kxSlideExam
+        {
+            get
+            {
+                return this.kxSlideExamList;
+            }
+        }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -37,8 +85,25 @@ namespace kxrealtime
             this.Application.SlideShowNextSlide += Application_SlideShowNextSlide;
             this.Application.SlideShowOnNext += Application_SlideShowOnNext;
             this.Application.SlideShowOnPrevious += Application_SlideShowOnPrevious;
-            
-            CurHttpReq = utils.request.GetClient();
+            this.Application.PresentationBeforeClose += Application_PresentationBeforeClose;
+
+
+            this.curHttpReq = utils.request.GetClient();
+        }
+
+        private void Application_PresentationBeforeClose(PowerPoint.Presentation Pres, ref bool Cancel)
+        {
+            if(utils.KXINFO.KXTCHRECORDID != null && utils.KXINFO.KXTCHRECORDID.Length > 0)
+            {
+                MessageBoxButtons messbutton = MessageBoxButtons.OKCancel;
+                DialogResult dr = MessageBox.Show("是否需要结束授课", "温馨提示", messbutton);
+                if (dr == DialogResult.OK)
+                {
+                    Globals.Ribbons.Ribbon1.stopTch();
+                }
+            }
+            Cancel = false;
+
         }
 
         private void Application_SlideShowOnPrevious(PowerPoint.SlideShowWindow Wn)
@@ -58,9 +123,10 @@ namespace kxrealtime
             {
                 return;
             }
-            this.PlaySlideIdx = Wn.View.Slide.SlideIndex;
-            sendScreen(Wn, this.PlaySlideIdx);
-            if(this.utilDialogInstance != null)
+            this.playSlideIdx = Wn.View.Slide.SlideIndex;
+            sendScreen(Wn, this.playSlideIdx);
+            var winNum = Screen.AllScreens.Length;
+            if (this.utilDialogInstance != null || winNum > 1)
             {
                 this.checkUtils(Wn);
             } else
@@ -85,10 +151,10 @@ namespace kxrealtime
                 //this.utilDialogInstance.Close();
                 this.utilDialogInstance.onlyUtils();
             }
-            if (this.canShowAddClass)
+            if (this.canShowAddClassFlag)
             {
                 this.openAddClass();
-                this.canShowAddClass = false;
+                this.canShowAddClassFlag = false;
             }
         }
 
@@ -103,7 +169,7 @@ namespace kxrealtime
                 myTimer = null;
             }); //给timer挂起事件
             myTimer.Enabled = true;
-            myTimer.Interval = 500;
+            myTimer.Interval = 300;
         }
 
         private void openAddClass()
@@ -191,7 +257,7 @@ namespace kxrealtime
             {
                 return;
             }
-            this.CurSlideIdx = SldRange.SlideIndex;
+            this.curSlideIdx = SldRange.SlideIndex;
             bool isKxItem = SldRange.Name.Contains("kx-slide");
             if(!isKxItem)
             {
@@ -256,7 +322,7 @@ namespace kxrealtime
 
         public void loginOut()
         {
-            kxSlideExam.Clear();
+            this.kxSlideExamList.Clear();
             utils.KXINFO.clear();
             CloseTchSocket();
             Globals.Ribbons.Ribbon1.ChangeTchBtn(false);
@@ -301,7 +367,7 @@ namespace kxrealtime
 
         public slideExamInfo findExamInfo(string sldName)
         {
-            foreach(slideExamInfo curExam in kxSlideExam)
+            foreach(slideExamInfo curExam in this.kxSlideExamList)
             {
                 if (curExam.slideName == sldName)
                 {
@@ -313,7 +379,7 @@ namespace kxrealtime
 
         public slideExamInfo findExamInfoByTestId(string testId)
         {
-            foreach (slideExamInfo curExam in kxSlideExam)
+            foreach (slideExamInfo curExam in this.kxSlideExamList)
             {
                 if (curExam.testId == testId)
                 {
@@ -325,10 +391,10 @@ namespace kxrealtime
 
         public void removeExamItem(string paperId)
         {
-            var itemToRemove = kxSlideExam.Single(r => r.paperId == paperId);
+            var itemToRemove = this.kxSlideExamList.Single(r => r.paperId == paperId);
             if (itemToRemove != null)
             {
-                kxSlideExam.Remove(itemToRemove);
+                this.kxSlideExamList.Remove(itemToRemove);
             }
         }
 
