@@ -418,6 +418,9 @@
     <None Include="Resources\page-loading.gif" />
     <Content Include="Resources\single-new.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="component\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -459,38 +459,38 @@ namespace kxrealtime
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string divideGroup = $"{utils.KXINFO.KXADMINURL}/?timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}/#/pptComponents/group?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
+            string divideGroup = $"{utils.KXINFO.KXADMINURL}/?timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/group?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
             createWebForm(divideGroup);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string checkStudent = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}/#/pptComponents/rollcall?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}";
+            string checkStudent = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/rollcall?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}";
             createWebForm(checkStudent);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string checkQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}/#/pptComponents/signInQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}";
+            string checkQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/signInQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}";
             createWebForm(checkQRCode);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string question = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}/#/pptComponents/nounderstand?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
+            string question = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/nounderstand?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
             createWebForm(question);
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            string question = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}/#/pptComponents/studentContribute?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
+            string question = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/studentContribute?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
             createWebForm(question);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             var courseTitle = utils.KXINFO.KXCHOSECOURSETITLE;
-            string courseQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}/#/pptComponents/courseQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={courseTitle}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}  ";
+            string courseQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/courseQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={courseTitle}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}  ";
             createWebForm(courseQRCode);
         }
 
