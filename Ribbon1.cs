@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Office.Interop.PowerPoint;
 using Microsoft.Office.Tools.Ribbon;
-using PowerPoint = Microsoft.Office.Interop.PowerPoint;
-using Office = Microsoft.Office.Core;
-using System.Collections;
-using System.IO;
-using RestSharp;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Websocket.Client;
-using System.Net;
-using Microsoft.Office.Interop.PowerPoint;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
+using Office = Microsoft.Office.Core;
+using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace kxrealtime
 {
@@ -25,7 +22,7 @@ namespace kxrealtime
         private singleSelCtl singleSelCtlInstance;
         public Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
         public Microsoft.Office.Tools.CustomTaskPane loginPane;
-        private IWebsocketClient loginWebSocket;
+        private IWebsocketClient loginWebSocket = null;
         private PictureBox loginPictureBox;
 
         private loginDialog curLoginDialog;
@@ -52,12 +49,12 @@ namespace kxrealtime
             int curSld = Globals.ThisAddIn.CurSlideIdx;// app.ActivePresentation.Slides.Count;
             slide = app.ActivePresentation.Slides.AddSlide(curSld + 1, ppt_layout);
             slide.Select();
-            if(slide.Shapes.Count > 0)
+            if (slide.Shapes.Count > 0)
             {
                 slide.Shapes[1].Delete();
                 slide.Shapes.Placeholders[1].Delete();
             }
-            
+
             slide.Name = "kx-slide-" + slide.Name;
 
             Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
@@ -79,7 +76,7 @@ namespace kxrealtime
             textBoxTitle.TextFrame.TextRange.InsertAfter("此处插入描述");
             textBoxTitle.Name = "kx-question";
             textBoxTitle.Height = 80;
-  
+
 
             // 题干额外信息
             PowerPoint.Shape qInfo = slide.Shapes.AddTextbox(
@@ -120,11 +117,11 @@ namespace kxrealtime
             {
                 this.initOption(slide, 4, questionType == singleSelCtl.TypeSelEnum.multiSel);
             }
-            else if(questionType == singleSelCtl.TypeSelEnum.textQuestion)
+            else if (questionType == singleSelCtl.TypeSelEnum.textQuestion)
             {
 
             }
-            else if(questionType == singleSelCtl.TypeSelEnum.fillQuestion && scoreCom != null)
+            else if (questionType == singleSelCtl.TypeSelEnum.fillQuestion && scoreCom != null)
             {
                 scoreCom.TextFrame.TextRange.Text = ("0分");
             }
@@ -133,7 +130,7 @@ namespace kxrealtime
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            if(this.myCustomTaskPane == null)
+            if (this.myCustomTaskPane == null)
             {
                 this.initPanes("单选题");
             }
@@ -153,13 +150,13 @@ namespace kxrealtime
             int posY = 200;
             float difY = (250 - n * 50) / (n - 1);
             Office.MsoAutoShapeType curShapeType = !isMul ? Office.MsoAutoShapeType.msoShapeOval : Office.MsoAutoShapeType.msoShapeRectangle;
-            for (int i=0; i<n; i++)
+            for (int i = 0; i < n; i++)
             {
                 char curChar = (char)(sChar + i);
-                PowerPoint.Shape circleTmp = slide.Shapes.AddShape(curShapeType, 100, posY+ difY *i - 5, 40, 40);
+                PowerPoint.Shape circleTmp = slide.Shapes.AddShape(curShapeType, 100, posY + difY * i - 5, 40, 40);
                 circleTmp.TextFrame.TextRange.InsertAfter(curChar.ToString());
                 circleTmp.Name = "kx-choice-" + curChar.ToString();
-                circleTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1,128,128,128).ToArgb();
+                circleTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                 circleTmp.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                 PowerPoint.Shape textBox = slide.Shapes.AddTextbox(
                 Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY + difY * i, 500, 50);
@@ -173,7 +170,7 @@ namespace kxrealtime
         {
             System.Diagnostics.Debug.WriteLine("resetSingleSel");
             float curScore = 0;
-              
+
             ArrayList ans = new ArrayList();
             ArrayList labelArr = new ArrayList();
             Hashtable shapeMap = new Hashtable();
@@ -199,7 +196,7 @@ namespace kxrealtime
             }
             char sChar = 'A';
             char lastChar = 'A';
-            for(int i=0; i<26; i++)
+            for (int i = 0; i < 26; i++)
             {
                 char curChar = (char)(sChar + i);
                 var curKey = "kx-choice-" + curChar;
@@ -207,11 +204,11 @@ namespace kxrealtime
                 if (shapeMap.Contains(curKey))
                 {
                     var curShape = shapeMap[curKey] as Shape;
-                    if(lastChar != curChar)
+                    if (lastChar != curChar)
                     {
                         curShape.Name = "kx-choice-" + lastChar;
                         curShape.TextFrame.TextRange.Text = lastChar.ToString();
-                        if(shapeMap.Contains(textKey))
+                        if (shapeMap.Contains(textKey))
                         {
                             var textShap = shapeMap[textKey] as Shape;
                             textShap.Name = "kx-text-" + lastChar;
@@ -226,7 +223,7 @@ namespace kxrealtime
                 }
                 else
                 {
-                    if(shapeMap.Contains(textKey))
+                    if (shapeMap.Contains(textKey))
                     {
                         Shape textTmp = shapeMap[textKey] as Shape;
                         textTmp.Delete();
@@ -245,47 +242,48 @@ namespace kxrealtime
             List<fillOption> ansTmp = new List<fillOption>();
             foreach (PowerPoint.Shape shapeTmp in curShapes)
             {
-                if(shapeTmp.Name == "kx-question")
+                if (shapeTmp.Name == "kx-question")
                 {
                     questionStr = shapeTmp.TextFrame.TextRange.Text;
                 }
-                else if(shapeTmp.Name == "kx-qInfo")
+                else if (shapeTmp.Name == "kx-qInfo")
                 {
                     ansStr = shapeTmp.TextFrame.TextRange.Text;
                 }
             }
-            if(questionStr.Length > 0)
+            if (questionStr.Length > 0)
             {
                 string pattern = @"(\[填空\d\])";
                 var fillOptionCollect = Regex.Matches(questionStr, pattern);
                 if (ansStr.Length > 0)
                 {
                     var tmp = JsonConvert.DeserializeObject<List<fillOption>>(ansStr);
-                    for(int i=0; i<fillOptionCollect.Count; i++)
+                    for (int i = 0; i < fillOptionCollect.Count; i++)
                     {
-                        if(tmp.Count > i)
+                        if (tmp.Count > i)
                         {
                             ansTmp.Add(tmp[i]);
-                        } else
+                        }
+                        else
                         {
                             ansTmp.Add(new fillOption());
                         }
                     }
                 }
-                
+
             }
             this.singleSelCtlInstance.resetFill(ansTmp);
         }
 
-        
+
         public void checkSelExist(PowerPoint.SlideRange slide)
         {
-            if(this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.singleSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.multiSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.voteMultiSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.voteSingleSel)
+            if (this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.singleSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.multiSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.voteMultiSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.voteSingleSel)
             {
                 System.Diagnostics.Debug.WriteLine("checkSelExist");
                 resetSingleSel(slide);
             }
-            else if(this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.fillQuestion)
+            else if (this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.fillQuestion)
             {
                 resetFillQustion(slide);
             }
@@ -320,11 +318,11 @@ namespace kxrealtime
             this.singleSelCtlInstance.initSubjectiveQ(0);
         }
 
-        
+
         // 重新检测ppt内容
         public void resestContent(PowerPoint.SlideRange slide)
         {
-            if(this.myCustomTaskPane == null)
+            if (this.myCustomTaskPane == null)
             {
                 this.initPanes("");
             }
@@ -344,7 +342,7 @@ namespace kxrealtime
                     isFill = shapeTmp.Name == (targetName + singleSelCtl.TypeSelEnum.fillQuestion);
                     isText = shapeTmp.Name == (targetName + singleSelCtl.TypeSelEnum.textQuestion);
                 }
-                    
+
                 if (shapeTmp.Name == "kx-score")
                 {
                     string scoreTmp = shapeTmp.TextFrame.TextRange.Text;
@@ -432,7 +430,8 @@ namespace kxrealtime
         {
             if (loginWebSocket != null)
             {
-                loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
+                //loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
+                this.closeLoginConnect();
             }
             loginWebSocket = utils.webSocketClient.StartWebSocket($"{utils.KXINFO.KXSOCKETURL}/mobileLogin?client_id={curID}");
             loginWebSocket.MessageReceived.Subscribe(msg =>
@@ -443,13 +442,15 @@ namespace kxrealtime
                     {
                         return;
                     }
+
                     string msgStr = msg.Text;
                     utils.KXINFO.initUsr(msgStr);
+                    var startTch = initTchInfo(msgStr);
                     // close login pane
-                    Action actionDelegate = this.LoginSuccess;
+                    Action<bool> actionDelegate = this.LoginSuccess;
                     // 或者
                     // Action<string> actionDelegate = delegate(string txt) { this.label2.Text = txt; };
-                    this.curLoginDialog.Invoke(actionDelegate);
+                    this.curLoginDialog.Invoke(actionDelegate, startTch);
 
                     this.button5.Visible = false;
                     this.menu1.Visible = true;
@@ -461,15 +462,44 @@ namespace kxrealtime
                     MessageBox.Show("登录失败" + e.Message);
                 }
             });
-           }
+        }
+
+        private bool initTchInfo(string dataInfo)
+        {
+            try
+            {
+                JObject data = JObject.Parse(dataInfo);
+                var tchList = data["teach_record_list"];
+                var tchInfo = tchList[0];
+                if (tchList == null || tchInfo == null)
+                {
+                    return false;
+                }
+                var classId = (string)tchInfo["class_id"];
+                var courseId = (string)tchInfo["course_id"];
+                var className = (string)data["class_info"][classId]["name"];
+                var courseName = (string)data["course_info"][courseId]["title"];
+                utils.KXINFO.KXCHOSECLASSID = (Int64)tchInfo["class_id"];
+                utils.KXINFO.KXCHOSECOURSEID = (Int64)tchInfo["course_id"];
+                utils.KXINFO.KXCHOSECHAPTERID = (Int64)tchInfo["chapter_id"];
+                utils.KXINFO.KXCHOSECOURSETITLE = courseName;
+                utils.KXINFO.KXCHOSECLASSNAME = className;
+                utils.KXINFO.KXTCHRECORDID = (string)tchInfo["tid"];
+                return true;
+            }catch(Exception)
+            {
+
+            }
+            return false;
+        }
 
 
         public void closeLoginConnect()
         {
             if (this.loginWebSocket != null)
             {
-                this.loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
-                
+                //this.loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
+
                 this.loginWebSocket.Dispose();
                 this.loginWebSocket = null;
             }
@@ -478,22 +508,22 @@ namespace kxrealtime
 
         private void CloseLoginDialog()
         {
-            if(loginDialog.frmBack != null)
+            if (loginDialog.frmBack != null)
             {
                 loginDialog.frmBack.Close();
             }
-            if(this.curLoginDialog != null)
+            if (this.curLoginDialog != null)
             {
                 this.curLoginDialog.Close();
                 this.curLoginDialog = null;
             }
-            
+
             // need rechose the class info
             ChangeTchBtn(false);
             Globals.ThisAddIn.CloseTchSocket();
         }
 
-        private void LoginSuccess()
+        private void LoginSuccess(bool startTch)
         {
             var url = utils.KXINFO.KXUAVATAR;
             PictureBox pictureBox = new PictureBox();
@@ -503,11 +533,11 @@ namespace kxrealtime
                 pictureBox.Load(url);
                 menu1.Image = pictureBox.Image;
             }
-            catch(WebException)
+            catch (WebException)
             {
                 //utils.Utils.LOG("loginsuccess load url error： " + e.Message);
             }
-            
+
             pictureBox.Width = 300;
             pictureBox.Height = 300;
             pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -531,7 +561,7 @@ namespace kxrealtime
 
             loginContentTmp.Controls.Add(pictureBox);
             loginContentTmp.Controls.Add(tipText);
-  
+
             int timeLeft = 2;
             System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();//实例化　
             myTimer.Tick += new EventHandler((s, e) =>
@@ -539,27 +569,39 @@ namespace kxrealtime
                 string textTmp = $"登录成功,{timeLeft}秒自动关闭";
                 tipText.Text = textTmp;
                 timeLeft--;
-                if(timeLeft < 0)
+                if (timeLeft < 0)
                 {
                     myTimer.Stop();
                     this.CloseLoginDialog();
+                    if (startTch)
+                    {
+                        MessageBoxButtons messbutton = MessageBoxButtons.OKCancel;
+                        DialogResult dr = MessageBox.Show($"是否需要继续上次授课（班级：{utils.KXINFO.KXCHOSECLASSNAME}    课程：{utils.KXINFO.KXCHOSECOURSETITLE}）", "温馨提示", messbutton);
+                        if (dr == DialogResult.OK)
+                        {
+                            curChoseForm = new choseClass();
+                            ChangeTchBtn(true);
+                            Globals.ThisAddIn.InitTchSocket();
+                        }
+                    }
                 }
             }); //给timer挂起事件
             myTimer.Enabled = true;
-            myTimer.Interval = 1000;  
+            myTimer.Interval = 1000;
         }
 
         public void settingChange(bool isSetting)
         {
-            for(int i=1; i<= app.ActivePresentation.Slides.Count; i++) {
+            for (int i = 1; i <= app.ActivePresentation.Slides.Count; i++)
+            {
                 PowerPoint.Slide curSld = app.ActivePresentation.Slides[i];
                 bool isKxItem = curSld.Name.Contains("kx-slide");
-                if(!isKxItem)
+                if (!isKxItem)
                 {
                     continue;
                 }
                 ArrayList curAnswerArr = (ArrayList)AnswerStore.getAnswer(curSld.Name);
-                if(curAnswerArr == null)
+                if (curAnswerArr == null)
                 {
                     curAnswerArr = new ArrayList();
                 }
@@ -576,14 +618,14 @@ namespace kxrealtime
                     {
                         shapeTmp.Visible = isSetting ? Office.MsoTriState.msoCTrue : Office.MsoTriState.msoFalse;
                     }
-                    if(shapeTmp.Name.Contains("kx-choice"))
+                    if (shapeTmp.Name.Contains("kx-choice"))
                     {
                         string tmp = shapeTmp.Name.Substring(10);
-                        if(tmp.Length == 0)
+                        if (tmp.Length == 0)
                         {
                             continue;
                         }
-                        char curC =tmp[0];
+                        char curC = tmp[0];
                         if (isSetting)
                         {
                             if (curAnswerArr.Contains(curC))
@@ -600,9 +642,9 @@ namespace kxrealtime
                             shapeTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                         }
                     }
-                    
+
                 }
-                if(!isSetting)
+                if (!isSetting)
                 {
                     AnswerStore.setAnswer(curSld.Name, curAnswerArr);
                 }
@@ -672,7 +714,9 @@ namespace kxrealtime
                 ChangeTchBtn(false);
                 curChoseForm.Close();
             }
-            catch (Exception) { }
+            catch (Exception e) {
+                MessageBox.Show("结束授课失败");
+            }
         }
 
         public void ChangeTchBtn(bool tching)
@@ -709,6 +753,12 @@ namespace kxrealtime
             this.createSingleCtx("填空题", singleSelCtl.TypeSelEnum.fillQuestion);
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.fillQuestion;
             this.singleSelCtlInstance.initFillQ(0);
+        }
+
+        private void button12_Click(object sender, RibbonControlEventArgs e)
+        {
+            var curIdx = Globals.ThisAddIn.CurSlideIdx;
+            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run().View.GotoSlide(curIdx);
         }
     }
 }

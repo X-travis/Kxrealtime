@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace kxrealtime
@@ -29,7 +24,7 @@ namespace kxrealtime
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var curbox = sender as ComboBox;
-            if(curbox == null)
+            if (curbox == null)
             {
                 return;
             }
@@ -68,7 +63,7 @@ namespace kxrealtime
                 return;
             }
             var courseItem = (ChapterItem)curbox.SelectedItem;
-            if(courseItem == null)
+            if (courseItem == null)
             {
                 return;
             }
@@ -78,20 +73,22 @@ namespace kxrealtime
 
         public void initClassList()
         {
-             Uri reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/listClass?skip=0&limit=1000&ret_teach_record=1&session_id={utils.KXINFO.KXSID}");
-             RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.GET);
-             if (response.ErrorException != null)
-             {
+            Uri reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/listClass?skip=0&limit=1000&ret_teach_record=1&session_id={utils.KXINFO.KXSID}");
+            RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.GET);
+            if (response.ErrorException != null)
+            {
                 utils.Utils.LOG("usr/listClass api error: " + response.ErrorException.Message);
-            } else
-             {
+            }
+            else
+            {
                 JObject data = JObject.Parse(response.Content);
                 string code = (string)data["code"];
-                if(code != "0")
+                if (code != "0")
                 {
                     System.Diagnostics.Debug.WriteLine("initclass" + code);
                     utils.Utils.LOG("usr/listClass api error: code" + code);
-                } else
+                }
+                else
                 {
                     try
                     {
@@ -104,17 +101,18 @@ namespace kxrealtime
                         }
                         comboBox1.ValueMember = "tid";
                         comboBox1.DisplayMember = "name";
-                        if(listArr.Count == 0)
+                        if (listArr.Count == 0)
                         {
                             this.showTip("暂无课程信息，请前往酷课堂添加课程");
                         }
-                    }catch(Exception)
+                    }
+                    catch (Exception)
                     {
                         this.showTip("暂无课程信息，请前往酷课堂添加课程");
                     }
-                    
+
                 }
-             }
+            }
         }
 
         public void initCourseList()
@@ -131,7 +129,7 @@ namespace kxrealtime
                 string code = (string)data["code"];
                 if (code != "0")
                 {
-                    if(code == "401")
+                    if (code == "401")
                     {
                         this.Visible = false;
                         Globals.ThisAddIn.loginOut();
@@ -157,11 +155,11 @@ namespace kxrealtime
                             this.showTip("暂无班级信息，请前往酷课堂添加班级");
                         }
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         this.showTip("暂无班级信息，请前往酷课堂添加班级");
                     }
-                    
+
                 }
             }
         }
@@ -170,7 +168,7 @@ namespace kxrealtime
         {
             string curClassId = classID.ToString();
             string curCourseId = courseID.ToString();
-            if(curCourseId.Length == 0 || curClassId.Length == 0 || curCourseId == "0" || curClassId == "0")
+            if (curCourseId.Length == 0 || curClassId.Length == 0 || curCourseId == "0" || curClassId == "0")
             {
                 return;
             }
@@ -213,10 +211,11 @@ namespace kxrealtime
                             this.showTip("暂无课时信息，请前往酷课堂添加课时");
                         }
                     }
-                    catch(Exception) {
+                    catch (Exception)
+                    {
                         this.showTip("暂无课时信息，请前往酷课堂添加课时");
                     }
-                    
+
                 }
             }
         }
@@ -241,7 +240,7 @@ namespace kxrealtime
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(chapterID == 0 || classID == 0 || courseID == 0)
+            if (chapterID == 0 || classID == 0 || courseID == 0)
             {
                 this.showTip("请选择上述内容");
                 return;
@@ -254,12 +253,12 @@ namespace kxrealtime
             curArgs.course_id = courseID;
             curArgs.status = 100;
             List<SendArgs> curArgsArr = new List<SendArgs> { curArgs };
-           
+
             Dictionary<string, string> queryArgs = new Dictionary<string, string> { };
             queryArgs.Add("session_id", utils.KXINFO.KXSID);
             var reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/upsertTeachRecord?session_id={utils.KXINFO.KXSID}");
             RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.POST, queryArgs, curArgsArr);
-            this.loadingBox.Visible = false ;
+            this.loadingBox.Visible = false;
             if (response.ErrorException != null)
             {
                 utils.Utils.LOG("usr/upsertTeachRecord api error: " + response.ErrorException.Message);
@@ -284,11 +283,12 @@ namespace kxrealtime
                     try
                     {
                         utils.KXINFO.KXTCHRECORDID = (string)data["data"]["teach_record_list"][0]["tid"];
-                    }catch(Exception)
+                    }
+                    catch (Exception)
                     {
                         utils.Utils.LOG("read teach_record_list.0.tid error");
                     }
-                    
+
                     this.Visible = false;
                     Globals.ThisAddIn.InitTchSocket();
                     createScreenWin(classID.ToString(), className);
@@ -306,9 +306,9 @@ namespace kxrealtime
         public void stopTching()
         {
             var curArgs = new SendArgs();
-            curArgs.chapter_id = chapterID;
-            curArgs.class_id = classID;
-            curArgs.course_id = courseID;
+            curArgs.chapter_id = utils.KXINFO.KXCHOSECHAPTERID;
+            curArgs.class_id = utils.KXINFO.KXCHOSECLASSID;
+            curArgs.course_id = utils.KXINFO.KXCHOSECOURSEID;
             curArgs.status = 200;
             curArgs.tid = Int64.Parse(utils.KXINFO.KXTCHRECORDID);
             curArgs.user_id = Int64.Parse(utils.KXINFO.KXOUTUID);
@@ -335,18 +335,20 @@ namespace kxrealtime
                         utils.Utils.LOG("usr/upsertTeachRecord api error: code" + code);
                         throw new Exception("error");
                     }
-                }catch(JsonReaderException)
+                }
+                catch (JsonReaderException)
                 {
                     utils.Utils.LOG("close course error upsertTeachRecord, received data not json");
                     throw new Exception("error");
                 }
-                
+
             }
         }
     }
 
 
-    public class ClassItem {
+    public class ClassItem
+    {
         public Int64 tid { get; set; }
         public Int64 user_id { get; set; }
         public string name { get; set; }

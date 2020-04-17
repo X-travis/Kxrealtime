@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace kxrealtime
@@ -63,16 +57,16 @@ namespace kxrealtime
                 //frmBack.Size = frmTop.Size;
                 frmBack.WindowState = FormWindowState.Maximized;
                 frmBack.TopMost = false;
-               
+
             }
-           
+
             frmBack.Opacity = frmBackOpacity;
             frmBack.BackColor = frmBackColor;
             frmBack.Location = frmTop.Location;
             // 顶部窗体设置
             frmTop.Owner = frmBack;
             frmTop.StartPosition = FormStartPosition.CenterScreen;
-            
+
             //frmTop.LocationChanged += (o, args) => { frmBack.Location = frmTop.Location; };
             // 显示窗体
             frmTop.Show();
@@ -88,9 +82,10 @@ namespace kxrealtime
 
         private void label1_Click(object sender, EventArgs e)
         {
-            if(frmBack != null)
+            if (frmBack != null)
             {
                 frmBack.Close();
+                frmBack.Dispose();
             }
             this.Close();
             frmBack = null;

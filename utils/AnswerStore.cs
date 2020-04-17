@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using System.Collections;
 
 namespace kxrealtime
 {
 
-    
+
     public static class AnswerStore
     {
 
@@ -18,14 +11,15 @@ namespace kxrealtime
 
         public static void setAnswer(string key, object value)
         {
-            if(answerArrHansh == null)
+            if (answerArrHansh == null)
             {
                 answerArrHansh = new Hashtable();
             }
-            if(answerArrHansh.Contains(key))
+            if (answerArrHansh.Contains(key))
             {
                 answerArrHansh[key] = value;
-            } else
+            }
+            else
             {
                 answerArrHansh.Add(key, value);
             }
@@ -33,10 +27,11 @@ namespace kxrealtime
 
         public static object getAnswer(string key)
         {
-            if(answerArrHansh.Contains(key))
+            if (answerArrHansh.Contains(key))
             {
                 return answerArrHansh[key];
-            } else
+            }
+            else
             {
                 return null;
             }

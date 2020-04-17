@@ -1,19 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace kxrealtime
 {
-    
+
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     //[System.Runtime.InteropServices.ComVisible(true)]
@@ -38,7 +31,7 @@ namespace kxrealtime
             this.curWebBrowser.Dock = DockStyle.Fill;
             this.curWebBrowser.Refresh();
             this.curWebBrowser.DocumentCompleted += WebBrowser1_DocumentCompleted;
-            
+
             this.Controls.Add(this.curWebBrowser);
             this.curWebBrowser.ObjectForScripting = this;
         }

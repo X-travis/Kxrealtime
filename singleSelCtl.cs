@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PowerPoint = Microsoft.Office.Interop.PowerPoint;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace kxrealtime
 {
@@ -41,7 +35,8 @@ namespace kxrealtime
 
         private List<fillOption> fillOptionArr;
 
-        public TypeSelEnum setCurSelType{
+        public TypeSelEnum setCurSelType
+        {
             get
             {
                 return this.curType;
@@ -80,7 +75,7 @@ namespace kxrealtime
                     //shapeTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 0, 255, 0).ToArgb();
                     //shapeTmp.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                 }
-               
+
             }
         }
 
@@ -103,10 +98,10 @@ namespace kxrealtime
         private char FindNextSel()
         {
             char result = (char)this.curSelLabelArr[0];
-            for(int i=1; i<this.curSelLabelArr.Count; i++)
+            for (int i = 1; i < this.curSelLabelArr.Count; i++)
             {
                 char tmp = (char)this.curSelLabelArr[i];
-                if(tmp > result)
+                if (tmp > result)
                 {
                     result = tmp;
                 }
@@ -121,23 +116,25 @@ namespace kxrealtime
             int oldNum = this.selectPanel.Controls.Count - 1;
             int len = labelArr.Count;
             int x = (oldNum % 4) * difX;
-            int y = (oldNum / 4)* difY;
+            int y = (oldNum / 4) * difY;
             bool isMul = this.curType == TypeSelEnum.multiSel;
 
-            for (int i=0 ; i<len; i++)
+            for (int i = 0; i < len; i++)
             {
                 char tmp = (char)(labelArr[i]);
-                if(isMul)
+                if (isMul)
                 {
                     System.Windows.Forms.CheckBox cTmp = this.createCheckBtn(x, y, tmp.ToString(), ans.Contains(tmp));
                     this.selectPanel.Controls.Add(cTmp);
-                } else {
+                }
+                else
+                {
                     System.Windows.Forms.RadioButton radioTmp = this.createRadioBtn(x, y, tmp.ToString(), ans.Contains(tmp));
                     this.selectPanel.Controls.Add(radioTmp);
                 }
-                
+
                 x += difX;
-                if(i!= 0 && ((i+1)%4) == 0)
+                if (i != 0 && ((i + 1) % 4) == 0)
                 {
                     x = 0;
                     y += difY;
@@ -211,15 +208,16 @@ namespace kxrealtime
             this.changePannelShow(this.curType);
             this.curSelLabelArr = labelArr;
 
-            if(this.curType == TypeSelEnum.singleSel || this.curType == TypeSelEnum.multiSel)
+            if (this.curType == TypeSelEnum.singleSel || this.curType == TypeSelEnum.multiSel)
             {
                 resetSelData(score, ans, labelArr);
-            } else if(this.curType == TypeSelEnum.voteMultiSel || this.curType == TypeSelEnum.voteSingleSel)
+            }
+            else if (this.curType == TypeSelEnum.voteMultiSel || this.curType == TypeSelEnum.voteSingleSel)
             {
                 resetVoteData();
             }
-            
-            
+
+
         }
 
         private void resetVoteData()
@@ -270,7 +268,7 @@ namespace kxrealtime
                 MessageBox.Show("Sender is not a RadioButton");
                 return;
             }
-                
+
             // Ensure that the RadioButton.Checked property
             // changed to true.
             if (rb.Checked)
@@ -287,7 +285,7 @@ namespace kxrealtime
                         shapeTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 0, 255, 0).ToArgb();
                         //shapeTmp.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                     }
-                    else if(shapeTmp.Name.Contains("kx-choice"))
+                    else if (shapeTmp.Name.Contains("kx-choice"))
                     {
                         shapeTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                     }
@@ -312,17 +310,18 @@ namespace kxrealtime
                 string targetName = "kx-choice-" + rb.Text;
                 if (shapeTmp.Name == targetName)
                 {
-                    if(rb.Checked)
+                    if (rb.Checked)
                     {
                         shapeTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 0, 255, 0).ToArgb();
-                    } else
+                    }
+                    else
                     {
                         shapeTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                     }
-                    
+
                     //shapeTmp.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
                 }
-               
+
             }
         }
 
@@ -339,16 +338,17 @@ namespace kxrealtime
             int i = this.curSelLabelArr.Count - 1; // this.selectPanel.Controls.Count - 1;
             int currentSlideIndex = Globals.ThisAddIn.CurSlideIdx;
             PowerPoint.Shapes curShapes = Globals.ThisAddIn.Application.ActivePresentation.Slides[currentSlideIndex].Shapes;
-           
+
             int posIdx = 1;
             Hashtable shapeMap = new Hashtable();
             bool isMul = this.curType == TypeSelEnum.multiSel || this.curType == TypeSelEnum.voteMultiSel;
             foreach (PowerPoint.Shape shapeTmp in curShapes)
             {
-                if(shapeMap.ContainsKey(shapeTmp.Name))
+                if (shapeMap.ContainsKey(shapeTmp.Name))
                 {
-                    
-                } else
+
+                }
+                else
                 {
                     shapeMap.Add(shapeTmp.Name, posIdx);
                     posIdx += 1;
@@ -357,7 +357,7 @@ namespace kxrealtime
             float posY = 200;
             int selectCtxHeight = 250;
             char curChar = (char)(startChar);
-            float difY = (selectCtxHeight - (i) * 50) / (i-1);
+            float difY = (selectCtxHeight - (i) * 50) / (i - 1);
             int difNum = 0;
             // 从A往后检查100个， 或者满足当前个数
             for (int j = 0; j < 100 && difNum < i; j++)
@@ -365,26 +365,26 @@ namespace kxrealtime
                 string choiceKeyTmp = "kx-choice-" + curChar.ToString();
                 string choiceText = "kx-text-" + curChar.ToString();
                 bool hasFound = false;
-                
-                if(shapeMap.ContainsKey(choiceKeyTmp))
+
+                if (shapeMap.ContainsKey(choiceKeyTmp))
                 {
                     int keyIdx = (int)shapeMap[choiceKeyTmp];
-                    curShapes[keyIdx].Top = difY*difNum + posY - 5;
+                    curShapes[keyIdx].Top = difY * difNum + posY - 5;
                     hasFound = true;
-         
+
                 }
                 if (shapeMap.ContainsKey(choiceText))
                 {
                     int textIdx = (int)shapeMap[choiceText];
-                    curShapes[textIdx].Top = difY*difNum + posY;
+                    curShapes[textIdx].Top = difY * difNum + posY;
                     hasFound = true;
 
                 }
-                if (difNum != i-1)
+                if (difNum != i - 1)
                 {
                     curChar = (char)(startChar + difNum + 1);
                 }
-                if(hasFound)
+                if (hasFound)
                 {
                     posY += 50;
                     difNum += 1;
@@ -460,16 +460,16 @@ namespace kxrealtime
             bool isMul = this.curType == TypeSelEnum.voteMultiSel;
             foreach (PowerPoint.Shape shapeTmp in curShapes)
             {
-                if(shapeTmp.Name.Contains("kx-title"))
+                if (shapeTmp.Name.Contains("kx-title"))
                 {
                     shapeTmp.Name = "kx-title-" + this.curType;
                 }
-                if(shapeTmp.Name.Contains("kx-choice"))
+                if (shapeTmp.Name.Contains("kx-choice"))
                 {
 
                     Office.MsoAutoShapeType curShapeType = !isMul ? Office.MsoAutoShapeType.msoShapeOval : Office.MsoAutoShapeType.msoShapeRectangle;
                     shapeTmp.AutoShapeType = curShapeType;
-                    
+
                 }
             }
         }
@@ -497,7 +497,7 @@ namespace kxrealtime
 
         private void addFillOption(List<fillOption> options, bool isInit = false)
         {
-            if(this.fillOptionArr == null)
+            if (this.fillOptionArr == null)
             {
                 this.fillOptionArr = new List<fillOption>();
             }
@@ -509,10 +509,10 @@ namespace kxrealtime
             var inDiff = 50;
             var count = isInit ? 0 : this.fillOptionArr.Count;
             sY += diff * count;
-            for(int i=0; i<options.Count; i++)
+            for (int i = 0; i < options.Count; i++)
             {
                 var labelTmp = new Label();
-                labelTmp.Text = $"[填空{i+1+count}]";
+                labelTmp.Text = $"[填空{i + 1 + count}]";
                 labelTmp.ForeColor = System.Drawing.Color.FromArgb(100, 99, 158, 244);
                 labelTmp.Visible = true;
                 labelTmp.Location = new Point(0, 0);
@@ -529,14 +529,14 @@ namespace kxrealtime
                 var ansText = new Label();
                 ansText.Text = "答案";
                 ansText.Visible = true;
-                ansText.Location = new Point(0, inDiff*2);
+                ansText.Location = new Point(0, inDiff * 2);
                 ansText.Width = labelW;
                 var ansInput = new TextBox();
                 ansInput.Visible = true;
-                ansInput.Location = new Point(labelW, inDiff*2);
+                ansInput.Location = new Point(labelW, inDiff * 2);
                 ansInput.Width = contentW;
                 ansInput.TextChanged += AnsInput_TextChanged;
-                if(isInit)
+                if (isInit)
                 {
                     var curValue = options[i];
                     ansInput.Text = curValue.answer;
@@ -571,31 +571,31 @@ namespace kxrealtime
 
         private void getFillContent()
         {
-            if(this.fillOptionPanel.Controls.Count < 1)
+            if (this.fillOptionPanel.Controls.Count < 1)
             {
                 return;
             }
             var ansTmp = new List<fillOption>();
             float score = 0;
-            foreach(var curPanel in this.fillOptionPanel.Controls)
+            foreach (var curPanel in this.fillOptionPanel.Controls)
             {
                 var inPanel = curPanel as Panel;
                 var inAns = new fillOption();
                 foreach (var curItem in inPanel.Controls)
                 {
-                    
-                    if(curItem is NumericUpDown)
+
+                    if (curItem is NumericUpDown)
                     {
                         var cItem = curItem as NumericUpDown;
                         inAns.score = (float)cItem.Value;
                         score += inAns.score;
                     }
-                    else if(curItem is TextBox)
+                    else if (curItem is TextBox)
                     {
                         var cItem = curItem as TextBox;
                         inAns.answer = cItem.Text;
                     }
-                    
+
                 }
                 ansTmp.Add(inAns);
             }
@@ -608,7 +608,7 @@ namespace kxrealtime
                     string output = JsonConvert.SerializeObject(ansTmp);
                     shapeTmp.TextFrame.TextRange.Text = (output);
                 }
-                if(shapeTmp.Name == "kx-score")
+                if (shapeTmp.Name == "kx-score")
                 {
                     shapeTmp.TextFrame.TextRange.Text = score.ToString() + "分";
                 }
@@ -633,7 +633,7 @@ namespace kxrealtime
         {
             changePannelShow(TypeSelEnum.fillQuestion);
             this.fillOptionPanel.Controls.Clear();
-            if(this.fillOptionArr != null)
+            if (this.fillOptionArr != null)
             {
                 this.fillOptionArr.Clear();
             }

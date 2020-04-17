@@ -43,6 +43,7 @@
             this.group3 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
             this.box1 = this.Factory.CreateRibbonBox();
+            this.button12 = this.Factory.CreateRibbonButton();
             this.button9 = this.Factory.CreateRibbonButton();
             this.button10 = this.Factory.CreateRibbonButton();
             this.group1 = this.Factory.CreateRibbonGroup();
@@ -124,10 +125,20 @@
             // 
             // box1
             // 
+            this.box1.Items.Add(this.button12);
             this.box1.Items.Add(this.button9);
             this.box1.Items.Add(this.button10);
             this.box1.Name = "box1";
             this.box1.Visible = false;
+            // 
+            // button12
+            // 
+            this.button12.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button12.Image = global::kxrealtime.Properties.Resources.start_new;
+            this.button12.Label = "从当前页放映";
+            this.button12.Name = "button12";
+            this.button12.ShowImage = true;
+            this.button12.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button12_Click);
             // 
             // button9
             // 
@@ -246,6 +257,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button9;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button10;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
     }
 
     partial class ThisRibbonCollection

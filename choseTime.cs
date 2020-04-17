@@ -4,11 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -43,10 +39,10 @@ namespace kxrealtime
             frmBack.BackColor = System.Drawing.Color.Black;
             this.Owner = frmBack;
             frmBack.Owner = ownerForm;
-           
+
             parentForm = ownerForm;
 
-            this.paperTitle = utils.KXINFO.KXCHOSECOURSETITLE + "练习";
+            //this.paperTitle = utils.KXINFO.KXCHOSECOURSETITLE + "练习";
         }
 
         public void showFn(string paperId, string testId)
@@ -60,6 +56,19 @@ namespace kxrealtime
             this.paperId = paperId;
             this.testId = testId;
             this.loadingPB.Visible = false;
+        }
+
+        public void questionSend(string paperId, string testId)
+        {
+            var tmp = utils.Utils.getScreenPosition();
+            this.frmBack.Location = tmp;
+            this.Location = tmp;
+            this.frmBack.Show();
+            this.Show();
+            this.paperId = paperId;
+            this.testId = testId;
+            this.loadingPB.Visible = false;
+            this.sendPaperFn(0);
         }
 
         public void closeFn()
@@ -80,18 +89,18 @@ namespace kxrealtime
             button2.Top = hTmp / 2 + panel1.Top;
             button3.Top = hTmp / 2 + panel1.Top;
             int countTmp = txtArr.Count();
-            btnWidthTmp = (wTmp - difWidth* countTmp) / countTmp;
-            for (int i=0; i<txtArr.Length; i++)
+            btnWidthTmp = (wTmp - difWidth * countTmp) / countTmp;
+            for (int i = 0; i < txtArr.Length; i++)
             {
                 var btnTmp = new Button();
                 btnTmp.Text = txtArr[i];
                 btnTmp.Name = valueArr[i];
                 btnTmp.Top = hTmp / 6;
-                btnTmp.Left = i*(btnWidthTmp + difWidth) + difWidth;
+                btnTmp.Left = i * (btnWidthTmp + difWidth) + difWidth;
                 btnTmp.Width = btnWidthTmp;
                 btnTmp.Height = hTmp * 2 / 3;
                 btnTmp.Visible = true;
-                btnTmp.BackColor =  System.Drawing.Color.FromArgb(100,74,137,211);
+                btnTmp.BackColor = System.Drawing.Color.FromArgb(100, 74, 137, 211);
                 btnTmp.FlatStyle = FlatStyle.Flat;
                 btnTmp.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
                 btnTmp.Click += BtnTmp_Click;
@@ -107,12 +116,12 @@ namespace kxrealtime
         {
             Button curBtn = sender as Button;
             //curBtn.Width += 40;
-            
+
         }
 
         private void BtnTmp_Click(object sender, EventArgs e)
         {
-            if(this.isSending)
+            if (this.isSending)
             {
                 return;
             }
@@ -123,50 +132,56 @@ namespace kxrealtime
             {
                 if (curBtn != null)
                 {
-                    this.paperTime = Int64.Parse(curBtn.Name) * 1000;
-                    if (this.paperId == null || this.paperId.Length == 0)
-                    {
-                        try
-                        {
-                            this.sendPage();
-                        }
-                        catch (Exception)
-                        {
-                            this.isSending = false;
-                            this.loadingPB.Visible = false;
-                            return;
-                        }
-
-                    }
-                    else
-                    {
-                        var curTime = utils.Utils.getTimeStamp();
-                        // 延时操作
-                        if (this.testId != null)
-                        {
-                            var examTmp = Globals.ThisAddIn.findExamInfoByTestId(this.testId);
-                            if (examTmp != null)
-                            {
-                                examTmp.duringTime += this.paperTime;
-                                this.paperTime = examTmp.duringTime;
-                                curTime = examTmp.startTimeStamp;
-                            }
-                        }
-                        createExam(paperId, curTime);
-                        sendPaperExt(paperId, false);
-                        sendKXOUT(this.paperId, this.testId);
-
-                        // send exam time
-                        sendChangeTime(this.paperId, this.testId);
-                        this.allClose();
-                    }
+                    this.sendPaperFn(Int64.Parse(curBtn.Name) * 1000);
                 }
-            }catch(Exception)
+            }
+            catch (Exception)
             {
 
             }
-            this.isSending = false;
-            this.loadingPB.Visible = false;
+        }
+
+        private void sendPaperFn(Int64 timeTmp)
+        {
+            this.paperTime = timeTmp;
+            if (this.paperId == null || this.paperId.Length == 0)
+            {
+                try
+                {
+                    this.sendPage();
+                }
+                catch (Exception)
+                {
+                    this.isSending = false;
+                    this.loadingPB.Visible = false;
+                    return;
+                }
+
+            }
+            else
+            {
+                var curTime = utils.Utils.getTimeStamp();
+                this.paperTitle = utils.KXINFO.KXCHOSECOURSETITLE + "练习";
+                // 延时操作
+                if (this.testId != null)
+                {
+                    var examTmp = Globals.ThisAddIn.findExamInfoByTestId(this.testId);
+                    if (examTmp != null)
+                    {
+                        examTmp.duringTime += this.paperTime;
+                        this.paperTime = examTmp.duringTime;
+                        curTime = examTmp.startTimeStamp;
+                    }
+                    this.paperTitle = examTmp.paperTitle;
+                }
+                createExam(paperId, curTime);
+                sendPaperExt(paperId, false);
+                sendKXOUT(this.paperId, this.testId);
+
+                // send exam time
+                sendChangeTime(this.paperId, this.testId);
+                this.allClose();
+            }
         }
 
         private void sendChangeTime(string paperId, string testId)
@@ -205,9 +220,9 @@ namespace kxrealtime
 
         private void moveBtn(int way)
         {
-            foreach(Control col in panel1.Controls)
+            foreach (Control col in panel1.Controls)
             {
-                if(col is Button)
+                if (col is Button)
                 {
                     col.Left += way * (btnWidthTmp + difWidth);
                 }
@@ -236,7 +251,7 @@ namespace kxrealtime
 
         public void sendPageFn()
         {
-            
+
             var curIdx = Globals.ThisAddIn.PlaySlideIdx;
             var curSld = Globals.ThisAddIn.Application.ActivePresentation.Slides[curIdx];
 
@@ -317,7 +332,7 @@ namespace kxrealtime
 
             this.paperScore = curScore;
 
-            this.paperTitle = utils.KXINFO.KXCHOSECOURSETITLE + "练习";
+            this.paperTitle = curQuestion != "" ? curQuestion : utils.KXINFO.KXCHOSECOURSETITLE + "练习";
             bool isQ = curTitle == voteSingleSelTitle || curTitle == voteMultiSelTitle;
             string paperType = isQ ? "kkt_question" : "qset";
             var paperId = createPaper(paperType);
@@ -327,7 +342,7 @@ namespace kxrealtime
                 MessageBox.Show("发送失败");
                 throw new Exception("发送失败");
             }//
-            if(curTitle != voteSingleSelTitle && curTitle != voteMultiSelTitle)
+            if (curTitle != voteSingleSelTitle && curTitle != voteMultiSelTitle)
             {
                 var curTime = utils.Utils.getTimeStamp();
                 testId = createExam(paperId, curTime);
@@ -340,7 +355,7 @@ namespace kxrealtime
 
             //this.paperTime = 6000;
             object questionData = null;
-            
+
             if (curTitle == singleSelTitle || curTitle == voteSingleSelTitle)
             {
                 questionData = createSingle(paperId, "single", curScore, curQuestion, labelArr, optionMap, curAnswerArr);
@@ -355,7 +370,7 @@ namespace kxrealtime
             }
             else if (curTitle == fillTitle)
             {
-                if(fillAnswerArr.Count < 1)
+                if (fillAnswerArr.Count < 1)
                 {
                     MessageBox.Show("请先添加选项");
                     throw new Exception("填空题格式错误");
@@ -435,7 +450,7 @@ namespace kxrealtime
                 title = this.paperTitle,
                 cost_time = this.paperTime
             };
-            if(this.testId != null)
+            if (this.testId != null)
             {
                 postData.id = this.testId;
             }
@@ -631,7 +646,7 @@ namespace kxrealtime
             };
 
             List<object> ans = new List<object>();
-            foreach(var fillItem in curAnswerArr)
+            foreach (var fillItem in curAnswerArr)
             {
                 ans.Add(new
                 {
@@ -727,10 +742,10 @@ namespace kxrealtime
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/updateExt");
             Dictionary<string, string> args = new Dictionary<string, string> { };
-            
+
             args.Add("aid", paperId);
             args.Add("token", utils.KXINFO.KXTOKEN);
-            if(!isQuestion)
+            if (!isQuestion)
             {
                 var extObj = JObject.FromObject(new
                 {
@@ -739,11 +754,12 @@ namespace kxrealtime
                     ease = 0
                 });
                 args.Add("ext", extObj.ToString());
-            } else
+            }
+            else
             {
                 args.Add("ext", "{\"folder\":\"\"}");
             }
-            
+
 
             RestSharp.IRestResponse response = utils.request.SendRequest(Globals.ThisAddIn.CurHttpReq, reqUrl, RestSharp.Method.GET, args);
             if (response.ErrorException != null)

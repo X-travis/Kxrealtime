@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace kxrealtime.utils
@@ -17,24 +11,25 @@ namespace kxrealtime.utils
             Random R = new Random();
             string strDateTimeNumber = DateTime.Now.ToString("yyyyMMddHHmmssms");
             string strRandomResult = R.Next(1, 1000).ToString();
-           return strDateTimeNumber + strRandomResult;
+            return strDateTimeNumber + strRandomResult;
         }
 
         public static byte[] getScreenImg()
         {
             //创建图象，保存将来截取的图象
-            foreach (var curScreen in Screen.AllScreens) {
-                
+            foreach (var curScreen in Screen.AllScreens)
+            {
+
             }
             var primaryScreenArea = Screen.PrimaryScreen.Bounds;
-            Bitmap image = new Bitmap(primaryScreenArea.Width, primaryScreenArea.Height);
+            Bitmap image = new Bitmap(primaryScreenArea.Width, primaryScreenArea.Height);
             Graphics imgGraphics = Graphics.FromImage(image);
             //设置截屏区域
             int xTmp = primaryScreenArea.Left;
             int yTmp = primaryScreenArea.Top;
             int wTmp = primaryScreenArea.Width;
             int hTmp = primaryScreenArea.Height;
-            imgGraphics.CopyFromScreen(xTmp, yTmp, xTmp, yTmp, new System.Drawing.Size(wTmp, hTmp));
+            imgGraphics.CopyFromScreen(xTmp, yTmp, xTmp, yTmp, new System.Drawing.Size(wTmp, hTmp));
             ImageConverter converter = new ImageConverter();
             return (byte[])converter.ConvertTo(image, typeof(byte[]));
         }
@@ -42,7 +37,7 @@ namespace kxrealtime.utils
         public static System.Drawing.Point getScreenPosition(bool isPrimary = false)
         {
             System.Drawing.Point curPoint = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Left, Screen.PrimaryScreen.Bounds.Top);
-            if(isPrimary)
+            if (isPrimary)
             {
                 return curPoint;
             }
@@ -58,7 +53,7 @@ namespace kxrealtime.utils
 
         public static void LOG(object e)
         {
-            MessageBox.Show(e.ToString());
+            System.Windows.Forms.MessageBox.Show(e.ToString());
             System.Diagnostics.Debug.WriteLine(e);
         }
 

@@ -4,10 +4,6 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace kxrealtime.utils
@@ -98,7 +94,7 @@ namespace kxrealtime.utils
             });
             task.ContinueWith((Task<upsertTeachContent> result) =>
             {
-                if(result == null || result.Result == null)
+                if (result == null || result.Result == null)
                 {
                     return;
                 }
@@ -144,7 +140,8 @@ namespace kxrealtime.utils
             if (response.ErrorException != null)
             {
                 utils.Utils.LOG("upsertTeachContent response.ErrorException error: " + response.ErrorException.Message);
-            } else
+            }
+            else
             {
                 JObject data = JObject.Parse(response.Content);
                 string code = (string)data["code"];

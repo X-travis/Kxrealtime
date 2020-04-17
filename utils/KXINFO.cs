@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace kxrealtime.utils
 {
@@ -46,11 +42,12 @@ namespace kxrealtime.utils
             {
                 KXUNAME = (string)data["kx_user_info"]["data"]["usr"]["attrs"]["basic"]["nickName"];
                 KXUAVATAR = (string)data["kx_user_info"]["data"]["usr"]["attrs"]["basic"]["avatar"];
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 utils.Utils.LOG("parse kx_user_info.data.usr.atts.basic error" + e.Message);
             }
-            
+
         }
 
         public static void clear()

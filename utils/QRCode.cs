@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using QRCoder;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using QRCoder;
+using System.IO;
 
 namespace kxrealtime
 {

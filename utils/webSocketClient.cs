@@ -1,9 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.WebSockets;
-using System.Text;
 using System.Threading.Tasks;
 using Websocket.Client;
 
@@ -34,12 +30,13 @@ namespace kxrealtime.utils
                 });
                 IWebsocketClient websocketClent = new WebsocketClient(url, factory);
                 //websocketClent.ReconnectTimeout = null;// TimeSpan.FromSeconds(1800);
+                websocketClent.ReconnectTimeoutMs = 1800000;
                 websocketClent.ReconnectionHappened.Subscribe(info => System.Diagnostics.Debug.WriteLine("reconnect " + info.ToString()));
                 websocketClent.DisconnectionHappened.Subscribe(info =>
                 {
                     System.Diagnostics.Debug.WriteLine($"Disconnection happened, type: {info.ToString()}");
                 });
-                    
+
 
 
                 System.Diagnostics.Debug.WriteLine(websocketClent.Url);

@@ -1,15 +1,11 @@
-﻿using System;
+﻿using kxrealtime.kxdata;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using PowerPoint = Microsoft.Office.Interop.PowerPoint;
-using Office = Microsoft.Office.Core;
-using Websocket.Client;
-using System.Threading.Tasks;
 using System.IO;
-using kxrealtime.kxdata;
+using System.Linq;
 using System.Windows.Forms;
+using Websocket.Client;
+using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace kxrealtime
 {
@@ -93,7 +89,7 @@ namespace kxrealtime
 
         private void Application_PresentationBeforeClose(PowerPoint.Presentation Pres, ref bool Cancel)
         {
-            if(utils.KXINFO.KXTCHRECORDID != null && utils.KXINFO.KXTCHRECORDID.Length > 0)
+            if (utils.KXINFO.KXTCHRECORDID != null && utils.KXINFO.KXTCHRECORDID.Length > 0)
             {
                 MessageBoxButtons messbutton = MessageBoxButtons.OKCancel;
                 DialogResult dr = MessageBox.Show("是否需要结束授课", "温馨提示", messbutton);
@@ -124,15 +120,16 @@ namespace kxrealtime
                 return;
             }
             this.playSlideIdx = Wn.View.Slide.SlideIndex;
-            sendScreen(Wn, this.playSlideIdx);
             var winNum = Screen.AllScreens.Length;
             if (this.utilDialogInstance != null || winNum > 1)
             {
                 this.checkUtils(Wn);
-            } else
+            }
+            else
             {
                 slideHandle(Wn);
             }
+            sendScreen(Wn, this.playSlideIdx);
         }
 
         private void checkUtils(PowerPoint.SlideShowWindow Wn)
@@ -188,7 +185,7 @@ namespace kxrealtime
             string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
             var fileDict = curDir + @"\kxrealtime\imgs";
             var imgPath = fileDict + @"\setting.png";
-            if(File.Exists(imgPath))
+            if (File.Exists(imgPath))
             {
                 return;
             }
@@ -214,9 +211,9 @@ namespace kxrealtime
             if (TchWebSocket != null && TchWebSocket.IsRunning)
             {
                 //var imgTmp = utils.Utils.getScreenImg();
-                    //MessageBox.Show(curDirTmp);
-                    //Task.Run(() => {
-                    //string curDir = Directory.GetCurrentDirectory();
+                //MessageBox.Show(curDirTmp);
+                //Task.Run(() => {
+                //string curDir = Directory.GetCurrentDirectory();
                 try
                 {
                     string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
@@ -237,14 +234,16 @@ namespace kxrealtime
                     }
                     curSld.Export(imgFile, "png");
                     utils.request.UploadImg($"{utils.KXINFO.KXURL}/usr/upload?session_id={utils.KXINFO.KXSID}", imgFile, curIdx);
-                }catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     utils.Utils.LOG("export失败" + e.Message);
                 }
-                    
-               // });
-                
-            } else
+
+                // });
+
+            }
+            else
             {
                 utils.Utils.LOG("授课连接中...");
                 TchWebSocket.Reconnect();
@@ -259,14 +258,15 @@ namespace kxrealtime
             }
             this.curSlideIdx = SldRange.SlideIndex;
             bool isKxItem = SldRange.Name.Contains("kx-slide");
-            if(!isKxItem)
+            if (!isKxItem)
             {
-                if(Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null)
+                if (Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null)
                 {
                     Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible = false;
                 }
                 this.isKxPage = false;
-            } else
+            }
+            else
             {
                 if (Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null && Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible)
                 {
@@ -287,26 +287,27 @@ namespace kxrealtime
                         Globals.Ribbons.Ribbon1.resestContent(Sel.SlideRange);
                         Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible = true;
                     }
-                } else if(this.lastType == PowerPoint.PpSelectionType.ppSelectionShapes && Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null && Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible)
+                }
+                else if (this.lastType == PowerPoint.PpSelectionType.ppSelectionShapes && Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null && Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible)
                 {
                     // 需要检测是否发送了删除选项等
                     Globals.Ribbons.Ribbon1.checkSelExist(Sel.SlideRange);
                 }
                 this.lastType = Sel.Type;
             }
-            
+
         }
 
         private void SlideShowEnd(PowerPoint.Presentation Pres)
         {
             //("结束放映");
             Globals.Ribbons.Ribbon1.settingChange(true);
-            if(utilDialogInstance != null)
+            if (utilDialogInstance != null)
             {
                 utilDialogInstance.Close();
                 this.utilDialogInstance = null;
             }
-            
+
         }
 
         private void SlideShowBegin(PowerPoint.SlideShowWindow Wn)
@@ -326,7 +327,7 @@ namespace kxrealtime
             utils.KXINFO.clear();
             CloseTchSocket();
             Globals.Ribbons.Ribbon1.ChangeTchBtn(false);
-            if(this.utilDialogInstance != null)
+            if (this.utilDialogInstance != null)
             {
                 this.utilDialogInstance.Close();
             }
@@ -334,9 +335,10 @@ namespace kxrealtime
 
         public void InitTchSocket()
         {
-            if(TchWebSocket != null)
+            if (TchWebSocket != null)
             {
-                TchWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "stop old connect");
+                //TchWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "stop old connect");
+                CloseTchSocket();
             }
             string url = $"{utils.KXINFO.KXSOCKETURL}/im?user_id={utils.KXINFO.KXOUTUID}";
             TchWebSocket = utils.webSocketClient.StartWebSocket(url);
@@ -344,11 +346,11 @@ namespace kxrealtime
 
         public void SendTchInfo(string info)
         {
-            if(TchWebSocket == null)
+            if (TchWebSocket == null)
             {
                 return;
             }
-            if(TchWebSocket.IsRunning)
+            if (TchWebSocket.IsRunning)
             {
                 utils.webSocketClient.clientSend(TchWebSocket, info);
             }
@@ -356,18 +358,18 @@ namespace kxrealtime
 
         public void CloseTchSocket()
         {
-            if(TchWebSocket == null)
+            if (TchWebSocket == null)
             {
                 return;
             }
-            TchWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "USER");
+            //TchWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "USER");
             TchWebSocket.Dispose();
             TchWebSocket = null;
         }
 
         public slideExamInfo findExamInfo(string sldName)
         {
-            foreach(slideExamInfo curExam in this.kxSlideExamList)
+            foreach (slideExamInfo curExam in this.kxSlideExamList)
             {
                 if (curExam.slideName == sldName)
                 {
@@ -391,7 +393,7 @@ namespace kxrealtime
 
         public void removeExamItem(string paperId)
         {
-            var itemToRemove = this.kxSlideExamList.Single(r => r.paperId == paperId);
+            var itemToRemove = this.kxSlideExamList.SingleOrDefault(r => r.paperId == paperId);
             if (itemToRemove != null)
             {
                 this.kxSlideExamList.Remove(itemToRemove);
@@ -409,7 +411,7 @@ namespace kxrealtime
             this.Startup += new System.EventHandler(ThisAddIn_Startup);
             this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
         }
-        
+
         #endregion
     }
 }
