@@ -510,8 +510,8 @@ namespace kxrealtime
 
         private void button8_Click(object sender, EventArgs e)
         {
-            string courseQRCode = $"http://192.168.19.37:8989/index.html";
-            createWebForm(courseQRCode);
+            string barragePage = $"{utils.KXINFO.KXADMINURL}/barrage/index.html?timestamp={utils.Utils.getTimeStamp()}";
+            createWebForm(barragePage);
         }
 
         private void ThisAddIn_WebSocketMsg(string msg)
