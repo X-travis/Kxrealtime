@@ -403,10 +403,13 @@ namespace kxrealtime
             textBox.Name = "kx-text-" + nextChar.ToString();
         }
 
-        public void initSubjectiveQ(float score)
+        public void initSubjectiveQ(float score, bool fillScore = false)
         {
             this.changePannelShow(TypeSelEnum.textQuestion);
-            numericUpDown2.Value = (decimal)score;
+            if(fillScore)
+            {
+                numericUpDown2.Value = (decimal)score;
+            }
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)

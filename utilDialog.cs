@@ -29,7 +29,7 @@ namespace kxrealtime
             this.Location = tmp;
             //var otherLocation = utils.Utils.getScreenPosition(true);
             this.utilsBtn.Top = this.Height / 2;
-
+            Globals.ThisAddIn.WebSocketMsg += ThisAddIn_WebSocketMsg;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -508,6 +508,27 @@ namespace kxrealtime
             this.infoForm = null;
         }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            string courseQRCode = $"http://192.168.19.37:8989/index.html";
+            createWebForm(courseQRCode);
+        }
+
+        private void ThisAddIn_WebSocketMsg(string msg)
+        {
+            Action<string> postAction = (string info) =>
+            {
+                HtmlDocument curDoc = this.infoWebPage.Document;
+                curDoc.InvokeScript("showData", new[]
+                {
+                    info
+                });
+            };
+            if (this.IsHandleCreated)
+            {
+                this.Invoke(postAction, msg);
+            }
+        }
     }
 
     public class SendKxOutContent

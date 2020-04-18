@@ -1,4 +1,5 @@
 ﻿using kxrealtime.kxdata;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,9 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace kxrealtime
 {
+
+    public delegate void WebSocketMsgHandle(string msg);
+
     public partial class ThisAddIn
     {
         private int curSlideIdx = 1;
@@ -19,6 +23,8 @@ namespace kxrealtime
         private bool canShowAddClassFlag = false;
         private IWebsocketClient TchWebSocket;
         private utilDialog utilDialogInstance;
+
+        public event WebSocketMsgHandle WebSocketMsg;
 
         public int CurSlideIdx
         {
@@ -134,7 +140,7 @@ namespace kxrealtime
 
         private void checkUtils(PowerPoint.SlideShowWindow Wn)
         {
-            if (this.utilDialogInstance == null)
+            if (this.utilDialogInstance == null || this.utilDialogInstance.IsDisposed)
             {
                 this.utilDialogInstance = new utilDialog();
             }
@@ -302,11 +308,11 @@ namespace kxrealtime
         {
             //("结束放映");
             Globals.Ribbons.Ribbon1.settingChange(true);
-            if (utilDialogInstance != null)
+            if (utilDialogInstance != null && !utilDialogInstance.IsDisposed)
             {
                 utilDialogInstance.Close();
-                this.utilDialogInstance = null;
             }
+            this.utilDialogInstance = null;
 
         }
 
@@ -342,6 +348,26 @@ namespace kxrealtime
             }
             string url = $"{utils.KXINFO.KXSOCKETURL}/im?user_id={utils.KXINFO.KXOUTUID}";
             TchWebSocket = utils.webSocketClient.StartWebSocket(url);
+            TchWebSocket.MessageReceived.Subscribe(info =>
+            {
+                try
+                {
+                    if(info.Text == "HeartBeat")
+                    {
+                        return;
+                    }
+                    JObject data = JObject.Parse(info.Text);
+                    string curType = (string)data["type"];
+                    if(curType == "barrage")
+                    {
+                        string contentStr = (data["data"]).ToString();
+                        this.WebSocketMsg(contentStr);
+                    }
+                }
+                catch(Exception e)
+                {
+                }           
+            });
         }
 
         public void SendTchInfo(string info)

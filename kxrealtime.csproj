@@ -34,7 +34,7 @@
     <PublishUrl>D:\新建文件夹 %282%29\kx\</PublishUrl>
     <InstallUrl />
     <TargetCulture>zh-chs</TargetCulture>
-    <ApplicationVersion>1.0.0.70</ApplicationVersion>
+    <ApplicationVersion>1.0.0.72</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>

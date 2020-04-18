@@ -45,6 +45,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.utilsBtn = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.examUtils.SuspendLayout();
             this.utilsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -156,6 +157,7 @@
             this.utilsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.utilsPanel.BackColor = System.Drawing.Color.White;
             this.utilsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.utilsPanel.Controls.Add(this.button8);
             this.utilsPanel.Controls.Add(this.label2);
             this.utilsPanel.Controls.Add(this.button7);
             this.utilsPanel.Controls.Add(this.button6);
@@ -164,9 +166,9 @@
             this.utilsPanel.Controls.Add(this.button3);
             this.utilsPanel.Controls.Add(this.button2);
             this.utilsPanel.Controls.Add(this.label1);
-            this.utilsPanel.Location = new System.Drawing.Point(420, 111);
+            this.utilsPanel.Location = new System.Drawing.Point(340, 111);
             this.utilsPanel.Name = "utilsPanel";
-            this.utilsPanel.Size = new System.Drawing.Size(290, 220);
+            this.utilsPanel.Size = new System.Drawing.Size(370, 220);
             this.utilsPanel.TabIndex = 5;
             this.utilsPanel.Visible = false;
             // 
@@ -176,7 +178,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(250, 11);
+            this.label2.Location = new System.Drawing.Point(330, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 19);
             this.label2.TabIndex = 7;
@@ -190,7 +192,7 @@
             this.button7.ForeColor = System.Drawing.Color.Black;
             this.button7.Image = global::kxrealtime.Properties.Resources.course_qrcode1;
             this.button7.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button7.Location = new System.Drawing.Point(196, 127);
+            this.button7.Location = new System.Drawing.Point(106, 125);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 77);
             this.button7.TabIndex = 6;
@@ -206,7 +208,7 @@
             this.button6.ForeColor = System.Drawing.Color.Black;
             this.button6.Image = global::kxrealtime.Properties.Resources.contribute1;
             this.button6.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button6.Location = new System.Drawing.Point(106, 127);
+            this.button6.Location = new System.Drawing.Point(15, 127);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(67, 77);
             this.button6.TabIndex = 5;
@@ -222,7 +224,7 @@
             this.button5.ForeColor = System.Drawing.Color.Black;
             this.button5.Image = global::kxrealtime.Properties.Resources.unstandand1;
             this.button5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button5.Location = new System.Drawing.Point(15, 127);
+            this.button5.Location = new System.Drawing.Point(291, 41);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(67, 77);
             this.button5.TabIndex = 4;
@@ -304,6 +306,22 @@
             this.utilsBtn.UseVisualStyleBackColor = false;
             this.utilsBtn.Click += new System.EventHandler(this.utilsBtn_Click);
             // 
+            // button8
+            // 
+            this.button8.FlatAppearance.BorderSize = 0;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.ForeColor = System.Drawing.Color.Black;
+            this.button8.Image = global::kxrealtime.Properties.Resources.course_qrcode1;
+            this.button8.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button8.Location = new System.Drawing.Point(196, 125);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 77);
+            this.button8.TabIndex = 8;
+            this.button8.Text = "弹幕";
+            this.button8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // utilDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -352,5 +370,6 @@
         private System.Windows.Forms.Button utilsBtn;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button8;
     }
 }

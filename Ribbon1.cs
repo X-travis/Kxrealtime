@@ -360,7 +360,7 @@ namespace kxrealtime
             else if (isText)
             {
                 this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.textQuestion;
-                this.singleSelCtlInstance.initSubjectiveQ(score);
+                this.singleSelCtlInstance.initSubjectiveQ(score,true);
             }
         }
 
@@ -758,7 +758,9 @@ namespace kxrealtime
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
             var curIdx = Globals.ThisAddIn.CurSlideIdx;
-            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run().View.GotoSlide(curIdx);
+            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.RangeType = PpSlideShowRangeType.ppShowSlideRange;
+            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.StartingSlide = curIdx;
+            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
         }
     }
 }
