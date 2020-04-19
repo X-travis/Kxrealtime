@@ -29,6 +29,9 @@ namespace kxrealtime.utils
         public static Int64 KXCHOSECHAPTERID;
         public static string KXCHOSECOURSETITLE;
         public static string KXCHOSECLASSNAME;
+        public static string KXCHOSECHAPTERTITLE;
+
+        public static long srvTimeDif = 0;
 
 
         public static void initUsr(string dataInfo)
@@ -47,7 +50,12 @@ namespace kxrealtime.utils
             {
                 utils.Utils.LOG("parse kx_user_info.data.usr.atts.basic error" + e.Message);
             }
-
+            try
+            {
+                var srvTime = (long)data["server_time"];
+                srvTimeDif = srvTime - utils.Utils.getTimeStamp();
+            }
+            catch (Exception) { }
         }
 
         public static void clear()
@@ -59,10 +67,12 @@ namespace kxrealtime.utils
             KXUNAME = null;
             KXUAVATAR = null;
 
+            KXCHOSECHAPTERTITLE = null;
             KXTCHRECORDID = null;
             KXCHOSECLASSID = 0;
             KXCHOSECOURSEID = 0;
             KXCHOSECHAPTERID = 0;
+            srvTimeDif = 0;
         }
     }
 }

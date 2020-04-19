@@ -89,7 +89,6 @@ namespace kxrealtime
             this.Application.SlideShowOnPrevious += Application_SlideShowOnPrevious;
             this.Application.PresentationBeforeClose += Application_PresentationBeforeClose;
 
-
             this.curHttpReq = utils.request.GetClient();
         }
 
@@ -120,7 +119,7 @@ namespace kxrealtime
 
         private void Application_SlideShowNextSlide(PowerPoint.SlideShowWindow Wn)
         {
-            System.Diagnostics.Debug.WriteLine("this is new slide");
+            System.Diagnostics.Debug.WriteLine("this is new slide" + Wn.View.Slide.SlideIndex);
             if (utils.KXINFO.KXTCHRECORDID == null)
             {
                 return;
@@ -284,6 +283,14 @@ namespace kxrealtime
 
         private void selectionChange(PowerPoint.Selection Sel)
         {
+            if(!this.isKxPage && Sel.Type == PowerPoint.PpSelectionType.ppSelectionShapes)
+            {
+                var checkResult = checkIsKx();
+                if(checkResult)
+                {
+                    this.isKxPage = true;
+                }
+            }
             if (this.isKxPage)
             {
                 if (Sel.Type == PowerPoint.PpSelectionType.ppSelectionShapes)
@@ -302,6 +309,21 @@ namespace kxrealtime
                 this.lastType = Sel.Type;
             }
 
+        }
+
+        private bool checkIsKx()
+        {
+            var curSlide = Application.ActivePresentation.Slides[curSlideIdx];
+            var curShapes = curSlide.Shapes;
+            foreach (PowerPoint.Shape shapeTmp in curShapes)
+            {
+                if (shapeTmp.Name == "kx-setting")
+                {
+                    curSlide.Name = "kx-slide-" + curSlide.Name;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void SlideShowEnd(PowerPoint.Presentation Pres)

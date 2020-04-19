@@ -15,6 +15,7 @@ namespace kxrealtime
         private Int64 chapterID;
         private string className;
         private string courseName;
+        private string chapterName;
 
         public choseClass()
         {
@@ -68,6 +69,7 @@ namespace kxrealtime
                 return;
             }
             chapterID = courseItem.tid;
+            chapterName = courseItem.title;
         }
 
 
@@ -280,6 +282,7 @@ namespace kxrealtime
                     utils.KXINFO.KXCHOSECHAPTERID = chapterID;
                     utils.KXINFO.KXCHOSECOURSETITLE = courseName;
                     utils.KXINFO.KXCHOSECLASSNAME = className;
+                    utils.KXINFO.KXCHOSECHAPTERTITLE = chapterName;
                     try
                     {
                         utils.KXINFO.KXTCHRECORDID = (string)data["data"]["teach_record_list"][0]["tid"];

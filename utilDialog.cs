@@ -351,7 +351,7 @@ namespace kxrealtime
                 owner = "30",
                 multi = 100,
                 start_time = eInfo.startTimeStamp,
-                end_time = eInfo.startTimeStamp + eInfo.duringTime,
+                end_time = eInfo.startTimeStamp,
                 title = eInfo.paperTitle,
                 cost_time = eInfo.duringTime,
                 id = testId
@@ -459,13 +459,13 @@ namespace kxrealtime
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string divideGroup = $"{utils.KXINFO.KXADMINURL}/?timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/group?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
+            string divideGroup = $"{utils.KXINFO.KXADMINURL}/?timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/group?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&chapter_title={utils.KXINFO.KXCHOSECHAPTERTITLE}";
             createWebForm(divideGroup);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string checkStudent = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/rollcall?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}";
+            string checkStudent = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/rollcall?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&chapter_title={utils.KXINFO.KXCHOSECHAPTERTITLE}";
             createWebForm(checkStudent);
         }
 
@@ -506,6 +506,11 @@ namespace kxrealtime
             this.infoForm.Close();
             this.infoWebPage = null;
             this.infoForm = null;
+        }
+
+        public void sendWS(string args)
+        {
+            Globals.ThisAddIn.SendTchInfo(args);
         }
 
         private void button8_Click(object sender, EventArgs e)

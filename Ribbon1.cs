@@ -684,6 +684,9 @@ namespace kxrealtime
         // play slide
         private void button9_Click(object sender, RibbonControlEventArgs e)
         {
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.RangeType = PpSlideShowRangeType.ppShowAll;
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.StartingSlide = 1;
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoTrue;
             Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
         }
 
@@ -701,6 +704,7 @@ namespace kxrealtime
                 value = utils.KXINFO.KXCHOSECLASSID,
                 type = "COURSE_END",
                 data = new { },
+                teach_record_id = utils.KXINFO.KXTCHRECORDID,
                 timestamp = utils.Utils.getTimeStamp()
             });
             JObject o = JObject.FromObject(sendData);
@@ -758,9 +762,11 @@ namespace kxrealtime
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
             var curIdx = Globals.ThisAddIn.CurSlideIdx;
-            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.RangeType = PpSlideShowRangeType.ppShowSlideRange;
-            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.StartingSlide = curIdx;
-            Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.RangeType = PpSlideShowRangeType.ppShowSlideRange;
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.StartingSlide = curIdx;
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoFalse;
+            var showWin = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
+            showWin.View.GotoSlide(curIdx, Office.MsoTriState.msoFalse);
         }
     }
 }
