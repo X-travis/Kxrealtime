@@ -89,7 +89,8 @@ namespace kxrealtime.utils
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return null;
+                    //throw ex;
                 }
             });
             task.ContinueWith((Task<upsertTeachContent> result) =>
