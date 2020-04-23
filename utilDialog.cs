@@ -454,9 +454,9 @@ namespace kxrealtime
             infoForm.WindowState = FormWindowState.Maximized;
             infoForm.TopMost = true;
             infoForm.Opacity = 1;
-            infoForm.BackColor = System.Drawing.Color.Red;
+            infoForm.BackColor = System.Drawing.SystemColors.Control;
             infoForm.Owner = this;
-            infoForm.TransparencyKey = System.Drawing.Color.Red;
+            infoForm.TransparencyKey = System.Drawing.SystemColors.Control;
             infoForm.Location = utils.Utils.getScreenPosition();
             return infoForm;
         }
@@ -477,6 +477,7 @@ namespace kxrealtime
         private void InfoWebPage_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             this.infoWebPage.Document.Body.KeyPress += Body_KeyPress;
+            
         }
 
         private void Body_KeyPress(object sender, HtmlElementEventArgs e)
