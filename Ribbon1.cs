@@ -477,14 +477,17 @@ namespace kxrealtime
                 }
                 var classId = (string)tchInfo["class_id"];
                 var courseId = (string)tchInfo["course_id"];
+                var chapterId = (string)tchInfo["chapter_id"];
                 var className = (string)data["class_info"][classId]["name"];
                 var courseName = (string)data["course_info"][courseId]["title"];
+                var chapterName = (string)data["chapter_info"][chapterId]["title"];
                 utils.KXINFO.KXCHOSECLASSID = (Int64)tchInfo["class_id"];
                 utils.KXINFO.KXCHOSECOURSEID = (Int64)tchInfo["course_id"];
                 utils.KXINFO.KXCHOSECHAPTERID = (Int64)tchInfo["chapter_id"];
                 utils.KXINFO.KXCHOSECOURSETITLE = courseName;
                 utils.KXINFO.KXCHOSECLASSNAME = className;
                 utils.KXINFO.KXTCHRECORDID = (string)tchInfo["tid"];
+                utils.KXINFO.KXCHOSECHAPTERTITLE = chapterName;
                 return true;
             }catch(Exception)
             {
