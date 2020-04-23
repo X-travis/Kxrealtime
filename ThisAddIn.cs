@@ -251,7 +251,7 @@ namespace kxrealtime
             else
             {
                 utils.Utils.LOG("授课连接中...");
-                TchWebSocket.Reconnect();
+                InitTchSocket();
             }
         }
 
@@ -370,26 +370,28 @@ namespace kxrealtime
             }
             string url = $"{utils.KXINFO.KXSOCKETURL}/im?user_id={utils.KXINFO.KXOUTUID}";
             TchWebSocket = utils.webSocketClient.StartWebSocket(url);
-            TchWebSocket.MessageReceived.Subscribe(info =>
+            TchWebSocket.MessageReceived.Subscribe(tchSocketHandle);
+        }
+
+        private void tchSocketHandle(ResponseMessage info)
+        {
+            try
             {
-                try
+                if (info.Text == "HeartBeat")
                 {
-                    if(info.Text == "HeartBeat")
-                    {
-                        return;
-                    }
-                    JObject data = JObject.Parse(info.Text);
-                    string curType = (string)data["type"];
-                    if(curType == "barrage")
-                    {
-                        string contentStr = (data["data"]).ToString();
-                        this.WebSocketMsg(contentStr);
-                    }
+                    return;
                 }
-                catch(Exception e)
+                JObject data = JObject.Parse(info.Text);
+                string curType = (string)data["type"];
+                if (curType == "barrage")
                 {
-                }           
-            });
+                    string contentStr = (data["data"]).ToString();
+                    this.WebSocketMsg(contentStr);
+                }
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         public void SendTchInfo(string info)
