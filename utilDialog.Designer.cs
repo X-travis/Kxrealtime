@@ -36,6 +36,7 @@
             this.timeLeft = new System.Windows.Forms.Label();
             this.delayBtn = new System.Windows.Forms.Button();
             this.utilsPanel = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -45,7 +46,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.utilsBtn = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.examUtils.SuspendLayout();
             this.utilsPanel.SuspendLayout();
             this.SuspendLayout();
@@ -172,6 +172,22 @@
             this.utilsPanel.TabIndex = 5;
             this.utilsPanel.Visible = false;
             // 
+            // button8
+            // 
+            this.button8.FlatAppearance.BorderSize = 0;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.ForeColor = System.Drawing.Color.Black;
+            this.button8.Image = global::kxrealtime.Properties.Resources.course_qrcode1;
+            this.button8.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button8.Location = new System.Drawing.Point(106, 125);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 77);
+            this.button8.TabIndex = 8;
+            this.button8.Text = "弹幕";
+            this.button8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -192,13 +208,14 @@
             this.button7.ForeColor = System.Drawing.Color.Black;
             this.button7.Image = global::kxrealtime.Properties.Resources.course_qrcode1;
             this.button7.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button7.Location = new System.Drawing.Point(106, 125);
+            this.button7.Location = new System.Drawing.Point(290, 127);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 77);
             this.button7.TabIndex = 6;
             this.button7.Text = "课程二维码";
             this.button7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Visible = false;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
@@ -305,22 +322,6 @@
             this.utilsBtn.TabIndex = 6;
             this.utilsBtn.UseVisualStyleBackColor = false;
             this.utilsBtn.Click += new System.EventHandler(this.utilsBtn_Click);
-            // 
-            // button8
-            // 
-            this.button8.FlatAppearance.BorderSize = 0;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.ForeColor = System.Drawing.Color.Black;
-            this.button8.Image = global::kxrealtime.Properties.Resources.course_qrcode1;
-            this.button8.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button8.Location = new System.Drawing.Point(196, 125);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 77);
-            this.button8.TabIndex = 8;
-            this.button8.Text = "弹幕";
-            this.button8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // utilDialog
             // 
