@@ -82,8 +82,8 @@ namespace kxrealtime
 
         private void createSel()
         {
-            var txtArr = new string[] { "30秒", "1分钟", "2分钟", "3分钟", "4分钟", "5分钟" };
-            var valueArr = new string[] { "30", "60", "120", "180", "240", "300" };
+            var txtArr = new string[] {  "1分钟",  "3分钟",  "5分钟", "10分钟" };
+            var valueArr = new string[] {  "60", "180", "300", "600" };
             int hTmp = panel1.Height;
             int wTmp = panel1.Width;
             button2.Top = hTmp / 2 + panel1.Top;
