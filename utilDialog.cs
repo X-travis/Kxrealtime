@@ -21,6 +21,9 @@ namespace kxrealtime
         private WebBrowser infoWebPage;
         private Form infoForm;
 
+        private WebBrowser barragePage;
+        private Form barrageForm;
+
         public utilDialog()
         {
             InitializeComponent();
@@ -412,41 +415,69 @@ namespace kxrealtime
             {
                 this.infoForm.Dispose();
             }
-            this.infoForm = new Form();
-            this.infoForm.FormBorderStyle = FormBorderStyle.None;
-            this.infoForm.StartPosition = FormStartPosition.Manual;
-            this.infoForm.ShowIcon = false;
-            this.infoForm.ShowInTaskbar = false;
-            this.infoForm.WindowState = FormWindowState.Maximized;
-            this.infoForm.TopMost = true;
-            this.infoForm.Opacity = 1;
-            this.infoForm.BackColor = System.Drawing.Color.AliceBlue;
-            this.infoForm.Owner = this;
-            this.infoForm.TransparencyKey = System.Drawing.Color.AliceBlue;
-            this.infoForm.Location = utils.Utils.getScreenPosition();
+            this.infoForm = initWebForm();
 
             if (this.infoWebPage != null)
             {
                 this.infoWebPage.Dispose();
             }
-            this.infoWebPage = new WebBrowser();
-            this.infoWebPage.Url = new Uri(url);
-            this.infoWebPage.Navigate(new Uri(url));
-            this.infoWebPage.Visible = true;
-            this.infoWebPage.Dock = DockStyle.Fill;
-            this.infoWebPage.Refresh();
-            this.infoWebPage.ObjectForScripting = this;
+            this.infoWebPage = initWebPage(url);
             this.infoWebPage.DocumentCompleted += InfoWebPage_DocumentCompleted;
-
-
-
             this.infoForm.Controls.Add(this.infoWebPage);
             this.infoForm.Show();
         }
 
+        private void openBarrage(string url)
+        {
+            if (this.barrageForm != null)
+            {
+                this.barrageForm.Dispose();
+            }
+            this.barrageForm = initWebForm();
+
+            if (this.barragePage != null)
+            {
+                this.barragePage.Dispose();
+            }
+            this.barragePage = initWebPage(url);
+            this.barrageForm.Controls.Add(this.barragePage);
+            this.barrageForm.Show();
+        }
+
+        private Form initWebForm()
+        {
+            var infoForm = new Form();
+            infoForm.FormBorderStyle = FormBorderStyle.None;
+            infoForm.StartPosition = FormStartPosition.Manual;
+            infoForm.ShowIcon = false;
+            infoForm.ShowInTaskbar = false;
+            infoForm.WindowState = FormWindowState.Maximized;
+            infoForm.TopMost = true;
+            infoForm.Opacity = 1;
+            infoForm.BackColor = System.Drawing.SystemColors.Control;
+            infoForm.Owner = this;
+            infoForm.TransparencyKey = System.Drawing.SystemColors.Control;
+            infoForm.Location = utils.Utils.getScreenPosition();
+            return infoForm;
+        }
+
+        private WebBrowser initWebPage(string url)
+        {
+            var infoWebPage = new WebBrowser();
+            infoWebPage.Url = new Uri(url);
+            infoWebPage.Navigate(new Uri(url));
+            infoWebPage.Visible = true;
+            infoWebPage.Dock = DockStyle.Fill;
+            infoWebPage.Refresh();
+            infoWebPage.ObjectForScripting = this;
+            return infoWebPage;
+        }
+
+
         private void InfoWebPage_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             this.infoWebPage.Document.Body.KeyPress += Body_KeyPress;
+            
         }
 
         private void Body_KeyPress(object sender, HtmlElementEventArgs e)
@@ -508,6 +539,20 @@ namespace kxrealtime
             this.infoForm = null;
         }
 
+        public void CloseBarrage()
+        {
+            if(this.barragePage != null)
+            {
+                this.barragePage.Dispose();
+            }
+            if(this.barrageForm != null)
+            {
+                this.barrageForm.Close();
+            }
+            this.barrageForm = null;
+            this.barragePage = null;
+        }
+
         public void sendWS(string args)
         {
             Globals.ThisAddIn.SendTchInfo(args);
@@ -516,14 +561,18 @@ namespace kxrealtime
         private void button8_Click(object sender, EventArgs e)
         {
             string barragePage = $"{utils.KXINFO.KXADMINURL}/barrage/index.html?timestamp={utils.Utils.getTimeStamp()}";
-            createWebForm(barragePage);
+            openBarrage(barragePage);
         }
 
         private void ThisAddIn_WebSocketMsg(string msg)
         {
             Action<string> postAction = (string info) =>
             {
-                HtmlDocument curDoc = this.infoWebPage.Document;
+                if(this.barragePage == null)
+                {
+                    return;
+                }
+                HtmlDocument curDoc = this.barragePage.Document;
                 curDoc.InvokeScript("showData", new[]
                 {
                     info
