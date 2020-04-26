@@ -39,6 +39,7 @@
             this.group3 = this.Factory.CreateRibbonGroup();
             this.box1 = this.Factory.CreateRibbonBox();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.button5 = this.Factory.CreateRibbonButton();
             this.menu1 = this.Factory.CreateRibbonMenu();
             this.button7 = this.Factory.CreateRibbonButton();
@@ -52,11 +53,13 @@
             this.button3 = this.Factory.CreateRibbonButton();
             this.button11 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
+            this.resourceBtn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
             this.box1.SuspendLayout();
             this.group1.SuspendLayout();
+            this.group4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -64,6 +67,7 @@
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.group3);
             this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.group4);
             this.tab1.Label = "酷课堂";
             this.tab1.Name = "tab1";
             // 
@@ -98,6 +102,12 @@
             this.group1.Items.Add(this.button4);
             this.group1.Label = "插入题目";
             this.group1.Name = "group1";
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.resourceBtn);
+            this.group4.Label = "资源";
+            this.group4.Name = "group4";
             // 
             // button5
             // 
@@ -218,6 +228,15 @@
             this.button4.ShowImage = true;
             this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
+            // resourceBtn
+            // 
+            this.resourceBtn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.resourceBtn.Label = "               资源库";
+            this.resourceBtn.Name = "resourceBtn";
+            this.resourceBtn.ShowImage = true;
+            this.resourceBtn.Visible = false;
+            this.resourceBtn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.resourceBtn_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -234,6 +253,8 @@
             this.box1.PerformLayout();
             this.group1.ResumeLayout(false);
             this.group1.PerformLayout();
+            this.group4.ResumeLayout(false);
+            this.group4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -258,6 +279,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button10;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton resourceBtn;
     }
 
     partial class ThisRibbonCollection

@@ -242,7 +242,14 @@
     <Compile Include="choseTime.Designer.cs">
       <DependentUpon>choseTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="kxdata\paperInfo.cs" />
     <Compile Include="kxdata\upsertTeachContent.cs" />
+    <Compile Include="kxResource.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="kxResource.Designer.cs">
+      <DependentUpon>kxResource.cs</DependentUpon>
+    </Compile>
     <Compile Include="loginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +278,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="kxdata\slideExamInfo.cs" />
+    <Compile Include="utils\pptContent.cs" />
     <Compile Include="utils\request.cs" />
     <Compile Include="utils\KXINFO.cs" />
     <Compile Include="utils\Utils.cs" />
@@ -283,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="choseTime.resx">
       <DependentUpon>choseTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kxResource.resx">
+      <DependentUpon>kxResource.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="loginCtl.resx">
       <DependentUpon>loginCtl.cs</DependentUpon>

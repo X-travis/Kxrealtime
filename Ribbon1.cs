@@ -21,13 +21,15 @@ namespace kxrealtime
         PowerPoint.Application app;
         private singleSelCtl singleSelCtlInstance;
         public Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
-        public Microsoft.Office.Tools.CustomTaskPane loginPane;
+        public Microsoft.Office.Tools.CustomTaskPane kxResourceTaskPane;
         private IWebsocketClient loginWebSocket = null;
         private PictureBox loginPictureBox;
 
         private loginDialog curLoginDialog;
 
         private choseClass curChoseForm;
+
+        private kxResource ksResourceCtl;
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -455,6 +457,7 @@ namespace kxrealtime
                     this.button5.Visible = false;
                     this.menu1.Visible = true;
                     this.menu1.Label = utils.KXINFO.KXUNAME;
+                    this.resourceBtn.Visible = true;
                     this.closeLoginConnect();
                 }
                 catch (Exception e)
@@ -678,6 +681,7 @@ namespace kxrealtime
             this.button5.Visible = true;
             this.menu1.Visible = false;
             this.menu1.Label = "";
+            this.resourceBtn.Visible = false;
             ChangeTchBtn(false);
         }
 
@@ -767,6 +771,18 @@ namespace kxrealtime
             //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoFalse;
             var showWin = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
             showWin.View.GotoSlide(curIdx, Office.MsoTriState.msoFalse);
+        }
+
+        private void resourceBtn_Click(object sender, RibbonControlEventArgs e)
+        {
+            if(ksResourceCtl == null)
+            {
+                ksResourceCtl = new kxResource();
+                kxResourceTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(ksResourceCtl, "资源库");
+                kxResourceTaskPane.Visible = true;
+                kxResourceTaskPane.Width = 500;
+            }
+            kxResourceTaskPane.Visible = true;
         }
     }
 }

@@ -446,7 +446,7 @@ namespace kxrealtime
 
         private void InfoWebPage_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            this.infoWebPage.Document.Body.KeyPress += Body_KeyPress; ;
+            this.infoWebPage.Document.Body.KeyPress += Body_KeyPress;
         }
 
         private void Body_KeyPress(object sender, HtmlElementEventArgs e)

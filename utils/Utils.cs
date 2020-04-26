@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace kxrealtime.utils
@@ -66,6 +68,48 @@ namespace kxrealtime.utils
                 timeStamp += KXINFO.srvTimeDif;
             }
             return timeStamp;
+        }
+
+        public static void dlFile(string fileUrl, string savePath)
+        {
+            try
+            {
+                var writer = File.OpenWrite(savePath);
+                var client = new RestClient();
+                var request = new RestRequest(fileUrl);
+                request.ResponseWriter = responseStream =>
+                {
+                    using (responseStream)
+                    {
+                        responseStream.CopyTo(writer);
+                    }
+                };
+                client.DownloadData(request);
+                writer.Close();
+                writer.Dispose();
+            }catch(Exception e)
+            {
+                Utils.LOG(e.Message);
+            }
+        }
+
+        public static string getFilePath()
+        {
+            string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
+            var fileDict = curDir + @"\kxrealtime\files";
+            if (!Directory.Exists(fileDict))
+            {
+                try
+                {
+                    Directory.CreateDirectory(fileDict);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("创建文件失败" + e.Message);
+                }
+
+            }
+            return fileDict;
         }
     }
 }
