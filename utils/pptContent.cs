@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 using Office = Microsoft.Office.Core;
 using Newtonsoft.Json;
+using System.Windows.Forms;
+using System.IO;
 
 namespace kxrealtime.utils
 {
+    public delegate void SHOWPROGRESS(bool isShow);
+
     public static class pptContent
     {
         public static PowerPoint.Slide NewSlide()
@@ -32,22 +36,32 @@ namespace kxrealtime.utils
 
         public static void InsertImage(string picUrl)
         {
+            var app = Globals.ThisAddIn.Application;
+            Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
+            Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
             var slide = NewSlide();
-            var shapeTmp = slide.Shapes.AddPicture(picUrl, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue, 0, 0);
-            shapeTmp.Left = 100;
-            shapeTmp.Top = 100;
+            var shapeTmp = slide.Shapes.AddPicture(picUrl, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue, 0, 0, curW, curH);
+            shapeTmp.Left = 0;
+            shapeTmp.Top = 0;
         }
 
         public static void InserVideo(string videlUrl)
         {
+            var app = Globals.ThisAddIn.Application;
+            Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
+            Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
             var slide = NewSlide();
-            slide.Shapes.AddMediaObject2(videlUrl, Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoTrue);
+            slide.Shapes.AddMediaObject2(videlUrl, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue,0,0, curW,curH);
         }
 
         public static void InserLink(string linkUrl)
         {
             var slide = NewSlide();
-            var shapeTmp = slide.Shapes.AddTitle();
+            //var shapeTmp = slide.Shapes.AddTitle();
+            var shapeTmp = slide.Shapes.AddTextbox(Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 100, 300, 100);
+            shapeTmp.Visible = Office.MsoTriState.msoTrue;
+            shapeTmp.Height = 50;
+            shapeTmp.Width = 200;
             var objText = shapeTmp.TextFrame.TextRange;
             objText.Text = linkUrl;
             objText.ActionSettings[Microsoft.Office.Interop.PowerPoint.PpMouseActivation.ppMouseClick].Hyperlink.Address = linkUrl;
@@ -57,37 +71,50 @@ namespace kxrealtime.utils
         {
             //Utils.dlFile(filePath);
             //var objApp = new PowerPoint.Application();
-            //Globals.ThisAddIn.Application.Presentations.Open(filePath);
+            Globals.ThisAddIn.Application.Presentations.Open(filePath);
             //new PowerPoint.Application().Presentations.Open(filePath);
         }
 
-        public static void openWrold()
+        public static void openFile(string pathTmp, string fileName, string type, SHOWPROGRESS cb, ProgressTip pgCb)
         {
-            
-        }
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择需要保存到文件路径";
 
-        public static void openExcel()
-        {
-
-        }
-
-        public static void openFile(string pathTmp, string fileName)
-        {
-            var savePath = Utils.getFilePath();
-            var filePath = savePath + @"\" + fileName;
-            var task = Task.Run(() =>
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Utils.dlFile(pathTmp, filePath);
-                try
+                cb(true);
+                string savePath = dialog.SelectedPath;
+                //var savePath = Utils.getFilePath();
+                var filePath = savePath + @"\" + fileName;
+                var task = Task.Run(() =>
                 {
-                    System.Diagnostics.Process.Start(filePath);
-                }
-                catch (Exception e)
-                {
+                    //Utils.dlFile(pathTmp, filePath);
+                    Utils.dlFileOrigin(pathTmp, filePath, "", pgCb);
+                    try
+                    {
+                        switch(type)
+                        {
+                            case "image":
+                                InsertImage(filePath);
+                                break;
+                            case "video":
+                                InserVideo(filePath);
+                                break;
+                            case "ppt":
+                                openPPT(filePath);
+                                break;
+                            default:
+                                System.Diagnostics.Process.Start(filePath);
+                                break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
 
-                }
-            });
-            
+                    }
+                    cb(false);
+                });
+            }
         }
 
         public static void createPaperItem(string titleName, singleSelCtl.TypeSelEnum questionType, string stem = "此处插入描述", float score = 10, List<kxdata.simpleAnswerItem> answers =null, List<string> options = null)
@@ -144,11 +171,20 @@ namespace kxrealtime.utils
             if (questionType == singleSelCtl.TypeSelEnum.singleSel || questionType == singleSelCtl.TypeSelEnum.multiSel || questionType == singleSelCtl.TypeSelEnum.voteSingleSel || questionType == singleSelCtl.TypeSelEnum.voteMultiSel)
             {
                 var ans = new List<string>();
-                foreach (var item in answers)
+                if(answers != null)
                 {
-                    ans.Add(item.text);
+                    foreach (var item in answers)
+                    {
+                        ans.Add(item.text);
+                    }
                 }
-                initOption(slide, options, questionType == singleSelCtl.TypeSelEnum.multiSel, ans);
+                List<string> curOption;
+                curOption = options;
+                if (curOption == null)
+                {
+                    curOption = new List<string> { "此处插入描述", "此处插入描述", "此处插入描述", "此处插入描述" };
+                }
+                initOption(slide, curOption, questionType == singleSelCtl.TypeSelEnum.multiSel, ans);
             }
             else if (questionType == singleSelCtl.TypeSelEnum.textQuestion)
             {
@@ -158,15 +194,18 @@ namespace kxrealtime.utils
             {
                 scoreCom.TextFrame.TextRange.Text = score.ToString() + "分";
                 var fillAns = new List<kxdata.simpleFillAnswer>();
-                foreach (var item in answers)
+                if(answers != null)
                 {
-                    var fans = new kxdata.simpleFillAnswer
+                    foreach (var item in answers)
                     {
-                        score = item.score,
-                        answer = item.text
-                    };
-                    fillAns.Add(fans);
-                }
+                        var fans = new kxdata.simpleFillAnswer
+                        {
+                            score = item.score,
+                            answer = item.text
+                        };
+                        fillAns.Add(fans);
+                    }
+                } 
                 string output = JsonConvert.SerializeObject(fillAns);
                 qInfo.TextFrame.TextRange.Text = output;
             }
@@ -176,10 +215,12 @@ namespace kxrealtime.utils
 
         public static void initOption(PowerPoint.Slide slide,List<string> options, bool isMul, List<string> ans)
         {
+            var app = Globals.ThisAddIn.Application;
+            Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
             char sChar = 'A';
             int posY = 200;
             int n = options.Count;
-            float difY = (250 - n * 50) / (n - 1);
+            float difY = (curH - 300 - n * 50) / (n - 1);
             Office.MsoAutoShapeType curShapeType = !isMul ? Office.MsoAutoShapeType.msoShapeOval : Office.MsoAutoShapeType.msoShapeRectangle;
             for (int i = 0; i < n; i++)
             {
@@ -188,12 +229,12 @@ namespace kxrealtime.utils
                 circleTmp.TextFrame.TextRange.InsertAfter(curChar.ToString());
                 circleTmp.Name = "kx-choice-" + curChar.ToString();
                 var colorTmp = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
+                circleTmp.Line.ForeColor.RGB = colorTmp;
                 if (ans.Contains(curChar.ToString()))
                 {
-                    colorTmp = KXINFO.ChoseColor;
+                    colorTmp = System.Drawing.Color.FromArgb(1, 0, 255, 0).ToArgb();
                 }
                 circleTmp.Fill.ForeColor.RGB = colorTmp;
-                circleTmp.Line.ForeColor.RGB = colorTmp;
                 PowerPoint.Shape textBox = slide.Shapes.AddTextbox(
                 Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY + difY * i, 500, 50);
                 var optionText = options[i];

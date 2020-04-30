@@ -74,5 +74,14 @@ namespace kxrealtime.utils
             KXCHOSECHAPTERID = 0;
             srvTimeDif = 0;
         }
+
+        public static void tchClear()
+        {
+            KXCHOSECHAPTERTITLE = null;
+            KXTCHRECORDID = null;
+            KXCHOSECLASSID = 0;
+            KXCHOSECOURSEID = 0;
+            KXCHOSECHAPTERID = 0;
+        }
     }
 }

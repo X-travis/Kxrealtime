@@ -354,8 +354,10 @@ namespace kxrealtime
                     posIdx += 1;
                 }
             }
+            var app = Globals.ThisAddIn.Application;
+            Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
             float posY = 200;
-            int selectCtxHeight = 250;
+            int selectCtxHeight = curH - 300;
             char curChar = (char)(startChar);
             float difY = (selectCtxHeight - (i) * 50) / (i - 1);
             int difNum = 0;
@@ -446,14 +448,22 @@ namespace kxrealtime
 
         private void voteSBtn_CheckedChanged(object sender, EventArgs e)
         {
-            this.curType = TypeSelEnum.voteSingleSel;
-            changeVoteType();
+            var curObj = sender as RadioButton;
+            if (curObj.Checked && this.curType != TypeSelEnum.voteSingleSel)
+            {
+                this.curType = TypeSelEnum.voteSingleSel;
+                changeVoteType();
+            }
         }
 
         private void voteMBtn_CheckedChanged(object sender, EventArgs e)
         {
-            this.curType = TypeSelEnum.voteMultiSel;
-            changeVoteType();
+            var curObj = sender as RadioButton;
+            if(curObj.Checked && this.curType != TypeSelEnum.voteMultiSel)
+            {
+                this.curType = TypeSelEnum.voteMultiSel;
+                changeVoteType();
+            }
         }
 
         private void changeVoteType()

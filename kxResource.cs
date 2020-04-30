@@ -24,10 +24,11 @@ namespace kxrealtime
 
         private void initWeb()
         {
-            //string urlTmp = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/resourceLibrary?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
+            //string urlTmp = "http://192.168.19.168:8080" + $"/?token=BBE356F4817DE17FCAB90A1CC45CE960&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/resourceLibrary?session_id=5ea0fbe157c9f5119e00002d&token=BBE356F4817DE17FCAB90A1CC45CE960";
             string urlTmp = $"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/resourceLibrary?token={utils.KXINFO.KXTOKEN}&session_id={utils.KXINFO.KXSID}";
             resourceWebBrowser.Navigate(urlTmp);
             resourceWebBrowser.ObjectForScripting = this;
+            resourceWebBrowser.Visible = true;
         }
 
         public void showPaper(string data)
@@ -68,19 +69,45 @@ namespace kxrealtime
         }
 
 
-        public void showFile(string fileLink, string fileName)
+        public void showFile(string fileLink, string fileName, string type)
         {
-            utils.pptContent.openFile(fileLink, fileName);
+            utils.pptContent.openFile(fileLink, fileName, type, isShowProgress, changeProgress);
+        }
+
+        public void isShowProgress(bool flag)
+        {
+            Action<bool> action = (bool isShow) =>
+            {
+                this.fileLoading.Visible = isShow;
+            };
+            this.Invoke(action, flag);
+            
+        }
+
+        public void changeProgress(double value)
+        {
+            Action<double> action = (double curPer) =>
+            {
+                this.progresslabel.Text = "下载进度：" + ((int)(100 * curPer)).ToString() + "%";
+                System.Windows.Forms.Application.DoEvents();
+            };
+            this.Invoke(action, value);
         }
 
         public void showImage(string imgLink)
         {
-            utils.pptContent.InsertImage(imgLink);
+            //utils.pptContent.InsertImage(imgLink);
+            var nameArr = imgLink.Split('/');
+            var curName = nameArr[nameArr.Length - 1];
+            utils.pptContent.openFile(imgLink, curName, "image", isShowProgress, changeProgress);
         }
 
         public void showVideo(string videoLink)
         {
-            utils.pptContent.InserVideo(videoLink);
+            //utils.pptContent.InserVideo(videoLink);
+            var nameArr = videoLink.Split('/');
+            var curName = nameArr[nameArr.Length - 1];
+            utils.pptContent.openFile(videoLink, curName, "video", isShowProgress, changeProgress);
         }
 
         public void showLink(string link, string name)

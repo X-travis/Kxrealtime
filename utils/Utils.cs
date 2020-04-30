@@ -2,12 +2,16 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 
 namespace kxrealtime.utils
 {
+    public delegate void ProgressTip(double value);
     public static class Utils
     {
+        public static Form downloadForm;
+
         public static string createGUID()
         {
             Random R = new Random();
@@ -110,6 +114,44 @@ namespace kxrealtime.utils
 
             }
             return fileDict;
+        }
+
+        public static bool dlFileOrigin(string url, string path, string contentType, ProgressTip cb)
+        {
+            try
+            {
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                req.ServicePoint.Expect100Continue = false;
+                req.Method = "GET";
+                req.KeepAlive = true;
+                //req.ContentType = contentType;// "image/png";
+                using (HttpWebResponse rsp = (HttpWebResponse)req.GetResponse())
+                {
+                    long totalBytes = rsp.ContentLength;
+                    using (Stream reader = rsp.GetResponseStream())
+                    {
+                        using (FileStream writer = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                        {
+                            cb(0);
+                            byte[] buff = new byte[512];
+                            int c = 0; //实际读取的字节数
+                            double readBuff = 0;
+                            while ((c = reader.Read(buff, 0, buff.Length)) > 0)
+                            {
+                                readBuff += buff.Length;
+                                double curPG = (double)readBuff / (double)totalBytes;
+                                cb(curPG);
+                                writer.Write(buff, 0, c);
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

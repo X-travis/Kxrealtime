@@ -24,6 +24,8 @@ namespace kxrealtime
         private WebBrowser barragePage;
         private Form barrageForm;
 
+        private Form answerResultForm;
+
         public utilDialog()
         {
             InitializeComponent();
@@ -272,6 +274,12 @@ namespace kxrealtime
 
         private void checkAns_Click(object sender, EventArgs e)
         {
+            if(this.answerResultForm != null && !this.answerResultForm.IsDisposed)
+            {
+                this.answerResultForm.WindowState = FormWindowState.Normal;
+                this.answerResultForm.Focus();
+                return;
+            }
             var webBrowser1 = new WebBrowser();
             //webBrowser1.Width = 800;
             //webBrowser1.Height = 500;
@@ -303,6 +311,7 @@ namespace kxrealtime
             formTmp.Top += checkAns.Top - 500;
             formTmp.TopMost = true;
             formTmp.Visible = true;
+            this.answerResultForm = formTmp;
             //this.Controls.Add(webBrowser1);
         }
 

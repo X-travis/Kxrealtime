@@ -140,7 +140,8 @@ namespace kxrealtime
             {
                 this.myCustomTaskPane.Visible = true;
             }
-            this.createSingleCtx("单选题", singleSelCtl.TypeSelEnum.singleSel);
+            //this.createSingleCtx("单选题", singleSelCtl.TypeSelEnum.singleSel);
+            utils.pptContent.createPaperItem("单选题", singleSelCtl.TypeSelEnum.singleSel);
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.singleSel;
             //char[] ans = new char[] { };
             //this.singleSelCtlInstance.resetData(0,ans,4);
@@ -301,7 +302,7 @@ namespace kxrealtime
             {
                 this.myCustomTaskPane.Visible = true;
             }
-            this.createSingleCtx("多选题", singleSelCtl.TypeSelEnum.multiSel);
+            utils.pptContent.createPaperItem("多选题", singleSelCtl.TypeSelEnum.multiSel);
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.multiSel;
         }
 
@@ -315,7 +316,7 @@ namespace kxrealtime
             {
                 this.myCustomTaskPane.Visible = true;
             }
-            this.createSingleCtx("主观题", singleSelCtl.TypeSelEnum.textQuestion);
+            utils.pptContent.createPaperItem("主观题", singleSelCtl.TypeSelEnum.textQuestion);
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.textQuestion;
             this.singleSelCtlInstance.initSubjectiveQ(0);
         }
@@ -457,8 +458,14 @@ namespace kxrealtime
                     this.button5.Visible = false;
                     this.menu1.Visible = true;
                     this.menu1.Label = utils.KXINFO.KXUNAME;
-                    this.resourceBtn.Visible = true;
+                    this.resourceGroup.Visible = true;
                     this.closeLoginConnect();
+                    if(ksResourceCtl != null && !ksResourceCtl.IsDisposed)
+                    {
+                        ksResourceCtl.Dispose();
+                        ksResourceCtl = null;
+                        kxResourceTaskPane.Visible = false;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -601,15 +608,19 @@ namespace kxrealtime
             for (int i = 1; i <= app.ActivePresentation.Slides.Count; i++)
             {
                 PowerPoint.Slide curSld = app.ActivePresentation.Slides[i];
-                bool isKxItem = curSld.Name.Contains("kx-slide");
-                if (!isKxItem)
-                {
-                    continue;
-                }
+                //bool isKxItem = curSld.Name.Contains("kx-slide");
+                //if (!isKxItem)
+                //{
+                //    continue;
+                //}
                 ArrayList curAnswerArr = (ArrayList)AnswerStore.getAnswer(curSld.Name);
                 if (curAnswerArr == null)
                 {
                     curAnswerArr = new ArrayList();
+                }
+                if(!isSetting)
+                {
+                    curAnswerArr.Clear();
                 }
                 PowerPoint.Shapes curShapes = curSld.Shapes;
                 foreach (PowerPoint.Shape shapeTmp in curShapes)
@@ -617,6 +628,11 @@ namespace kxrealtime
                     string targetName = "kx-setting";
                     if (shapeTmp.Name == targetName)
                     {
+                        bool isKxItem = curSld.Name.Contains("kx-slide");
+                        if(!isKxItem)
+                        {
+                            curSld.Name = "kx-slide-" + curSld.Name;
+                        }
                         shapeTmp.Visible = isSetting ? Office.MsoTriState.msoCTrue : Office.MsoTriState.msoFalse;
                     }
                     targetName = "kx-sending";
@@ -684,8 +700,8 @@ namespace kxrealtime
             this.button5.Visible = true;
             this.menu1.Visible = false;
             this.menu1.Label = "";
-            this.resourceBtn.Visible = false;
             ChangeTchBtn(false);
+            kxResourceTaskPane.Visible = false;
         }
 
         // play slide
@@ -724,6 +740,7 @@ namespace kxrealtime
                 Globals.ThisAddIn.kxSlideExam.Clear();
                 ChangeTchBtn(false);
                 curChoseForm.Close();
+                utils.KXINFO.tchClear();
             }
             catch (Exception e) {
                 MessageBox.Show("结束授课失败");
@@ -746,7 +763,7 @@ namespace kxrealtime
             {
                 this.myCustomTaskPane.Visible = true;
             }
-            this.createSingleCtx("投票", singleSelCtl.TypeSelEnum.voteSingleSel);
+            utils.pptContent.createPaperItem("投票", singleSelCtl.TypeSelEnum.voteSingleSel);
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.voteSingleSel;
             //this.singleSelCtlInstance.initVoteQ(singleSelCtl.TypeSelEnum.voteSingleSel);
         }
@@ -761,7 +778,7 @@ namespace kxrealtime
             {
                 this.myCustomTaskPane.Visible = true;
             }
-            this.createSingleCtx("填空题", singleSelCtl.TypeSelEnum.fillQuestion);
+            utils.pptContent.createPaperItem("填空题", singleSelCtl.TypeSelEnum.fillQuestion,"此处插入描述", 0);
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.fillQuestion;
             this.singleSelCtlInstance.initFillQ(0);
         }
@@ -773,12 +790,17 @@ namespace kxrealtime
             //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.StartingSlide = curIdx;
             //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoFalse;
             var showWin = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
-            showWin.View.GotoSlide(curIdx, Office.MsoTriState.msoFalse);
+            showWin.View.GotoSlide(curIdx);
         }
 
         private void resourceBtn_Click(object sender, RibbonControlEventArgs e)
         {
-            if(ksResourceCtl == null)
+            if (utils.KXINFO.KXUID == null)
+            {
+                MessageBox.Show("请先登录");
+                return;
+            }
+            if (ksResourceCtl == null)
             {
                 ksResourceCtl = new kxResource();
                 kxResourceTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(ksResourceCtl, "资源库");

@@ -424,6 +424,7 @@
     <None Include="Resources\fill-new1.png" />
     <None Include="Resources\close-btn.png" />
     <None Include="Resources\page-loading.gif" />
+    <None Include="Resources\resource.png" />
     <Content Include="Resources\single-new.png" />
   </ItemGroup>
   <ItemGroup>

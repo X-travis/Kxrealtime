@@ -385,6 +385,11 @@ namespace kxrealtime
                 string curType = (string)data["type"];
                 if (curType == "barrage")
                 {
+                    string tchId = (string)data["teach_record_id"];
+                    if (tchId != utils.KXINFO.KXTCHRECORDID)
+                    {
+                        return;
+                    }
                     string contentStr = (data["data"]).ToString();
                     this.WebSocketMsg(contentStr);
                 }

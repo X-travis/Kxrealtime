@@ -36,30 +36,29 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.box1 = this.Factory.CreateRibbonBox();
-            this.group1 = this.Factory.CreateRibbonGroup();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.button5 = this.Factory.CreateRibbonButton();
             this.menu1 = this.Factory.CreateRibbonMenu();
             this.button7 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
+            this.box1 = this.Factory.CreateRibbonBox();
             this.button12 = this.Factory.CreateRibbonButton();
-            this.button9 = this.Factory.CreateRibbonButton();
             this.button10 = this.Factory.CreateRibbonButton();
+            this.group1 = this.Factory.CreateRibbonGroup();
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button11 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
+            this.resourceGroup = this.Factory.CreateRibbonGroup();
             this.resourceBtn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
             this.box1.SuspendLayout();
             this.group1.SuspendLayout();
-            this.group4.SuspendLayout();
+            this.resourceGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -67,7 +66,7 @@
             this.tab1.Groups.Add(this.group2);
             this.tab1.Groups.Add(this.group3);
             this.tab1.Groups.Add(this.group1);
-            this.tab1.Groups.Add(this.group4);
+            this.tab1.Groups.Add(this.resourceGroup);
             this.tab1.Label = "酷课堂";
             this.tab1.Name = "tab1";
             // 
@@ -77,37 +76,6 @@
             this.group2.Items.Add(this.menu1);
             this.group2.Label = "教师登录";
             this.group2.Name = "group2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button6);
-            this.group3.Items.Add(this.box1);
-            this.group3.Label = "课堂教学";
-            this.group3.Name = "group3";
-            // 
-            // box1
-            // 
-            this.box1.Items.Add(this.button12);
-            this.box1.Items.Add(this.button9);
-            this.box1.Items.Add(this.button10);
-            this.box1.Name = "box1";
-            this.box1.Visible = false;
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.button1);
-            this.group1.Items.Add(this.button2);
-            this.group1.Items.Add(this.button3);
-            this.group1.Items.Add(this.button11);
-            this.group1.Items.Add(this.button4);
-            this.group1.Label = "插入题目";
-            this.group1.Name = "group1";
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.resourceBtn);
-            this.group4.Label = "资源";
-            this.group4.Name = "group4";
             // 
             // button5
             // 
@@ -142,6 +110,13 @@
             this.button8.ShowImage = true;
             this.button8.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button8_Click);
             // 
+            // group3
+            // 
+            this.group3.Items.Add(this.button6);
+            this.group3.Items.Add(this.box1);
+            this.group3.Label = "课堂教学";
+            this.group3.Name = "group3";
+            // 
             // button6
             // 
             this.button6.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -150,6 +125,13 @@
             this.button6.Name = "button6";
             this.button6.ShowImage = true;
             this.button6.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button6_Click);
+            // 
+            // box1
+            // 
+            this.box1.Items.Add(this.button12);
+            this.box1.Items.Add(this.button10);
+            this.box1.Name = "box1";
+            this.box1.Visible = false;
             // 
             // button12
             // 
@@ -160,15 +142,6 @@
             this.button12.ShowImage = true;
             this.button12.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button12_Click);
             // 
-            // button9
-            // 
-            this.button9.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button9.Image = global::kxrealtime.Properties.Resources.start_new;
-            this.button9.Label = "放映幻灯片";
-            this.button9.Name = "button9";
-            this.button9.ShowImage = true;
-            this.button9.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button9_Click);
-            // 
             // button10
             // 
             this.button10.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -177,6 +150,16 @@
             this.button10.Name = "button10";
             this.button10.ShowImage = true;
             this.button10.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button10_Click);
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.button1);
+            this.group1.Items.Add(this.button2);
+            this.group1.Items.Add(this.button3);
+            this.group1.Items.Add(this.button11);
+            this.group1.Items.Add(this.button4);
+            this.group1.Label = "插入题目";
+            this.group1.Name = "group1";
             // 
             // button1
             // 
@@ -228,13 +211,19 @@
             this.button4.ShowImage = true;
             this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
+            // resourceGroup
+            // 
+            this.resourceGroup.Items.Add(this.resourceBtn);
+            this.resourceGroup.Label = "资源库";
+            this.resourceGroup.Name = "resourceGroup";
+            // 
             // resourceBtn
             // 
             this.resourceBtn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.resourceBtn.Label = "               资源库";
+            this.resourceBtn.Image = global::kxrealtime.Properties.Resources.resource;
+            this.resourceBtn.Label = "               酷课堂";
             this.resourceBtn.Name = "resourceBtn";
             this.resourceBtn.ShowImage = true;
-            this.resourceBtn.Visible = false;
             this.resourceBtn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.resourceBtn_Click);
             // 
             // Ribbon1
@@ -253,8 +242,8 @@
             this.box1.PerformLayout();
             this.group1.ResumeLayout(false);
             this.group1.PerformLayout();
-            this.group4.ResumeLayout(false);
-            this.group4.PerformLayout();
+            this.resourceGroup.ResumeLayout(false);
+            this.resourceGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -275,11 +264,10 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button7;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
         internal Microsoft.Office.Tools.Ribbon.RibbonBox box1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button9;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button10;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup resourceGroup;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton resourceBtn;
     }
 
