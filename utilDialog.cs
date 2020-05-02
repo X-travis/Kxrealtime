@@ -482,11 +482,16 @@ namespace kxrealtime
             return infoWebPage;
         }
 
+        private void Document_MouseMove(object sender, HtmlElementEventArgs e)
+        {
+            Cursor.Show();
+        }
 
         private void InfoWebPage_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             this.infoWebPage.Document.Body.KeyPress += Body_KeyPress;
-            
+            this.infoWebPage.Document.MouseMove += Document_MouseMove;
+
         }
 
         private void Body_KeyPress(object sender, HtmlElementEventArgs e)
