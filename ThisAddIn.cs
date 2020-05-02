@@ -23,6 +23,7 @@ namespace kxrealtime
         private bool canShowAddClassFlag = false;
         private IWebsocketClient TchWebSocket;
         private utilDialog utilDialogInstance;
+        private int curActiveWn;
 
         public event WebSocketMsgHandle WebSocketMsg;
 
@@ -78,6 +79,14 @@ namespace kxrealtime
             }
         }
 
+        public int getCurActiveWn
+        {
+            get
+            {
+                return this.curActiveWn;
+            }
+        }
+
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             this.Application.SlideSelectionChanged += Application_SlideSelectionChanged;
@@ -88,8 +97,14 @@ namespace kxrealtime
             this.Application.SlideShowOnNext += Application_SlideShowOnNext;
             this.Application.SlideShowOnPrevious += Application_SlideShowOnPrevious;
             this.Application.PresentationBeforeClose += Application_PresentationBeforeClose;
+            this.Application.WindowActivate += Application_WindowActivate;
 
             this.curHttpReq = utils.request.GetClient();
+        }
+
+        private void Application_WindowActivate(PowerPoint.Presentation Pres, PowerPoint.DocumentWindow Wn)
+        {
+            this.curActiveWn = Wn.HWND;
         }
 
         private void Application_PresentationBeforeClose(PowerPoint.Presentation Pres, ref bool Cancel)
@@ -273,7 +288,7 @@ namespace kxrealtime
             }
             else
             {
-                if (Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null && Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible)
+                if (Globals.Ribbons.Ribbon1 != null && Globals.Ribbons.Ribbon1.myCustomTaskPane != null  && Globals.Ribbons.Ribbon1.myCustomTaskPane.Visible)
                 {
                     Globals.Ribbons.Ribbon1.resestContent(SldRange);
                 }

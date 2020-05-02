@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Websocket.Client;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
+using CustomTaskPane =  Microsoft.Office.Tools.CustomTaskPane;
 
 namespace kxrealtime
 {
@@ -19,17 +20,117 @@ namespace kxrealtime
     {
 
         PowerPoint.Application app;
-        private singleSelCtl singleSelCtlInstance;
-        public Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
-        public Microsoft.Office.Tools.CustomTaskPane kxResourceTaskPane;
+
         private IWebsocketClient loginWebSocket = null;
         private PictureBox loginPictureBox;
-
         private loginDialog curLoginDialog;
 
         private choseClass curChoseForm;
 
-        private kxResource ksResourceCtl;
+        private Hashtable customTaskHash = new Hashtable();
+
+        private singleSelCtl singleSelCtlInstance
+        {
+            get
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-singleSelCtl";
+                if (customTaskHash.ContainsKey(curKey))
+                {
+                    return customTaskHash[curKey] as singleSelCtl;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-singleSelCtl";
+                if (!customTaskHash.ContainsKey(curKey))
+                {
+                    customTaskHash.Add(curKey, value);
+                }
+            }
+        }
+
+        private kxResource ksResourceCtl
+        {
+            get
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-resourceCtl";
+                if (customTaskHash.ContainsKey(curKey))
+                {
+                    return customTaskHash[curKey] as kxResource;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-resourceCtl";
+                if (!customTaskHash.ContainsKey(curKey))
+                {
+                    customTaskHash.Add(curKey, value);
+                }
+            }
+        }
+
+        public CustomTaskPane myCustomTaskPane
+        {
+            get
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-question";
+                if(customTaskHash.ContainsKey(curKey))
+                {
+                    return customTaskHash[curKey] as CustomTaskPane;
+                } else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-question";
+                if (!customTaskHash.ContainsKey(curKey))
+                {
+                    customTaskHash.Add(curKey, value);
+                }
+            }
+        }
+
+        public CustomTaskPane kxResourceTaskPane
+        {
+            get
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-resource";
+                if (customTaskHash.ContainsKey(curKey))
+                {
+                    return customTaskHash[curKey] as CustomTaskPane;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                var curWn = Globals.ThisAddIn.getCurActiveWn;
+                var curKey = curWn + "-resource";
+                if (!customTaskHash.ContainsKey(curKey))
+                {
+                    customTaskHash.Add(curKey, value);
+                }
+            }
+        }
 
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
@@ -39,95 +140,9 @@ namespace kxrealtime
         private void initPanes(string title)
         {
             singleSelCtlInstance = new singleSelCtl();
-            myCustomTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(singleSelCtlInstance, "编辑习题");
+            myCustomTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(singleSelCtlInstance, "编辑习题", app.ActiveWindow);
             myCustomTaskPane.Visible = true;
             myCustomTaskPane.Width = 380;
-        }
-
-        private void createSingleCtx(string titleName, singleSelCtl.TypeSelEnum questionType)
-        {
-            PowerPoint.CustomLayout ppt_layout = app.ActivePresentation.SlideMaster.CustomLayouts[PowerPoint.PpSlideLayout.ppLayoutText];
-            PowerPoint.Slide slide;
-            int curSld = Globals.ThisAddIn.CurSlideIdx;// app.ActivePresentation.Slides.Count;
-            slide = app.ActivePresentation.Slides.AddSlide(curSld + 1, ppt_layout);
-            slide.Select();
-            if (slide.Shapes.Count > 0)
-            {
-                slide.Shapes[1].Delete();
-                slide.Shapes.Placeholders[1].Delete();
-            }
-
-            slide.Name = "kx-slide-" + slide.Name;
-
-            Int32 curW = (Int32)app.ActivePresentation.SlideMaster.Width;
-            Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
-
-            PowerPoint.Shape sendBtn = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeActionButtonCustom, curW - 150, curH - 60, 100, 40);
-            sendBtn.TextFrame.TextRange.InsertAfter("发送题目");
-            sendBtn.Name = "kx-sending";
-            sendBtn.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 170, 170, 170).ToArgb();
-            sendBtn.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 170, 170, 170).ToArgb();
-
-            //sendBtn.TextFrame.TextRange.ActionSettings[PowerPoint.PpMouseActivation.ppMouseClick].Action = PowerPoint.PpActionType.ppActionRunMacro;
-            //sendBtn.TextFrame.TextRange.ActionSettings[PowerPoint.PpMouseActivation.ppMouseClick].Run = "createText";
-
-
-            // 题干
-            PowerPoint.Shape textBoxTitle = slide.Shapes.AddTextbox(
-                Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 100, curW - 120, 100);
-            textBoxTitle.TextFrame.TextRange.InsertAfter("此处插入描述");
-            textBoxTitle.Name = "kx-question";
-            textBoxTitle.Height = 80;
-
-
-            // 题干额外信息
-            PowerPoint.Shape qInfo = slide.Shapes.AddTextbox(
-                Office.MsoTextOrientation.msoTextOrientationHorizontal, -100, -100, curW - 120, 400);
-            qInfo.Name = "kx-qInfo";
-            qInfo.Visible = Office.MsoTriState.msoFalse;
-
-            // 题目类型
-            PowerPoint.Shape titleCom = slide.Shapes.AddTextbox(
-                Office.MsoTextOrientation.msoTextOrientationHorizontal, 0, 0, curW, 30);
-            titleCom.TextFrame.TextRange.InsertAfter(titleName);
-            titleCom.Name = "kx-title-" + questionType;
-
-            // 不是投票
-            PowerPoint.Shape scoreCom = null;
-            if (questionType != singleSelCtl.TypeSelEnum.voteSingleSel && questionType != singleSelCtl.TypeSelEnum.voteMultiSel)
-            {
-                // 分数
-                scoreCom = slide.Shapes.AddTextbox(
-                    Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 0, 100, 30);
-                scoreCom.TextFrame.TextRange.InsertAfter("10分");
-                scoreCom.Name = "kx-score";
-            }
-
-
-            //PowerPoint.Shape setBtn = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeActionButtonCustom, curW - 150, 0, 100, 40);
-            //setBtn.TextFrame.TextRange.InsertBefore("设置");
-            //setBtn.Name = "kx-setting";
-
-            Globals.ThisAddIn.initSetting();
-            string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
-            var settingImg = curDir + @"\kxrealtime\imgs\setting.png";
-            PowerPoint.Shape setBtn = slide.Shapes.AddPicture(settingImg, Office.MsoTriState.msoTrue, Office.MsoTriState.msoTrue, curW - 150, 0, 100, 40);
-            setBtn.Name = "kx-setting";
-
-
-            if (questionType == singleSelCtl.TypeSelEnum.singleSel || questionType == singleSelCtl.TypeSelEnum.multiSel || questionType == singleSelCtl.TypeSelEnum.voteSingleSel || questionType == singleSelCtl.TypeSelEnum.voteMultiSel)
-            {
-                this.initOption(slide, 4, questionType == singleSelCtl.TypeSelEnum.multiSel);
-            }
-            else if (questionType == singleSelCtl.TypeSelEnum.textQuestion)
-            {
-
-            }
-            else if (questionType == singleSelCtl.TypeSelEnum.fillQuestion && scoreCom != null)
-            {
-                scoreCom.TextFrame.TextRange.Text = ("0分");
-            }
-            //slide.Select();
         }
 
         private void button1_Click(object sender, RibbonControlEventArgs e)
@@ -145,28 +160,6 @@ namespace kxrealtime
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.singleSel;
             //char[] ans = new char[] { };
             //this.singleSelCtlInstance.resetData(0,ans,4);
-        }
-
-        private void initOption(PowerPoint.Slide slide, int n, bool isMul)
-        {
-            char sChar = 'A';
-            int posY = 200;
-            float difY = (250 - n * 50) / (n - 1);
-            Office.MsoAutoShapeType curShapeType = !isMul ? Office.MsoAutoShapeType.msoShapeOval : Office.MsoAutoShapeType.msoShapeRectangle;
-            for (int i = 0; i < n; i++)
-            {
-                char curChar = (char)(sChar + i);
-                PowerPoint.Shape circleTmp = slide.Shapes.AddShape(curShapeType, 100, posY + difY * i - 5, 40, 40);
-                circleTmp.TextFrame.TextRange.InsertAfter(curChar.ToString());
-                circleTmp.Name = "kx-choice-" + curChar.ToString();
-                circleTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
-                circleTmp.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
-                PowerPoint.Shape textBox = slide.Shapes.AddTextbox(
-                Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY + difY * i, 500, 50);
-                textBox.TextFrame.TextRange.InsertAfter("此处添加选项内容");
-                textBox.Name = "kx-text-" + curChar.ToString();
-                posY += 50;
-            }
         }
 
         public void resetSingleSel(PowerPoint.SlideRange slide)

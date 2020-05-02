@@ -71,7 +71,9 @@ namespace kxrealtime.utils
         {
             //Utils.dlFile(filePath);
             //var objApp = new PowerPoint.Application();
-            Globals.ThisAddIn.Application.Presentations.Open(filePath);
+            Globals.ThisAddIn.Application.ActivePresentation.Close();
+           // Globals.ThisAddIn.Application.Quit();
+            Globals.ThisAddIn.Application.Presentations.Open(filePath, Office.MsoTriState.msoFalse, Office.MsoTriState.msoFalse, Office.MsoTriState.msoTrue);
             //new PowerPoint.Application().Presentations.Open(filePath);
         }
 
