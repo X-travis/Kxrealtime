@@ -701,7 +701,10 @@ namespace kxrealtime
             this.menu1.Visible = false;
             this.menu1.Label = "";
             ChangeTchBtn(false);
-            kxResourceTaskPane.Visible = false;
+            if(kxResourceTaskPane != null)
+            {
+                kxResourceTaskPane.Visible = false;
+            }
         }
 
         // play slide
