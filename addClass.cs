@@ -39,6 +39,12 @@ namespace kxrealtime
         private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             //this.sendData();
+            this.curWebBrowser.Document.MouseMove += Document_MouseMove;
+        }
+
+        private void Document_MouseMove(object sender, HtmlElementEventArgs e)
+        {
+            Cursor.Show();
         }
 
         private void sendData()
