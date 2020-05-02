@@ -129,7 +129,11 @@ namespace kxrealtime.utils
                 new
                 {
                     teach_record_id = Int64.Parse(utils.KXINFO.KXTCHRECORDID),
-                    snapshot = url
+                    snapshot = url,
+                    content = new
+                    {
+                        pn = Globals.ThisAddIn.PlaySlideIdx
+                    }
                 }
             };
             var client = new RestClient($"{utils.KXINFO.KXURL}/usr/upsertTeachContent?session_id={utils.KXINFO.KXSID}");

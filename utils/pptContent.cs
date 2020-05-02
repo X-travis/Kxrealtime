@@ -220,12 +220,13 @@ namespace kxrealtime.utils
             char sChar = 'A';
             int posY = 200;
             int n = options.Count;
-            float difY = (curH - 300 - n * 50) / (n - 1);
+            int optionH = curH > 450 ? 50 : 40;
+            float difY = (curH - 240 - n * optionH) / (n - 1);
             Office.MsoAutoShapeType curShapeType = !isMul ? Office.MsoAutoShapeType.msoShapeOval : Office.MsoAutoShapeType.msoShapeRectangle;
             for (int i = 0; i < n; i++)
             {
                 char curChar = (char)(sChar + i);
-                PowerPoint.Shape circleTmp = slide.Shapes.AddShape(curShapeType, 100, posY + difY * i - 5, 40, 40);
+                PowerPoint.Shape circleTmp = slide.Shapes.AddShape(curShapeType, 100, posY + difY * i - 5, optionH-10, optionH-10);
                 circleTmp.TextFrame.TextRange.InsertAfter(curChar.ToString());
                 circleTmp.Name = "kx-choice-" + curChar.ToString();
                 var colorTmp = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
@@ -236,11 +237,11 @@ namespace kxrealtime.utils
                 }
                 circleTmp.Fill.ForeColor.RGB = colorTmp;
                 PowerPoint.Shape textBox = slide.Shapes.AddTextbox(
-                Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY + difY * i, 500, 50);
+                Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY + difY * i, 500, optionH);
                 var optionText = options[i];
                 textBox.TextFrame.TextRange.InsertAfter(optionText);
                 textBox.Name = "kx-text-" + curChar.ToString();
-                posY += 50;
+                posY += optionH;
             }
         }
     }

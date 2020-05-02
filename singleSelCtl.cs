@@ -357,9 +357,12 @@ namespace kxrealtime
             var app = Globals.ThisAddIn.Application;
             Int32 curH = (Int32)app.ActivePresentation.SlideMaster.Height;
             float posY = 200;
-            int selectCtxHeight = curH - 300;
+            
             char curChar = (char)(startChar);
-            float difY = (selectCtxHeight - (i) * 50) / (i - 1);
+            int optionH = curH > 450 ? 50 : 40;
+            int selectCtxHeight = curH - 240;
+            // 计算新增一个，每个选项之间的间隔
+            float difY = (selectCtxHeight - (i+1) * optionH) / (i);
             int difNum = 0;
             // 从A往后检查100个， 或者满足当前个数
             for (int j = 0; j < 100 && difNum < i; j++)
@@ -388,20 +391,20 @@ namespace kxrealtime
                 }
                 if (hasFound)
                 {
-                    posY += 50;
+                    posY += optionH;
                     difNum += 1;
                 }
             }
             posY += difY * i;
             Office.MsoAutoShapeType curShapeType = !isMul ? Office.MsoAutoShapeType.msoShapeOval : Office.MsoAutoShapeType.msoShapeRectangle;
-            PowerPoint.Shape circleTmp = curShapes.AddShape(curShapeType, 100, posY - 5, 40, 40);
+            PowerPoint.Shape circleTmp = curShapes.AddShape(curShapeType, 100, posY - 5, optionH - 10, optionH-10);
             circleTmp.TextFrame.TextRange.InsertAfter(nextChar.ToString());
             circleTmp.Name = "kx-choice-" + nextChar.ToString();
             circleTmp.Fill.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
             circleTmp.Line.ForeColor.RGB = System.Drawing.Color.FromArgb(1, 128, 128, 128).ToArgb();
             PowerPoint.Shape textBox = curShapes.AddTextbox(
-            Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY, 500, 50);
-            textBox.TextFrame.TextRange.InsertAfter("此处添加选项内容");
+            Office.MsoTextOrientation.msoTextOrientationHorizontal, 150, posY, 500, optionH);
+            textBox.TextFrame.TextRange.InsertAfter("此处插入描述");
             textBox.Name = "kx-text-" + nextChar.ToString();
         }
 
