@@ -288,10 +288,10 @@ namespace kxrealtime
             var textTitle = "kx-title-" + singleSelCtl.TypeSelEnum.textQuestion;
             var fillTitle = "kx-title-" + singleSelCtl.TypeSelEnum.fillQuestion;
             var typeTmp = this.curType();
-            var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}");
+            var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&class_id={utils.KXINFO.KXCHOSECLASSID}");
             if (typeTmp == textTitle || typeTmp == fillTitle)
             {
-                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/answerList?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&sessionId={utils.KXINFO.KXSID}");
+                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/answerList?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&sessionId={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}");
             }
             webBrowser1.Navigate(uriTmp);
             webBrowser1.Visible = true;

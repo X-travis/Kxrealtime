@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace kxrealtime
 {
@@ -89,7 +90,12 @@ namespace kxrealtime
             Action<double> action = (double curPer) =>
             {
                 this.progresslabel.Text = "下载进度：" + ((int)(100 * curPer)).ToString() + "%";
-                System.Windows.Forms.Application.DoEvents();
+                int pg =  (Int32)(curPer * 100) % 10;
+                // 优化
+                if(pg > 0 && pg < 2)
+                {
+                    System.Windows.Forms.Application.DoEvents();
+                }
             };
             this.Invoke(action, value);
         }
