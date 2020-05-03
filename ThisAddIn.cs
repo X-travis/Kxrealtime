@@ -1,4 +1,5 @@
 ﻿using kxrealtime.kxdata;
+using Microsoft.Office.Interop.PowerPoint;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace kxrealtime
         private utilDialog utilDialogInstance;
         private int curActiveWn;
 
+        private bool isSameSending = false;
+
         public event WebSocketMsgHandle WebSocketMsg;
 
         public int CurSlideIdx
@@ -44,6 +47,10 @@ namespace kxrealtime
             get
             {
                 return this.playSlideIdx;
+            }
+            set
+            {
+                this.playSlideIdx = value;
             }
         }
 
@@ -134,7 +141,12 @@ namespace kxrealtime
 
         private void Application_SlideShowNextSlide(PowerPoint.SlideShowWindow Wn)
         {
-            System.Diagnostics.Debug.WriteLine("this is new slide" + Wn.View.Slide.SlideIndex);
+            if(isSameSending && Wn.View.Slide.SlideIndex == this.playSlideIdx)
+            {
+                return;
+            }
+            isSameSending = true;
+            System.Diagnostics.Debug.WriteLine("this is new slide" + Wn.View.Slide.SlideIndex + " old= " + this.playSlideIdx);
             if (utils.KXINFO.KXTCHRECORDID == null)
             {
                 return;
@@ -150,6 +162,7 @@ namespace kxrealtime
                 slideHandle(Wn);
             }
             sendScreen(Wn, this.playSlideIdx);
+            isSameSending = false;
         }
 
         private void checkUtils(PowerPoint.SlideShowWindow Wn)
@@ -265,7 +278,7 @@ namespace kxrealtime
             }
             else
             {
-                utils.Utils.LOG("授课连接中...");
+                //utils.Utils.LOG("授课连接中...");
                 InitTchSocket();
             }
         }
@@ -350,13 +363,18 @@ namespace kxrealtime
                 utilDialogInstance.Close();
             }
             this.utilDialogInstance = null;
-
+            this.playSlideIdx = 1;
         }
 
         private void SlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
             //("开始放映");
             Globals.Ribbons.Ribbon1.settingChange(false);
+            isSameSending = false;
+            if (this.playSlideIdx != 1)
+            {
+                Wn.View.GotoSlide(this.playSlideIdx);
+            }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

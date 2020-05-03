@@ -782,11 +782,9 @@ namespace kxrealtime
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
             var curIdx = Globals.ThisAddIn.CurSlideIdx;
-            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.RangeType = PpSlideShowRangeType.ppShowSlideRange;
-            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.StartingSlide = curIdx;
-            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoFalse;
+            Globals.ThisAddIn.PlaySlideIdx = curIdx;
             var showWin = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
-            showWin.View.GotoSlide(curIdx);
+            //showWin.View.GotoSlide(curIdx);
         }
 
         private void resourceBtn_Click(object sender, RibbonControlEventArgs e)

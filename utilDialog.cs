@@ -280,29 +280,35 @@ namespace kxrealtime
                 this.answerResultForm.Focus();
                 return;
             }
-            var webBrowser1 = new WebBrowser();
+            //var webBrowser1 = new WebBrowser();
             //webBrowser1.Width = 800;
             //webBrowser1.Height = 500;
             //webBrowser1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            webBrowser1.Dock = DockStyle.Fill;
+            //webBrowser1.Dock = DockStyle.Fill;
             var textTitle = "kx-title-" + singleSelCtl.TypeSelEnum.textQuestion;
             var fillTitle = "kx-title-" + singleSelCtl.TypeSelEnum.fillQuestion;
             var typeTmp = this.curType();
             var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&class_id={utils.KXINFO.KXCHOSECLASSID}");
-            if (typeTmp == textTitle || typeTmp == fillTitle)
+            if(typeTmp == fillTitle)
+            {
+                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&testId={testId}&token={utils.KXINFO.KXTOKEN}&class_id={utils.KXINFO.KXCHOSECLASSID}&sessionId={utils.KXINFO.KXSID}&mod=200");
+            }
+            else if (typeTmp == textTitle)
             {
                 uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/answerList?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&sessionId={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}");
             }
-            webBrowser1.Navigate(uriTmp);
-            webBrowser1.Visible = true;
-            webBrowser1.Refresh();
+            //webBrowser1.Navigate(uriTmp);
+            //webBrowser1.Visible = true;
+            //webBrowser1.Refresh();
+            var webBrowser1 = this.initWebPage(uriTmp.AbsoluteUri);
+            webBrowser1.DocumentCompleted += WebBrowser1_DocumentCompleted;
 
             var formTmp = new Form();
             formTmp.Width = 800;
             formTmp.Height = 500;
             formTmp.Controls.Add(webBrowser1);
             formTmp.Owner = this;
-            formTmp.FormBorderStyle = FormBorderStyle.FixedSingle;
+            formTmp.FormBorderStyle = FormBorderStyle.None;
             formTmp.StartPosition = FormStartPosition.Manual;
             formTmp.Location = utils.Utils.getScreenPosition();
             formTmp.ShowIcon = false;
@@ -312,7 +318,18 @@ namespace kxrealtime
             formTmp.TopMost = true;
             formTmp.Visible = true;
             this.answerResultForm = formTmp;
-            //this.Controls.Add(webBrowser1);
+        }
+
+        private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            var curWebPage = sender as WebBrowser;
+            curWebPage.Document.MouseMove += Document_MouseMove1;
+
+        }
+
+        private void Document_MouseMove1(object sender, HtmlElementEventArgs e)
+        {
+            Cursor.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -595,6 +612,26 @@ namespace kxrealtime
             if (this.IsHandleCreated)
             {
                 this.Invoke(postAction, msg);
+            }
+        }
+
+        // 给js调用，用于关闭窗口
+        public void closeAnsResult()
+        {
+            this.answerResultForm.Close();
+            this.answerResultForm.Dispose();
+            this.answerResultForm = null;
+        }
+
+        // 给js调用，用于放大或缩小窗口
+        public void openAnsResult()
+        {
+            if (this.answerResultForm != null && !this.answerResultForm.IsDisposed)
+            {
+                var isNormal = this.answerResultForm.WindowState == FormWindowState.Normal;
+                this.answerResultForm.WindowState = isNormal ? FormWindowState.Maximized : FormWindowState.Normal;
+                this.answerResultForm.Focus();
+                return;
             }
         }
     }

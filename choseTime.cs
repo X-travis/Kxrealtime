@@ -240,7 +240,11 @@ namespace kxrealtime
         {
             await Task.Run(() =>
             {
-                this.sendPageFn();
+                try
+                {
+                    this.sendPageFn();
+                }
+                catch (Exception) { } 
             });
             if (this.IsHandleCreated)
             {
