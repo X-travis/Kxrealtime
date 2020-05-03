@@ -224,36 +224,36 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="addClass.cs">
+    <Compile Include="components\addClass.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="addClass.Designer.cs">
+    <Compile Include="components\addClass.Designer.cs">
       <DependentUpon>addClass.cs</DependentUpon>
     </Compile>
-    <Compile Include="choseClass.cs">
+    <Compile Include="components\choseClass.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="choseClass.Designer.cs">
+    <Compile Include="components\choseClass.Designer.cs">
       <DependentUpon>choseClass.cs</DependentUpon>
     </Compile>
-    <Compile Include="choseTime.cs">
+    <Compile Include="components\choseTime.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="choseTime.Designer.cs">
+    <Compile Include="components\choseTime.Designer.cs">
       <DependentUpon>choseTime.cs</DependentUpon>
     </Compile>
     <Compile Include="kxdata\paperInfo.cs" />
     <Compile Include="kxdata\upsertTeachContent.cs" />
-    <Compile Include="kxResource.cs">
+    <Compile Include="components\kxResource.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="kxResource.Designer.cs">
+    <Compile Include="components\kxResource.Designer.cs">
       <DependentUpon>kxResource.cs</DependentUpon>
     </Compile>
-    <Compile Include="loginDialog.cs">
+    <Compile Include="components\loginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="loginDialog.Designer.cs">
+    <Compile Include="components\loginDialog.Designer.cs">
       <DependentUpon>loginDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -261,17 +261,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="utilDialog.cs">
+    <Compile Include="components\utilDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="utilDialog.Designer.cs">
+    <Compile Include="components\utilDialog.Designer.cs">
       <DependentUpon>utilDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="utils\AnswerStore.cs" />
-    <Compile Include="loginCtl.cs">
+    <Compile Include="components\loginCtl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="loginCtl.Designer.cs">
+    <Compile Include="components\loginCtl.Designer.cs">
       <DependentUpon>loginCtl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -283,22 +283,22 @@
     <Compile Include="utils\KXINFO.cs" />
     <Compile Include="utils\Utils.cs" />
     <Compile Include="utils\webSocketClient.cs" />
-    <EmbeddedResource Include="addClass.resx">
+    <EmbeddedResource Include="components\addClass.resx">
       <DependentUpon>addClass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="choseClass.resx">
+    <EmbeddedResource Include="components\choseClass.resx">
       <DependentUpon>choseClass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="choseTime.resx">
+    <EmbeddedResource Include="components\choseTime.resx">
       <DependentUpon>choseTime.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="kxResource.resx">
+    <EmbeddedResource Include="components\kxResource.resx">
       <DependentUpon>kxResource.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="loginCtl.resx">
+    <EmbeddedResource Include="components\loginCtl.resx">
       <DependentUpon>loginCtl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="loginDialog.resx">
+    <EmbeddedResource Include="components\loginDialog.resx">
       <DependentUpon>loginDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -309,10 +309,10 @@
     <EmbeddedResource Include="Ribbon1.resx">
       <DependentUpon>Ribbon1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="singleSelCtl.resx">
+    <EmbeddedResource Include="components\singleSelCtl.resx">
       <DependentUpon>singleSelCtl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="utilDialog.resx">
+    <EmbeddedResource Include="components\utilDialog.resx">
       <DependentUpon>utilDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -334,10 +334,10 @@
       <DependentUpon>Ribbon1.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="singleSelCtl.cs">
+    <Compile Include="components\singleSelCtl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="singleSelCtl.Designer.cs">
+    <Compile Include="components\singleSelCtl.Designer.cs">
       <DependentUpon>singleSelCtl.cs</DependentUpon>
     </Compile>
     <Compile Include="ThisAddIn.cs">
@@ -427,9 +427,7 @@
     <None Include="Resources\resource.png" />
     <Content Include="Resources\single-new.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="component\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
