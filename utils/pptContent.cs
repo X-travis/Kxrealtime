@@ -16,6 +16,7 @@ namespace kxrealtime.utils
 
     public static class pptContent
     {
+        // 新建幻灯片
         public static PowerPoint.Slide NewSlide()
         {
             var app = Globals.ThisAddIn.Application;
@@ -119,6 +120,7 @@ namespace kxrealtime.utils
             }
         }
 
+        // 创建试题模板
         public static void createPaperItem(string titleName, singleSelCtl.TypeSelEnum questionType, string stem = "此处插入描述", float score = 10, List<kxdata.simpleAnswerItem> answers =null, List<string> options = null)
         {
             var app = Globals.ThisAddIn.Application;
@@ -215,6 +217,7 @@ namespace kxrealtime.utils
             //slide.Select();
         }
 
+        // 初始化选择题选项
         public static void initOption(PowerPoint.Slide slide,List<string> options, bool isMul, List<string> ans)
         {
             var app = Globals.ThisAddIn.Application;

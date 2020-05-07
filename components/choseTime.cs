@@ -58,6 +58,7 @@ namespace kxrealtime
             this.loadingPB.Visible = false;
         }
 
+        // 发送试卷
         public void questionSend(string paperId, string testId)
         {
             var tmp = utils.Utils.getScreenPosition();
@@ -80,6 +81,7 @@ namespace kxrealtime
             this.loadingPB.Visible = false;
         }
 
+        // 创建时间选择
         private void createSel()
         {
             var txtArr = new string[] {  "1分钟",  "3分钟",  "5分钟", "10分钟" };
@@ -119,6 +121,7 @@ namespace kxrealtime
 
         }
 
+        // 发送试卷按钮点击回调
         private void BtnTmp_Click(object sender, EventArgs e)
         {
             if (this.isSending)

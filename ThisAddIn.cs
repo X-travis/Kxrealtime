@@ -188,6 +188,7 @@ namespace kxrealtime
             }
         }
 
+        // 处理当前slide
         private void slideHandle(PowerPoint.SlideShowWindow Wn)
         {
             System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();//实例化　
@@ -373,7 +374,7 @@ namespace kxrealtime
             isSameSending = false;
             if (this.playSlideIdx != 1)
             {
-                Wn.View.GotoSlide(this.playSlideIdx);
+                Wn.View.GotoSlide(this.playSlideIdx, Microsoft.Office.Core.MsoTriState.msoFalse);
             }
         }
 

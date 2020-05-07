@@ -80,6 +80,7 @@ namespace kxrealtime
             frmBack = null;
         }
 
+        // 关闭事件
         private void label1_Click(object sender, EventArgs e)
         {
             if (frmBack != null)

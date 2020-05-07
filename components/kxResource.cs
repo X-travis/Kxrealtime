@@ -100,6 +100,7 @@ namespace kxrealtime
             this.Invoke(action, value);
         }
 
+        // 提供给web的调用方法 插入图片
         public void showImage(string imgLink)
         {
             //utils.pptContent.InsertImage(imgLink);
@@ -108,6 +109,7 @@ namespace kxrealtime
             utils.pptContent.openFile(imgLink, curName, "image", isShowProgress, changeProgress);
         }
 
+        // 提供给web的调用方法 插入视频
         public void showVideo(string videoLink)
         {
             //utils.pptContent.InserVideo(videoLink);
@@ -116,6 +118,7 @@ namespace kxrealtime
             utils.pptContent.openFile(videoLink, curName, "video", isShowProgress, changeProgress);
         }
 
+        // 提供给web的调用方法 插入链接
         public void showLink(string link, string name)
         {
             utils.pptContent.InserLink(link);

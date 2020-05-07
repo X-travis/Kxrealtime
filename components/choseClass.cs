@@ -22,6 +22,7 @@ namespace kxrealtime
             InitializeComponent();
         }
 
+        // 班级列表选择回调
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var curbox = sender as ComboBox;
@@ -29,16 +30,17 @@ namespace kxrealtime
             {
                 return;
             }
-            var courseItem = (ClassItem)curbox.SelectedItem;
-            if (courseItem == null)
+            var classItemTmp = (ClassItem)curbox.SelectedItem;
+            if (classItemTmp == null)
             {
                 return;
             }
-            classID = courseItem.tid;
-            className = courseItem.name;
+            classID = classItemTmp.tid;
+            className = classItemTmp.name;
             initChapter();
         }
 
+        // 课程列表选择回调
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             var curbox = sender as ComboBox;
@@ -56,6 +58,7 @@ namespace kxrealtime
             initChapter();
         }
 
+        // 课时选择回调
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             var curbox = sender as ComboBox;
@@ -63,16 +66,16 @@ namespace kxrealtime
             {
                 return;
             }
-            var courseItem = (ChapterItem)curbox.SelectedItem;
-            if (courseItem == null)
+            var chapterItemTmp = (ChapterItem)curbox.SelectedItem;
+            if (chapterItemTmp == null)
             {
                 return;
             }
-            chapterID = courseItem.tid;
-            chapterName = courseItem.title;
+            chapterID = chapterItemTmp.tid;
+            chapterName = chapterItemTmp.title;
         }
 
-
+        // 初始化班级列表
         public void initClassList()
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/listClass?skip=0&limit=1000&ret_teach_record=1&session_id={utils.KXINFO.KXSID}");
@@ -117,6 +120,7 @@ namespace kxrealtime
             }
         }
 
+        // 初始化课程列表
         public void initCourseList()
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/listCourse?skip=0&limit=1000&session_id={utils.KXINFO.KXSID}");
@@ -166,6 +170,7 @@ namespace kxrealtime
             }
         }
 
+        // 初始化课时列表
         public void initChapter()
         {
             string curClassId = classID.ToString();
@@ -228,6 +233,7 @@ namespace kxrealtime
             this.Visible = false;
         }
 
+        // 显示提示
         private void showTip(string text)
         {
             panel1.Controls.Clear();
@@ -240,6 +246,7 @@ namespace kxrealtime
             panel1.Controls.Add(label);
         }
 
+        // 确定回调
         private void button2_Click(object sender, EventArgs e)
         {
             if (chapterID == 0 || classID == 0 || courseID == 0)

@@ -145,6 +145,7 @@ namespace kxrealtime
             myCustomTaskPane.Width = 380;
         }
 
+        // 添加单选题
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
             if (this.myCustomTaskPane == null)
@@ -162,6 +163,7 @@ namespace kxrealtime
             //this.singleSelCtlInstance.resetData(0,ans,4);
         }
 
+        // 重置选择题内容
         public void resetSingleSel(PowerPoint.SlideRange slide)
         {
             System.Diagnostics.Debug.WriteLine("resetSingleSel");
@@ -230,6 +232,7 @@ namespace kxrealtime
             this.singleSelCtlInstance.resetData(curScore, ans, labelArr);
         }
 
+        // 重置填空题内容
         private void resetFillQustion(PowerPoint.SlideRange slide)
         {
             PowerPoint.Shapes curShapes = slide.Shapes;
@@ -271,7 +274,7 @@ namespace kxrealtime
             this.singleSelCtlInstance.resetFill(ansTmp);
         }
 
-
+        // 用于检测内容是否被删除
         public void checkSelExist(PowerPoint.SlideRange slide)
         {
             if (this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.singleSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.multiSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.voteMultiSel || this.singleSelCtlInstance.setCurSelType == singleSelCtl.TypeSelEnum.voteSingleSel)
@@ -285,6 +288,7 @@ namespace kxrealtime
             }
         }
 
+        // 添加多选题
         private void button2_Click(object sender, RibbonControlEventArgs e)
         {
             if (this.myCustomTaskPane == null)
@@ -299,6 +303,7 @@ namespace kxrealtime
             this.singleSelCtlInstance.setCurSelType = singleSelCtl.TypeSelEnum.multiSel;
         }
 
+        // 添加主观题
         private void button4_Click(object sender, RibbonControlEventArgs e)
         {
             if (this.myCustomTaskPane == null)
@@ -360,6 +365,7 @@ namespace kxrealtime
             }
         }
 
+        // login click event
         private void button5_Click(object sender, RibbonControlEventArgs e)
         {
             if (this.curLoginDialog != null)
@@ -399,6 +405,7 @@ namespace kxrealtime
             initLoginListener(connectID);
         }
 
+        // 构造登录二维码
         private PictureBox getLoginQR(string connectID)
         {
             string connectUrl = $"{utils.KXINFO.KXURL}/mp/#/user?client_id={connectID}";// $"http://kx-v010-wap.dev.resfair.com/#/?client_id={connectID}";
@@ -422,6 +429,7 @@ namespace kxrealtime
             return pictureBox;
         }
 
+        // 监听用户登录情况
         private void initLoginListener(string curID)
         {
             if (loginWebSocket != null)
@@ -467,6 +475,7 @@ namespace kxrealtime
             });
         }
 
+        // 初始化授课信息
         private bool initTchInfo(string dataInfo)
         {
             try
@@ -499,7 +508,7 @@ namespace kxrealtime
             return false;
         }
 
-
+        // 关闭登录链接
         public void closeLoginConnect()
         {
             if (this.loginWebSocket != null)
@@ -512,6 +521,7 @@ namespace kxrealtime
             this.curLoginDialog = null;
         }
 
+        // 关闭登录弹窗
         private void CloseLoginDialog()
         {
             if (loginDialog.frmBack != null)
@@ -529,6 +539,7 @@ namespace kxrealtime
             Globals.ThisAddIn.CloseTchSocket();
         }
 
+        // 登录成功处理 startTch 是否继续上次授课
         private void LoginSuccess(bool startTch)
         {
             var url = utils.KXINFO.KXUAVATAR;
@@ -596,6 +607,7 @@ namespace kxrealtime
             myTimer.Interval = 1000;
         }
 
+        // 变更设置按钮的显示
         public void settingChange(bool isSetting)
         {
             for (int i = 1; i <= app.ActivePresentation.Slides.Count; i++)
@@ -666,6 +678,7 @@ namespace kxrealtime
             }
         }
 
+        // 开启授课点击事件
         private void button6_Click(object sender, RibbonControlEventArgs e)
         {
             if (utils.KXINFO.KXUID == null)
@@ -715,6 +728,7 @@ namespace kxrealtime
             this.stopTch();
         }
 
+        // 结束授课
         public void stopTch()
         {
             object sendData = (new
@@ -743,12 +757,14 @@ namespace kxrealtime
             }
         }
 
+        // 改变授课按钮的显示
         public void ChangeTchBtn(bool tching)
         {
             this.box1.Visible = tching;
             this.button6.Visible = !tching;
         }
 
+        // 添加投票
         private void button11_Click(object sender, RibbonControlEventArgs e)
         {
             if (this.myCustomTaskPane == null)
@@ -764,6 +780,7 @@ namespace kxrealtime
             //this.singleSelCtlInstance.initVoteQ(singleSelCtl.TypeSelEnum.voteSingleSel);
         }
 
+        // 添加填空题
         private void button3_Click(object sender, RibbonControlEventArgs e)
         {
             if (this.myCustomTaskPane == null)
@@ -779,14 +796,24 @@ namespace kxrealtime
             this.singleSelCtlInstance.initFillQ(0);
         }
 
+        // 从当前页播放
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
             var curIdx = Globals.ThisAddIn.CurSlideIdx;
             Globals.ThisAddIn.PlaySlideIdx = curIdx;
-            var showWin = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.Run();
-            //showWin.View.GotoSlide(curIdx);
+            // Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithAnimation = Office.MsoTriState.msoTrue;
+            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoTrue;
+            var curSetting = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings;
+            //curSetting.RangeType = PpSlideShowRangeType.ppShowSlideRange;
+            //curSetting.StartingSlide = curIdx;
+            //curSetting.EndingSlide = Globals.ThisAddIn.Application.ActivePresentation.Slides.Count;
+            var showWin = curSetting.Run();
+            //curSetting.RangeType = PpSlideShowRangeType.ppShowAll;
+            showWin.Activate();
+
         }
 
+        // 资源库点击事件
         private void resourceBtn_Click(object sender, RibbonControlEventArgs e)
         {
             if (utils.KXINFO.KXUID == null)

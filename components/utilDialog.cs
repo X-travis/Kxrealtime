@@ -519,36 +519,42 @@ namespace kxrealtime
             }
         }
 
+        // 加载分组
         private void button2_Click(object sender, EventArgs e)
         {
             string divideGroup = $"{utils.KXINFO.KXADMINURL}/?timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/group?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&chapter_title={utils.KXINFO.KXCHOSECHAPTERTITLE}";
             createWebForm(divideGroup);
         }
 
+        // 加载点名
         private void button3_Click(object sender, EventArgs e)
         {
             string checkStudent = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/rollcall?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&chapter_title={utils.KXINFO.KXCHOSECHAPTERTITLE}";
             createWebForm(checkStudent);
         }
-
+        
+        // 加载签到
         private void button4_Click(object sender, EventArgs e)
         {
             string checkQRCode = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/signInQrcode?teach_record_id={utils.KXINFO.KXTCHRECORDID}&class_id={utils.KXINFO.KXCHOSECLASSID}&chapter_id={utils.KXINFO.KXCHOSECHAPTERID}&course_id={utils.KXINFO.KXCHOSECOURSEID}&course_title={utils.KXINFO.KXCHOSECOURSETITLE}&session_id={utils.KXINFO.KXSID}&class_name={utils.KXINFO.KXCHOSECLASSNAME}";
             createWebForm(checkQRCode);
         }
 
+        // 加载学生不懂
         private void button5_Click(object sender, EventArgs e)
         {
             string question = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/nounderstand?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
             createWebForm(question);
         }
 
+        // 加载投稿
         private void button6_Click(object sender, EventArgs e)
         {
             string question = $"{utils.KXINFO.KXADMINURL}/?session_id={utils.KXINFO.KXSID}&timestamp={utils.Utils.getTimeStamp()}&token={utils.KXINFO.KXTOKEN}#/pptComponents/studentContribute?teach_record_id={utils.KXINFO.KXTCHRECORDID}&session_id={utils.KXINFO.KXSID}";
             createWebForm(question);
         }
 
+        // 加载课程二维码
         private void button7_Click(object sender, EventArgs e)
         {
             var courseTitle = utils.KXINFO.KXCHOSECOURSETITLE;
@@ -562,6 +568,7 @@ namespace kxrealtime
             this.utilsPanel.Visible = false;
         }
 
+        // 提供给web的调用方法 关闭窗口
         public void CloseWin()
         {
             this.infoWebPage.Dispose();
@@ -570,6 +577,7 @@ namespace kxrealtime
             this.infoForm = null;
         }
 
+        // 提供给web的调用方法 关闭弹幕
         public void CloseBarrage()
         {
             if(this.barragePage != null)
@@ -584,11 +592,13 @@ namespace kxrealtime
             this.barragePage = null;
         }
 
+        // 提供给web的调用方法 用于发送通知
         public void sendWS(string args)
         {
             Globals.ThisAddIn.SendTchInfo(args);
         }
 
+        // 加载弹幕
         private void button8_Click(object sender, EventArgs e)
         {
             string barragePage = $"{utils.KXINFO.KXADMINURL}/barrage/index.html?timestamp={utils.Utils.getTimeStamp()}";

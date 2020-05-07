@@ -70,6 +70,7 @@ namespace kxrealtime
             });
         }
 
+        // 弃用
         private void initAddClassQR(string classId, string className)
         {
             /*foreach (var curScreen in Screen.AllScreens)
@@ -95,17 +96,20 @@ namespace kxrealtime
 
         }
 
+        // 弃用
         private void button1_Click(object sender, EventArgs e)
         {
             this.CloseWin();
         }
 
+        // 弃用
         private void button2_Click(object sender, EventArgs e)
         {
             this.Visible = false;
             this.Dispose();
         }
 
+        // 给web调用的方法， 用于关闭窗口
         public void CloseWin()
         {
             this.curWebBrowser.Dispose();
@@ -113,6 +117,7 @@ namespace kxrealtime
             this.Close();
         }
 
+        // 给web调用的方法， 用于间接发送数据给web
         public void getData()
         {
             this.sendData();
