@@ -374,7 +374,7 @@ namespace kxrealtime
             isSameSending = false;
             if (this.playSlideIdx != 1)
             {
-                Wn.View.GotoSlide(this.playSlideIdx, Microsoft.Office.Core.MsoTriState.msoFalse);
+                Wn.View.GotoSlide(this.playSlideIdx);
             }
         }
 

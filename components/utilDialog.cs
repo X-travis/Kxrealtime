@@ -288,14 +288,14 @@ namespace kxrealtime
             var textTitle = "kx-title-" + singleSelCtl.TypeSelEnum.textQuestion;
             var fillTitle = "kx-title-" + singleSelCtl.TypeSelEnum.fillQuestion;
             var typeTmp = this.curType();
-            var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&class_id={utils.KXINFO.KXCHOSECLASSID}");
+            var uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&class_id={utils.KXINFO.KXCHOSECLASSID}&sessionId={utils.KXINFO.KXSID}&session_id={utils.KXINFO.KXSID}");
             if(typeTmp == fillTitle)
             {
-                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&testId={testId}&token={utils.KXINFO.KXTOKEN}&class_id={utils.KXINFO.KXCHOSECLASSID}&sessionId={utils.KXINFO.KXSID}&mod=200");
+                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/countAnswerChart?aid={paperId}&testId={testId}&token={utils.KXINFO.KXTOKEN}&class_id={utils.KXINFO.KXCHOSECLASSID}&sessionId={utils.KXINFO.KXSID}&mod=200&session_id={utils.KXINFO.KXSID}");
             }
             else if (typeTmp == textTitle)
             {
-                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/answerList?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&sessionId={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}");
+                uriTmp = new Uri($"{utils.KXINFO.KXADMINURL}/?token={utils.KXINFO.KXTOKEN}&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/answerList?aid={paperId}&token={utils.KXINFO.KXTOKEN}&testId={testId}&sessionId={utils.KXINFO.KXSID}&class_id={utils.KXINFO.KXCHOSECLASSID}&session_id={utils.KXINFO.KXSID}");
             }
             //webBrowser1.Navigate(uriTmp);
             //webBrowser1.Visible = true;

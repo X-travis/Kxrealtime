@@ -799,18 +799,18 @@ namespace kxrealtime
         // 从当前页播放
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
-            var curIdx = Globals.ThisAddIn.CurSlideIdx;
-            Globals.ThisAddIn.PlaySlideIdx = curIdx;
-            // Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithAnimation = Office.MsoTriState.msoTrue;
-            //Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings.ShowWithNarration = Office.MsoTriState.msoTrue;
-            var curSetting = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings;
-            //curSetting.RangeType = PpSlideShowRangeType.ppShowSlideRange;
-            //curSetting.StartingSlide = curIdx;
-            //curSetting.EndingSlide = Globals.ThisAddIn.Application.ActivePresentation.Slides.Count;
-            var showWin = curSetting.Run();
-            //curSetting.RangeType = PpSlideShowRangeType.ppShowAll;
-            showWin.Activate();
-
+            try
+            {
+                SendKeys.Send("+{F5}");
+                return;
+            }
+            catch(Exception err)
+            {
+                var curIdx = Globals.ThisAddIn.CurSlideIdx;
+                Globals.ThisAddIn.PlaySlideIdx = curIdx;
+                var curSetting = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings;
+                curSetting.Run();
+            }
         }
 
         // 资源库点击事件
