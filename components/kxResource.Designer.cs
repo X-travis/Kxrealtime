@@ -32,6 +32,7 @@
             this.fileLoadingPic = new System.Windows.Forms.PictureBox();
             this.progresslabel = new System.Windows.Forms.Label();
             this.fileLoading = new System.Windows.Forms.Panel();
+            this.savePathLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fileLoadingPic)).BeginInit();
             this.fileLoading.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +74,7 @@
             // fileLoading
             // 
             this.fileLoading.BackColor = System.Drawing.Color.White;
+            this.fileLoading.Controls.Add(this.savePathLabel);
             this.fileLoading.Controls.Add(this.fileLoadingPic);
             this.fileLoading.Controls.Add(this.progresslabel);
             this.fileLoading.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -81,6 +83,15 @@
             this.fileLoading.Size = new System.Drawing.Size(332, 522);
             this.fileLoading.TabIndex = 3;
             this.fileLoading.Visible = false;
+            // 
+            // savePathLabel
+            // 
+            this.savePathLabel.AutoSize = true;
+            this.savePathLabel.Location = new System.Drawing.Point(19, 456);
+            this.savePathLabel.Name = "savePathLabel";
+            this.savePathLabel.Size = new System.Drawing.Size(65, 12);
+            this.savePathLabel.TabIndex = 3;
+            this.savePathLabel.Text = "保存地址：";
             // 
             // kxResource
             // 
@@ -92,6 +103,7 @@
             this.Size = new System.Drawing.Size(332, 522);
             ((System.ComponentModel.ISupportInitialize)(this.fileLoadingPic)).EndInit();
             this.fileLoading.ResumeLayout(false);
+            this.fileLoading.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -102,5 +114,6 @@
         private System.Windows.Forms.PictureBox fileLoadingPic;
         private System.Windows.Forms.Label progresslabel;
         private System.Windows.Forms.Panel fileLoading;
+        private System.Windows.Forms.Label savePathLabel;
     }
 }

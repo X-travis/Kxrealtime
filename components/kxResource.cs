@@ -72,13 +72,23 @@ namespace kxrealtime
 
         public void showFile(string fileLink, string fileName, string type)
         {
+            showFilePathTip(fileName);
             utils.pptContent.openFile(fileLink, fileName, type, isShowProgress, changeProgress);
+            showLink("http://baidu.com", "", "");
+        }
+
+        private void showFilePathTip(string fileName)
+        {
+            var savePath = utils.Utils.getFilePath();
+            var filePath = savePath + @"\" + fileName;
+            this.savePathLabel.Text = $"保存地址：{filePath}";
         }
 
         public void isShowProgress(bool flag)
         {
             Action<bool> action = (bool isShow) =>
             {
+                this.progresslabel.Text = "下载进度：0%";
                 this.fileLoading.Visible = isShow;
             };
             this.Invoke(action, flag);
@@ -89,14 +99,15 @@ namespace kxrealtime
         {
             Action<double> action = (double curPer) =>
             {
-                this.progresslabel.Text = "下载进度：" + ((int)(100 * curPer)).ToString() + "%";
-                int pg =  (Int32)(curPer * 100) % 10;
-                if(pg > 100)
+                int curPerTmp = (int)(100 * curPer);
+                if(curPerTmp > 100)
                 {
-                    pg = 99;
+                    curPerTmp = 100;
                 }
+                this.progresslabel.Text = "下载进度：" + (curPerTmp).ToString() + "%";
+                int pg =  (Int32)(curPer * 100) % 10;
                 // 优化
-                if(pg > 0 && pg < 2)
+                if(pg%2 == 0)
                 {
                     System.Windows.Forms.Application.DoEvents();
                 }
@@ -110,6 +121,7 @@ namespace kxrealtime
             //utils.pptContent.InsertImage(imgLink);
             var nameArr = imgLink.Split('/');
             var curName = nameArr[nameArr.Length - 1];
+            showFilePathTip(curName);
             utils.pptContent.openFile(imgLink, curName, "image", isShowProgress, changeProgress);
         }
 
@@ -119,13 +131,14 @@ namespace kxrealtime
             //utils.pptContent.InserVideo(videoLink);
             var nameArr = videoLink.Split('/');
             var curName = nameArr[nameArr.Length - 1];
+            showFilePathTip(curName);
             utils.pptContent.openFile(videoLink, curName, "video", isShowProgress, changeProgress);
         }
 
         // 提供给web的调用方法 插入链接
-        public void showLink(string link, string name)
+        public void showLink(string link, string name, string info)
         {
-            utils.pptContent.InserLink(link);
+            utils.pptContent.InserLink(link, name, info);
         }
 
         public void showQuestion()

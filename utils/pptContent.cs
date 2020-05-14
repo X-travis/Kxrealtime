@@ -55,11 +55,16 @@ namespace kxrealtime.utils
             slide.Shapes.AddMediaObject2(videlUrl, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue,0,0, curW,curH);
         }
 
-        public static void InserLink(string linkUrl)
+        public static void InserLink(string linkUrl, string name, string info)
         {
             var slide = NewSlide();
             //var shapeTmp = slide.Shapes.AddTitle();
-            var shapeTmp = slide.Shapes.AddTextbox(Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 100, 300, 100);
+            var shapeInfoTmp = slide.Shapes.AddTextbox(Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 100, 500, 100);
+            shapeInfoTmp.Visible = Office.MsoTriState.msoTrue;
+            shapeInfoTmp.Height = 50;
+            shapeInfoTmp.Width = 400;
+            shapeInfoTmp.TextFrame.TextRange.Text = info;
+            var shapeTmp = slide.Shapes.AddTextbox(Office.MsoTextOrientation.msoTextOrientationHorizontal, 100, 200, 300, 100);
             shapeTmp.Visible = Office.MsoTriState.msoTrue;
             shapeTmp.Height = 50;
             shapeTmp.Width = 200;
@@ -80,44 +85,47 @@ namespace kxrealtime.utils
 
         public static void openFile(string pathTmp, string fileName, string type, SHOWPROGRESS cb, ProgressTip pgCb)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "请选择需要保存到文件路径";
-
-            if (dialog.ShowDialog() == DialogResult.OK)
+            cb(true);
+            var savePath = Utils.getFilePath();
+            var filePath = savePath + @"\" + fileName;
+            var task = Task.Run(() =>
             {
-                cb(true);
-                string savePath = dialog.SelectedPath;
-                //var savePath = Utils.getFilePath();
-                var filePath = savePath + @"\" + fileName;
-                var task = Task.Run(() =>
+                //Utils.dlFile(pathTmp, filePath);
+                Utils.dlFileOrigin(pathTmp, filePath, "", pgCb);
+                try
                 {
-                    //Utils.dlFile(pathTmp, filePath);
-                    Utils.dlFileOrigin(pathTmp, filePath, "", pgCb);
-                    try
+                    switch (type)
                     {
-                        switch(type)
-                        {
-                            case "image":
-                                InsertImage(filePath);
-                                break;
-                            case "video":
-                                InserVideo(filePath);
-                                break;
-                            case "ppt":
-                                openPPT(filePath);
-                                break;
-                            default:
-                                System.Diagnostics.Process.Start(filePath);
-                                break;
-                        }
+                        case "image":
+                            InsertImage(filePath);
+                            break;
+                        case "video":
+                            InserVideo(filePath);
+                            break;
+                        case "ppt":
+                            openPPT(filePath);
+                            break;
+                        default:
+                            System.Diagnostics.Process.Start(filePath);
+                            break;
                     }
-                    catch (Exception e)
-                    {
+                }
+                catch (Exception e)
+                {
 
-                    }
-                    cb(false);
-                });
-            }
+                }
+                cb(false);
+            });
+            //FolderBrowserDialog dialog = new FolderBrowserDialog();
+            //dialog.Description = "请选择需要保存到文件路径";
+
+            //if (dialog.ShowDialog() == DialogResult.OK)
+            //{
+                
+            //    string savePath = dialog.SelectedPath;
+            //    //var savePath = Utils.getFilePath();
+            //    var filePath = savePath + @"\" + fileName;
+            //}
         }
 
         // 创建试题模板
