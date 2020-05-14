@@ -91,6 +91,10 @@ namespace kxrealtime
             {
                 this.progresslabel.Text = "下载进度：" + ((int)(100 * curPer)).ToString() + "%";
                 int pg =  (Int32)(curPer * 100) % 10;
+                if(pg > 100)
+                {
+                    pg = 99;
+                }
                 // 优化
                 if(pg > 0 && pg < 2)
                 {
