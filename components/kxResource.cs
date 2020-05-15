@@ -74,7 +74,6 @@ namespace kxrealtime
         {
             showFilePathTip(fileName);
             utils.pptContent.openFile(fileLink, fileName, type, isShowProgress, changeProgress);
-            showLink("http://baidu.com", "", "");
         }
 
         private void showFilePathTip(string fileName)
