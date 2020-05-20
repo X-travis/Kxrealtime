@@ -1,47 +1,52 @@
 ﻿using System;
-using System.Net.WebSockets;
 using System.Threading.Tasks;
+using UnityEngine;
 using Websocket.Client;
+using WebSocket4Net;
 
 namespace kxrealtime.utils
 {
-    public static class webSocketClient
+    public class webSocketClient : IDisposable
     {
-        public static IWebsocketClient StartWebSocket(string uri)
+        private string curUrl;
+        private WebSocket curWebScoket;
+
+        public delegate void normalCb(string msg);
+        public event normalCb MessageReceived;
+
+        public WebSocketState State
+        {
+            get
+            {
+                return curWebScoket.State;
+            }
+        }
+
+
+        public WebSocket webSocketInstance
+        {
+            get
+            {
+                return curWebScoket;
+            }
+        }
+
+        public webSocketClient() { }
+
+        public WebSocket StartWebSocket(string uri)
         {
             try
             {
                 System.Diagnostics.Debug.WriteLine("websocket init");
-                //var exitEvent = new ManualResetEvent(false);
-                var url = new Uri(uri);
-                var factory = new Func<ClientWebSocket>(() =>
-                {
-                    var client = new ClientWebSocket
-                    {
-                        Options =
-                        {
-                            KeepAliveInterval = TimeSpan.FromSeconds(600),
-                            // Proxy = ...
-                            // ClientCertificates = ...
-                        }
-                    };
-                    //client.Options.SetRequestHeader("Origin", "https://kx-v010.dev.resfair.com");
-                    return client;
-                });
-                IWebsocketClient websocketClent = new WebsocketClient(url, factory);
-                //websocketClent.ReconnectTimeout = null;// TimeSpan.FromSeconds(1800);
-                websocketClent.ReconnectTimeoutMs = 1800000;
-                websocketClent.ReconnectionHappened.Subscribe(info => System.Diagnostics.Debug.WriteLine("reconnect " + info.ToString()));
-                websocketClent.DisconnectionHappened.Subscribe(info =>
-                {
-                    System.Diagnostics.Debug.WriteLine($"Disconnection happened, type: {info.ToString()}");
-                });
-
-
-
-                System.Diagnostics.Debug.WriteLine(websocketClent.Url);
-                websocketClent.Start();
-                return websocketClent;
+                curUrl = uri;
+                curWebScoket = new WebSocket(uri);
+                curWebScoket.Opened += new EventHandler(websocket_Opened);
+                curWebScoket.Error += websocket_Error;
+                curWebScoket.Closed += new EventHandler(websocket_Closed);
+                curWebScoket.MessageReceived += CurWebScoket_MessageReceived;
+                //websocket.MessageReceived += new EventHandler(websocket_MessageReceived);
+                curWebScoket.Open();
+                return webSocketInstance;
             }
             catch (Exception e)
             {
@@ -49,19 +54,48 @@ namespace kxrealtime.utils
                 utils.Utils.LOG(e.Message);
                 return null;
             }
-
-            //Task.Run(() => client.Send("{ message }"));
         }
 
-        public static void clientSend(IWebsocketClient client, string info)
+        private void CurWebScoket_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            //await client.Send("test");
-            Task.Run(() => client.Send(info));
+            MessageReceived(e.Message);
         }
 
-        public static void closeFn()
+        public void clientSend(string info)
         {
+            Task.Run(() => curWebScoket.Send(info));
+        }
 
+        public void closeFn()
+        {
+            
+        }
+
+        public void websocket_Opened(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void websocket_Closed(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("websocket close");
+        }
+
+        public void websocket_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("websocket close");
+            reconnect();
+        }
+
+        private void reconnect()
+        {
+            StartWebSocket(curUrl);
+        }
+
+        public void Dispose()
+        {
+            curWebScoket.Close();
+            curWebScoket.Dispose();
         }
     }
 }

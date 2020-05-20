@@ -9,10 +9,11 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Websocket.Client;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 using CustomTaskPane =  Microsoft.Office.Tools.CustomTaskPane;
+using WebSocket4Net;
+using kxrealtime.utils;
 
 namespace kxrealtime
 {
@@ -21,7 +22,7 @@ namespace kxrealtime
 
         PowerPoint.Application app;
 
-        private IWebsocketClient loginWebSocket = null;
+        private webSocketClient loginWebSocket = null;
         private PictureBox loginPictureBox;
         private loginDialog curLoginDialog;
 
@@ -437,42 +438,43 @@ namespace kxrealtime
                 //loginWebSocket.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "close");
                 this.closeLoginConnect();
             }
-            loginWebSocket = utils.webSocketClient.StartWebSocket($"{utils.KXINFO.KXSOCKETURL}/mobileLogin?client_id={curID}");
-            loginWebSocket.MessageReceived.Subscribe(msg =>
+            loginWebSocket = new utils.webSocketClient();
+            loginWebSocket.StartWebSocket($"{utils.KXINFO.KXSOCKETURL}/mobileLogin?client_id={curID}");
+            loginWebSocket.MessageReceived += loginHandle;
+        }
+
+        private void loginHandle(string msgStr)
+        {
+            try
             {
-                try
+                if (loginWebSocket == null)
                 {
-                    if (loginWebSocket == null)
-                    {
-                        return;
-                    }
-
-                    string msgStr = msg.Text;
-                    utils.KXINFO.initUsr(msgStr);
-                    var startTch = initTchInfo(msgStr);
-                    // close login pane
-                    Action<bool> actionDelegate = this.LoginSuccess;
-                    // 或者
-                    // Action<string> actionDelegate = delegate(string txt) { this.label2.Text = txt; };
-                    this.curLoginDialog.Invoke(actionDelegate, startTch);
-
-                    this.button5.Visible = false;
-                    this.menu1.Visible = true;
-                    this.menu1.Label = utils.KXINFO.KXUNAME;
-                    this.resourceGroup.Visible = true;
-                    this.closeLoginConnect();
-                    if(ksResourceCtl != null && !ksResourceCtl.IsDisposed)
-                    {
-                        ksResourceCtl.Dispose();
-                        ksResourceCtl = null;
-                        kxResourceTaskPane.Visible = false;
-                    }
+                    return;
                 }
-                catch (Exception e)
+                utils.KXINFO.initUsr(msgStr);
+                var startTch = initTchInfo(msgStr);
+                // close login pane
+                Action<bool> actionDelegate = this.LoginSuccess;
+                // 或者
+                // Action<string> actionDelegate = delegate(string txt) { this.label2.Text = txt; };
+                this.curLoginDialog.Invoke(actionDelegate, startTch);
+
+                this.button5.Visible = false;
+                this.menu1.Visible = true;
+                this.menu1.Label = utils.KXINFO.KXUNAME;
+                this.resourceGroup.Visible = true;
+                this.closeLoginConnect();
+                if (ksResourceCtl != null && !ksResourceCtl.IsDisposed)
                 {
-                    MessageBox.Show("登录失败" + e.Message);
+                    ksResourceCtl.Dispose();
+                    ksResourceCtl = null;
+                    kxResourceTaskPane.Visible = false;
                 }
-            });
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("登录失败" + e.Message);
+            }
         }
 
         // 初始化授课信息

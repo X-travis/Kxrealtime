@@ -1,4 +1,5 @@
 ﻿using kxrealtime.kxdata;
+using kxrealtime.utils;
 using Microsoft.Office.Interop.PowerPoint;
 using Newtonsoft.Json.Linq;
 using System;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Websocket.Client;
+using WebSocket4Net;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace kxrealtime
@@ -22,7 +24,7 @@ namespace kxrealtime
         private PowerPoint.PpSelectionType lastType;
         private RestSharp.RestClient curHttpReq;
         private bool canShowAddClassFlag = false;
-        private IWebsocketClient TchWebSocket;
+        private webSocketClient TchWebSocket;
         private utilDialog utilDialogInstance;
         private int curActiveWn;
 
@@ -242,7 +244,7 @@ namespace kxrealtime
         private void sendScreen(PowerPoint.SlideShowWindow Wn, int curIdx)
         {
             // 开启了授课
-            if (TchWebSocket != null && TchWebSocket.IsRunning)
+            if (TchWebSocket != null && TchWebSocket.State == WebSocketState.Connecting)
             {
                 //var imgTmp = utils.Utils.getScreenImg();
                 //MessageBox.Show(curDirTmp);
@@ -403,19 +405,20 @@ namespace kxrealtime
                 CloseTchSocket();
             }
             string url = $"{utils.KXINFO.KXSOCKETURL}/im?user_id={utils.KXINFO.KXOUTUID}";
-            TchWebSocket = utils.webSocketClient.StartWebSocket(url);
-            TchWebSocket.MessageReceived.Subscribe(tchSocketHandle);
+            TchWebSocket = new utils.webSocketClient();
+            TchWebSocket.StartWebSocket(url);
+            TchWebSocket.MessageReceived += tchSocketHandle; ;
         }
 
-        private void tchSocketHandle(ResponseMessage info)
+        private void tchSocketHandle(String msg)
         {
             try
             {
-                if (info.Text == "HeartBeat")
+                if (msg == "HeartBeat")
                 {
                     return;
                 }
-                JObject data = JObject.Parse(info.Text);
+                JObject data = JObject.Parse(msg);
                 string curType = (string)data["type"];
                 if (curType == "barrage")
                 {
@@ -439,9 +442,9 @@ namespace kxrealtime
             {
                 return;
             }
-            if (TchWebSocket.IsRunning)
+            if (TchWebSocket.State == WebSocketState.Connecting)
             {
-                utils.webSocketClient.clientSend(TchWebSocket, info);
+                TchWebSocket.clientSend(info);
             }
         }
 
