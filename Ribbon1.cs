@@ -133,6 +133,8 @@ namespace kxrealtime
             }
         }
 
+        public bool isPlaying;
+
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             app = Globals.ThisAddIn.Application;
@@ -612,6 +614,7 @@ namespace kxrealtime
         // 变更设置按钮的显示
         public void settingChange(bool isSetting)
         {
+            isPlaying = !isSetting;
             for (int i = 1; i <= app.ActivePresentation.Slides.Count; i++)
             {
                 PowerPoint.Slide curSld = app.ActivePresentation.Slides[i];
@@ -801,8 +804,12 @@ namespace kxrealtime
         // 从当前页播放
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
+            settingChange(false);
             try
             {
+                //var curSetting = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings;
+                //curSetting.ShowType = PpSlideShowType.ppShowTypeKiosk;
+                //curSetting.AdvanceMode = PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
                 SendKeys.Send("+{F5}");
                 return;
             }

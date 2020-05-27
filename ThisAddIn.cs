@@ -244,7 +244,7 @@ namespace kxrealtime
         private void sendScreen(PowerPoint.SlideShowWindow Wn, int curIdx)
         {
             // 开启了授课
-            if (TchWebSocket != null && TchWebSocket.State == WebSocketState.Connecting)
+            if (TchWebSocket != null && TchWebSocket.State == WebSocketState.Open)
             {
                 //var imgTmp = utils.Utils.getScreenImg();
                 //MessageBox.Show(curDirTmp);
@@ -372,7 +372,10 @@ namespace kxrealtime
         private void SlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
             //("开始放映");
-            Globals.Ribbons.Ribbon1.settingChange(false);
+            if(!Globals.Ribbons.Ribbon1.isPlaying)
+            {
+                Globals.Ribbons.Ribbon1.settingChange(false);
+            }
             isSameSending = false;
             if (this.playSlideIdx != 1)
             {
@@ -442,7 +445,7 @@ namespace kxrealtime
             {
                 return;
             }
-            if (TchWebSocket.State == WebSocketState.Connecting)
+            if (TchWebSocket.State == WebSocketState.Open)
             {
                 TchWebSocket.clientSend(info);
             }

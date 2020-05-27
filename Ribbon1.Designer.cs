@@ -36,22 +36,22 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group2 = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.box1 = this.Factory.CreateRibbonBox();
+            this.group1 = this.Factory.CreateRibbonGroup();
+            this.resourceGroup = this.Factory.CreateRibbonGroup();
             this.button5 = this.Factory.CreateRibbonButton();
             this.menu1 = this.Factory.CreateRibbonMenu();
             this.button7 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
-            this.box1 = this.Factory.CreateRibbonBox();
             this.button12 = this.Factory.CreateRibbonButton();
             this.button10 = this.Factory.CreateRibbonButton();
-            this.group1 = this.Factory.CreateRibbonGroup();
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button11 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
-            this.resourceGroup = this.Factory.CreateRibbonGroup();
             this.resourceBtn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -76,6 +76,36 @@
             this.group2.Items.Add(this.menu1);
             this.group2.Label = "教师登录";
             this.group2.Name = "group2";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.button6);
+            this.group3.Items.Add(this.box1);
+            this.group3.Label = "课堂教学";
+            this.group3.Name = "group3";
+            // 
+            // box1
+            // 
+            this.box1.Items.Add(this.button12);
+            this.box1.Items.Add(this.button10);
+            this.box1.Name = "box1";
+            this.box1.Visible = false;
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.button1);
+            this.group1.Items.Add(this.button2);
+            this.group1.Items.Add(this.button3);
+            this.group1.Items.Add(this.button11);
+            this.group1.Items.Add(this.button4);
+            this.group1.Label = "插入题目";
+            this.group1.Name = "group1";
+            // 
+            // resourceGroup
+            // 
+            this.resourceGroup.Items.Add(this.resourceBtn);
+            this.resourceGroup.Label = "资源库";
+            this.resourceGroup.Name = "resourceGroup";
             // 
             // button5
             // 
@@ -110,13 +140,6 @@
             this.button8.ShowImage = true;
             this.button8.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button8_Click);
             // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button6);
-            this.group3.Items.Add(this.box1);
-            this.group3.Label = "课堂教学";
-            this.group3.Name = "group3";
-            // 
             // button6
             // 
             this.button6.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -125,13 +148,6 @@
             this.button6.Name = "button6";
             this.button6.ShowImage = true;
             this.button6.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button6_Click);
-            // 
-            // box1
-            // 
-            this.box1.Items.Add(this.button12);
-            this.box1.Items.Add(this.button10);
-            this.box1.Name = "box1";
-            this.box1.Visible = false;
             // 
             // button12
             // 
@@ -150,16 +166,6 @@
             this.button10.Name = "button10";
             this.button10.ShowImage = true;
             this.button10.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button10_Click);
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.button1);
-            this.group1.Items.Add(this.button2);
-            this.group1.Items.Add(this.button3);
-            this.group1.Items.Add(this.button11);
-            this.group1.Items.Add(this.button4);
-            this.group1.Label = "插入题目";
-            this.group1.Name = "group1";
             // 
             // button1
             // 
@@ -210,12 +216,6 @@
             this.button4.ScreenTip = "插入主观题";
             this.button4.ShowImage = true;
             this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
-            // 
-            // resourceGroup
-            // 
-            this.resourceGroup.Items.Add(this.resourceBtn);
-            this.resourceGroup.Label = "资源库";
-            this.resourceGroup.Name = "resourceGroup";
             // 
             // resourceBtn
             // 
