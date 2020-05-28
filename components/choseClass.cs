@@ -10,6 +10,7 @@ namespace kxrealtime
 {
     public partial class choseClass : Form
     {
+        // 对应的id，名字
         private Int64 classID;
         private Int64 courseID;
         private Int64 chapterID;
@@ -17,6 +18,7 @@ namespace kxrealtime
         private string courseName;
         private string chapterName;
 
+        // 构造函数
         public choseClass()
         {
             InitializeComponent();
@@ -227,7 +229,7 @@ namespace kxrealtime
             }
         }
 
-
+        // 对于界面的点击事件
         private void button1_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -306,6 +308,7 @@ namespace kxrealtime
             }
         }
 
+        // 打开授课，加入班级页面
         private void createScreenWin(string classId, string className)
         {
             Globals.ThisAddIn.canShowAddClass = true;
@@ -313,6 +316,7 @@ namespace kxrealtime
             return;
         }
 
+        // 停止授课
         public void stopTching()
         {
             var curArgs = new SendArgs();
@@ -356,7 +360,7 @@ namespace kxrealtime
         }
     }
 
-
+    // 班级数据格式
     public class ClassItem
     {
         public Int64 tid { get; set; }
@@ -364,6 +368,7 @@ namespace kxrealtime
         public string name { get; set; }
     };
 
+    // 课程内容数据格式
     public class CourseItem
     {
         public Int64 tid { get; set; }
@@ -371,6 +376,7 @@ namespace kxrealtime
         public string title { get; set; }
     }
 
+    // 章节数据格式
     public class ChapterItem
     {
         public Int64 tid { get; set; }
@@ -378,6 +384,7 @@ namespace kxrealtime
         public string title { get; set; }
     }
 
+    // 发送数据的格式
     public class SendArgs
     {
         public Int64 course_id { get; set; }

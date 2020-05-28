@@ -2,6 +2,7 @@
 
 namespace kxrealtime.kxdata
 {
+    // 幻灯片考试信息数据结构
     public class slideExamInfo
     {
         public string slideName { get; set; }

@@ -24,6 +24,7 @@ namespace kxrealtime
         private string testId;
         private bool isSending = false;
 
+        // 初始化
         public choseTime(utilDialog ownerForm)
         {
             InitializeComponent();
@@ -45,6 +46,7 @@ namespace kxrealtime
             //this.paperTitle = utils.KXINFO.KXCHOSECOURSETITLE + "练习";
         }
 
+        // 显示选择时间部分
         public void showFn(string paperId, string testId)
         {
             var tmp = utils.Utils.getScreenPosition();
@@ -58,7 +60,7 @@ namespace kxrealtime
             this.loadingPB.Visible = false;
         }
 
-        // 发送试卷
+        // 开始发送试卷
         public void questionSend(string paperId, string testId)
         {
             var tmp = utils.Utils.getScreenPosition();
@@ -72,6 +74,7 @@ namespace kxrealtime
             this.sendPaperFn(0);
         }
 
+        // 关闭页面
         public void closeFn()
         {
             this.paperId = null;
@@ -114,6 +117,7 @@ namespace kxrealtime
             this.panel1.Visible = true;
         }
 
+        // mouseHover事件
         private void BtnTmp_MouseHover(object sender, EventArgs e)
         {
             Button curBtn = sender as Button;
@@ -144,6 +148,7 @@ namespace kxrealtime
             }
         }
 
+        // 发送试卷
         private void sendPaperFn(Int64 timeTmp)
         {
             this.paperTime = timeTmp;
@@ -187,6 +192,7 @@ namespace kxrealtime
             }
         }
 
+        // 修改时间
         private void sendChangeTime(string paperId, string testId)
         {
             object sendData = (new
@@ -206,21 +212,25 @@ namespace kxrealtime
             Globals.ThisAddIn.SendTchInfo(tmp);
         }
 
+        // 关闭按钮
         private void button1_Click(object sender, EventArgs e)
         {
             this.closeFn();
         }
 
+        // 点击右移动
         private void button2_Click(object sender, EventArgs e)
         {
             moveBtn(1);
         }
 
+        // 点击右移动
         private void button3_Click(object sender, EventArgs e)
         {
             moveBtn(-1);
         }
 
+        // 移动位置
         private void moveBtn(int way)
         {
             foreach (Control col in panel1.Controls)
@@ -232,6 +242,7 @@ namespace kxrealtime
             }
         }
 
+        // 关闭全部
         private void allClose()
         {
             closeFn();
@@ -239,6 +250,7 @@ namespace kxrealtime
             this.isSending = false;
         }
 
+        // 发送试卷
         private async void sendPage()
         {
             await Task.Run(() =>
@@ -256,6 +268,7 @@ namespace kxrealtime
             }
         }
 
+        // 发送试卷全部流程（创建，发送）
         public void sendPageFn()
         {
 
@@ -405,6 +418,7 @@ namespace kxrealtime
 
         }
 
+        // 创建试卷
         private string createPaper(string paperType)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/create");
@@ -441,6 +455,7 @@ namespace kxrealtime
             return null;
         }
 
+        // 创建考试
         private string createExam(string paperId, long sTime)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/upsertTest");
@@ -489,6 +504,7 @@ namespace kxrealtime
             return null;
         }
 
+        // 创建选择题
         private object createSingle(string aid, string selType, float score, string title, ArrayList labelArr, Hashtable optionMap, ArrayList curAnswerArr)
         {
             var titleArr = new List<PaperContent>
@@ -571,6 +587,7 @@ namespace kxrealtime
             });
         }
 
+        // 创建主观题
         private object createText(string aid, float score, string title, ArrayList curAnswerArr)
         {
             var titleArr = new List<PaperContent>
@@ -638,6 +655,7 @@ namespace kxrealtime
             });
         }
 
+        // 创建填空题
         private object createFill(string aid, float score, string title, List<fillOption> curAnswerArr)
         {
             var titleArr = new List<PaperContent>
@@ -709,6 +727,7 @@ namespace kxrealtime
             });
         }
 
+        // 发送试卷
         private void sendPaper(string paperId, string testId, object dataArgs)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/art/api/update");
@@ -745,6 +764,7 @@ namespace kxrealtime
             }
         }
 
+        // 发送试卷信息设置
         private void sendPaperExt(string paperId, bool isQuestion)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/updateExt");
@@ -796,6 +816,7 @@ namespace kxrealtime
             }
         }
 
+        // 发送试卷的记录
         private void sendKXOUT(string paperId, string testId)
         {
             var recordArgs = new SendKxOut()
@@ -882,6 +903,7 @@ namespace kxrealtime
             }
         }
 
+        // 无用
         public void recordTch(object stepContent)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/upsertTeachRecord");
@@ -921,6 +943,7 @@ namespace kxrealtime
         }
     }
 
+    // 考试信息结构
     public class createExamInfo
     {
         public string title { get; set; }

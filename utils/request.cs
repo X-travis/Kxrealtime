@@ -122,6 +122,7 @@ namespace kxrealtime.utils
             task.Start();
         }
 
+        // 记录授课ppt
         public static upsertTeachContent recordTchImg(string url)
         {
             List<object> args = new List<object>
@@ -164,6 +165,7 @@ namespace kxrealtime.utils
             return null;
         }
 
+        // 记录授课信息
         public static void recordTch(object stepContent)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXURL}/usr/upsertTeachRecord");

@@ -6,14 +6,16 @@ using System.Windows.Forms;
 
 namespace kxrealtime
 {
-
+    // 以下两个配置用于与js交互
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     //[System.Runtime.InteropServices.ComVisible(true)]
     public partial class addClass : Form
     {
+        // 当前webbrowser
         private WebBrowser curWebBrowser;
 
+        // 构造函数
         public addClass(string classId, string className)
         {
             InitializeComponent();
@@ -21,6 +23,7 @@ namespace kxrealtime
             initWebPage();
         }
 
+        // 初始化
         private void initWebPage()
         {
             var timeStamp = utils.Utils.getTimeStamp();
@@ -36,17 +39,20 @@ namespace kxrealtime
             this.curWebBrowser.ObjectForScripting = this;
         }
 
+        // html加载完成回调
         private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             //this.sendData();
             this.curWebBrowser.Document.MouseMove += Document_MouseMove;
         }
 
+        // 鼠标移动事件
         private void Document_MouseMove(object sender, HtmlElementEventArgs e)
         {
             Cursor.Show();
         }
 
+        // 发送数据给网页
         private void sendData()
         {
             HtmlDocument curDoc = this.curWebBrowser.Document;
@@ -123,6 +129,7 @@ namespace kxrealtime
             this.sendData();
         }
 
+        // 点击关闭事件
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.curWebBrowser.Dispose();

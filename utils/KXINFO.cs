@@ -5,7 +5,7 @@ namespace kxrealtime.utils
 {
     public static class KXINFO
     {
-
+        // 对应的接口域名
         public static string KXURL = @"https://kxrealtime-mp.kuxiao.cn";
         public static string KXADMINURL = @"https://kxrealtime-admin.kuxiao.cn";
         public static string KXSOCKETURL = @"wss://kxrealtime-mp.kuxiao.cn";
@@ -33,7 +33,7 @@ namespace kxrealtime.utils
 
         public static long srvTimeDif = 0;
 
-
+        // 初始化用户信息
         public static void initUsr(string dataInfo)
         {
             JObject data = JObject.Parse(dataInfo);
@@ -58,6 +58,7 @@ namespace kxrealtime.utils
             catch (Exception) { }
         }
 
+        // 清除所有教师相关信息
         public static void clear()
         {
             KXTOKEN = null;
@@ -75,6 +76,7 @@ namespace kxrealtime.utils
             srvTimeDif = 0;
         }
 
+        // 清除授课信息
         public static void tchClear()
         {
             KXCHOSECHAPTERTITLE = null;

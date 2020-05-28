@@ -12,6 +12,7 @@ namespace kxrealtime
             InitializeComponent();
         }
 
+        // 内容
         public Panel getContent
         {
             get
@@ -20,6 +21,7 @@ namespace kxrealtime
             }
         }
 
+        // 关闭按钮
         public Label getClose
         {
             get
@@ -28,6 +30,7 @@ namespace kxrealtime
             }
         }
 
+        // 标题
         public Label getTitle
         {
             get
@@ -44,6 +47,7 @@ namespace kxrealtime
             }
         }
 
+        // 显示函数
         public static void Show(Form frmTop, Color frmBackColor, double frmBackOpacity)
         {
             // 背景窗体设置

@@ -9,6 +9,7 @@ namespace kxrealtime
 
         public static Hashtable answerArrHansh = new Hashtable();
 
+        // 记录答案
         public static void setAnswer(string key, object value)
         {
             if (answerArrHansh == null)
@@ -25,6 +26,7 @@ namespace kxrealtime
             }
         }
 
+        // 读取答案
         public static object getAnswer(string key)
         {
             if (answerArrHansh.Contains(key))
@@ -39,6 +41,7 @@ namespace kxrealtime
 
     }
 
+    // 弃用
     public class answerFormat
     {
         public string key { get; set; }
