@@ -13,25 +13,35 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace kxrealtime
 {
-
+    // 接收websocket的函数
     public delegate void WebSocketMsgHandle(string msg);
 
     public partial class ThisAddIn
     {
+        // 当前幻灯片序号
         private int curSlideIdx = 1;
+        // 当前播放的幻灯片序号
         private int playSlideIdx = 1;
+        // 是否是酷校页面
         private bool isKxPage;
+        // 选择类型
         private PowerPoint.PpSelectionType lastType;
+        // 请求对象
         private RestSharp.RestClient curHttpReq;
+        // 是否显示加入班级页面
         private bool canShowAddClassFlag = false;
+        // webscoket对象
         private webSocketClient TchWebSocket;
+        // 工具栏对象
         private utilDialog utilDialogInstance;
+        // 当前窗口句柄
         private int curActiveWn;
-
+        // 是否在发送中
         private bool isSameSending = false;
-
+        // webscoket 接收事件
         public event WebSocketMsgHandle WebSocketMsg;
 
+        // 获取当前幻灯片index
         public int CurSlideIdx
         {
             get
@@ -44,6 +54,7 @@ namespace kxrealtime
             }
         }
 
+        // 获取当前播放中幻灯片index
         public int PlaySlideIdx
         {
             get
@@ -56,6 +67,7 @@ namespace kxrealtime
             }
         }
 
+        // 获取请求对象
         public RestSharp.RestClient CurHttpReq
         {
             get
@@ -64,6 +76,7 @@ namespace kxrealtime
             }
         }
 
+        // 获取是否显示加入班级
         public bool canShowAddClass
         {
             get
@@ -80,6 +93,7 @@ namespace kxrealtime
         // slide exame
         private List<slideExamInfo> kxSlideExamList = new List<slideExamInfo>();
 
+        // 幻灯片考试信息列表
         public List<slideExamInfo> kxSlideExam
         {
             get
@@ -88,6 +102,7 @@ namespace kxrealtime
             }
         }
 
+        // 获取当前窗口句柄
         public int getCurActiveWn
         {
             get
@@ -96,6 +111,7 @@ namespace kxrealtime
             }
         }
 
+        // 开始函数
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             this.Application.SlideSelectionChanged += Application_SlideSelectionChanged;
@@ -111,11 +127,13 @@ namespace kxrealtime
             this.curHttpReq = utils.request.GetClient();
         }
 
+        // 窗口active事件回调
         private void Application_WindowActivate(PowerPoint.Presentation Pres, PowerPoint.DocumentWindow Wn)
         {
             this.curActiveWn = Wn.HWND;
         }
 
+        // ppt关闭事件回调
         private void Application_PresentationBeforeClose(PowerPoint.Presentation Pres, ref bool Cancel)
         {
             if (utils.KXINFO.KXTCHRECORDID != null && utils.KXINFO.KXTCHRECORDID.Length > 0)
@@ -131,16 +149,18 @@ namespace kxrealtime
 
         }
 
+        // 上一张事件回调
         private void Application_SlideShowOnPrevious(PowerPoint.SlideShowWindow Wn)
         {
             System.Diagnostics.Debug.WriteLine("this is on previous");
         }
-
+        // 下一张事件回调
         private void Application_SlideShowOnNext(PowerPoint.SlideShowWindow Wn)
         {
             System.Diagnostics.Debug.WriteLine("this is on next");
         }
 
+        // 切换幻灯片事件回调
         private void Application_SlideShowNextSlide(PowerPoint.SlideShowWindow Wn)
         {
             if(isSameSending && Wn.View.Slide.SlideIndex == this.playSlideIdx)
@@ -167,6 +187,7 @@ namespace kxrealtime
             isSameSending = false;
         }
 
+        // 检查工具按钮
         private void checkUtils(PowerPoint.SlideShowWindow Wn)
         {
             if (this.utilDialogInstance == null || this.utilDialogInstance.IsDisposed)
@@ -205,6 +226,7 @@ namespace kxrealtime
             myTimer.Interval = 300;
         }
 
+        // 打开加入班级
         private void openAddClass()
         {
             // 邀请进入班级窗口
@@ -216,6 +238,7 @@ namespace kxrealtime
             Globals.Ribbons.Ribbon1.ChangeTchBtn(true);
         }
 
+        // 初始化设置图片按钮
         public void initSetting()
         {
             string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
@@ -241,10 +264,11 @@ namespace kxrealtime
             rs.Save(fileDict + @"\setting.png");
         }
 
+        // 发送ppt图片
         private void sendScreen(PowerPoint.SlideShowWindow Wn, int curIdx)
         {
             // 开启了授课
-            if (TchWebSocket != null && TchWebSocket.State == WebSocketState.Connecting)
+            if (TchWebSocket != null && TchWebSocket.State == WebSocketState.Open)
             {
                 //var imgTmp = utils.Utils.getScreenImg();
                 //MessageBox.Show(curDirTmp);
@@ -286,6 +310,7 @@ namespace kxrealtime
             }
         }
 
+        // 非播放状态切换ppt回调
         private void Application_SlideSelectionChanged(PowerPoint.SlideRange SldRange)
         {
             if (this.CurSlideIdx == SldRange.SlideIndex)
@@ -312,6 +337,7 @@ namespace kxrealtime
             }
         }
 
+        // 选中回调
         private void selectionChange(PowerPoint.Selection Sel)
         {
             if(!this.isKxPage && Sel.Type == PowerPoint.PpSelectionType.ppSelectionShapes)
@@ -342,6 +368,7 @@ namespace kxrealtime
 
         }
 
+        // 检查是否是酷校ppt
         private bool checkIsKx()
         {
             var curSlide = Application.ActivePresentation.Slides[curSlideIdx];
@@ -357,6 +384,7 @@ namespace kxrealtime
             return false;
         }
 
+        // 结束放映回调
         private void SlideShowEnd(PowerPoint.Presentation Pres)
         {
             //("结束放映");
@@ -369,10 +397,14 @@ namespace kxrealtime
             this.playSlideIdx = 1;
         }
 
+        // 开始放映回调
         private void SlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
             //("开始放映");
-            Globals.Ribbons.Ribbon1.settingChange(false);
+            if(!Globals.Ribbons.Ribbon1.isPlaying)
+            {
+                Globals.Ribbons.Ribbon1.settingChange(false);
+            }
             isSameSending = false;
             if (this.playSlideIdx != 1)
             {
@@ -385,6 +417,7 @@ namespace kxrealtime
 
         }
 
+        // 退出
         public void loginOut()
         {
             this.kxSlideExamList.Clear();
@@ -397,6 +430,7 @@ namespace kxrealtime
             }
         }
 
+        // 初始化授课webscoket
         public void InitTchSocket()
         {
             if (TchWebSocket != null)
@@ -410,6 +444,7 @@ namespace kxrealtime
             TchWebSocket.MessageReceived += tchSocketHandle; ;
         }
 
+        // 接收授课webssocket内容
         private void tchSocketHandle(String msg)
         {
             try
@@ -436,18 +471,20 @@ namespace kxrealtime
             }
         }
 
+        // 发送授课信息
         public void SendTchInfo(string info)
         {
             if (TchWebSocket == null)
             {
                 return;
             }
-            if (TchWebSocket.State == WebSocketState.Connecting)
+            if (TchWebSocket.State == WebSocketState.Open)
             {
                 TchWebSocket.clientSend(info);
             }
         }
 
+        // 关闭授课websocket
         public void CloseTchSocket()
         {
             if (TchWebSocket == null)
@@ -459,6 +496,7 @@ namespace kxrealtime
             TchWebSocket = null;
         }
 
+        // 查找ppt考试信息
         public slideExamInfo findExamInfo(string sldName)
         {
             foreach (slideExamInfo curExam in this.kxSlideExamList)
@@ -471,6 +509,7 @@ namespace kxrealtime
             return null;
         }
 
+        // 查找ppt考试信息 根据id
         public slideExamInfo findExamInfoByTestId(string testId)
         {
             foreach (slideExamInfo curExam in this.kxSlideExamList)
@@ -483,6 +522,7 @@ namespace kxrealtime
             return null;
         }
 
+        // 删除ppt考试信息
         public void removeExamItem(string paperId)
         {
             var itemToRemove = this.kxSlideExamList.SingleOrDefault(r => r.paperId == paperId);

@@ -12,6 +12,7 @@ namespace kxrealtime.utils
     {
         public static Form downloadForm;
 
+        // 创建唯一id
         public static string createGUID()
         {
             Random R = new Random();
@@ -20,6 +21,7 @@ namespace kxrealtime.utils
             return strDateTimeNumber + strRandomResult;
         }
 
+        // 截屏
         public static byte[] getScreenImg()
         {
             //创建图象，保存将来截取的图象
@@ -40,6 +42,7 @@ namespace kxrealtime.utils
             return (byte[])converter.ConvertTo(image, typeof(byte[]));
         }
 
+        //获取屏幕信息
         public static System.Drawing.Point getScreenPosition(bool isPrimary = false)
         {
             System.Drawing.Point curPoint = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Left, Screen.PrimaryScreen.Bounds.Top);
@@ -57,12 +60,14 @@ namespace kxrealtime.utils
             return curPoint;
         }
 
+        // log函数
         public static void LOG(object e)
         {
             System.Windows.Forms.MessageBox.Show(e.ToString());
             System.Diagnostics.Debug.WriteLine(e);
         }
 
+        // 获取对应的时间戳
         public static long getTimeStamp()
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
@@ -74,6 +79,7 @@ namespace kxrealtime.utils
             return timeStamp;
         }
 
+        // 下载文件 （弃用）
         public static void dlFile(string fileUrl, string savePath)
         {
             try
@@ -97,6 +103,7 @@ namespace kxrealtime.utils
             }
         }
 
+        // 获取文件路径
         public static string getFilePath()
         {
             string curDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments);
@@ -116,6 +123,7 @@ namespace kxrealtime.utils
             return fileDict;
         }
 
+        // 下载文件（以字节的方式）
         public static bool dlFileOrigin(string url, string path, string contentType, ProgressTip cb)
         {
             try

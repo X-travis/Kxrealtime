@@ -17,12 +17,14 @@ namespace kxrealtime
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public partial class kxResource : UserControl
     {
+        // 构造函数
         public kxResource()
         {
             InitializeComponent();
             initWeb();
         }
 
+        // 初始化网页
         private void initWeb()
         {
             //string urlTmp = "http://192.168.19.168:8080" + $"/?token=BBE356F4817DE17FCAB90A1CC45CE960&timestamp={utils.Utils.getTimeStamp()}#/pptComponents/resourceLibrary?session_id=5ea0fbe157c9f5119e00002d&token=BBE356F4817DE17FCAB90A1CC45CE960";
@@ -32,6 +34,7 @@ namespace kxrealtime
             resourceWebBrowser.Visible = true;
         }
 
+        // 弃用
         public void showPaper(string data)
         {
             var paperInfo = JsonConvert.DeserializeObject<kxdata.simplePaper>(data);
@@ -69,13 +72,14 @@ namespace kxrealtime
             }
         }
 
-
+        // 弃用
         public void showFile(string fileLink, string fileName, string type)
         {
             showFilePathTip(fileName);
             utils.pptContent.openFile(fileLink, fileName, type, isShowProgress, changeProgress);
         }
 
+        // 显示保存地址
         private void showFilePathTip(string fileName)
         {
             var savePath = utils.Utils.getFilePath();
@@ -83,6 +87,7 @@ namespace kxrealtime
             this.savePathLabel.Text = $"保存地址：{filePath}";
         }
 
+        // 是否显示进度条
         public void isShowProgress(bool flag)
         {
             Action<bool> action = (bool isShow) =>
@@ -94,6 +99,7 @@ namespace kxrealtime
             
         }
 
+        // 改变当前进度
         public void changeProgress(double value)
         {
             Action<double> action = (double curPer) =>

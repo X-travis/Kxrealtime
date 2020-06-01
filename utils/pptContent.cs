@@ -35,6 +35,7 @@ namespace kxrealtime.utils
             return slide;
         }
 
+        // 插入图片
         public static void InsertImage(string picUrl)
         {
             var app = Globals.ThisAddIn.Application;
@@ -46,6 +47,7 @@ namespace kxrealtime.utils
             shapeTmp.Top = 0;
         }
 
+        // 插入视频
         public static void InserVideo(string videlUrl)
         {
             var app = Globals.ThisAddIn.Application;
@@ -55,6 +57,7 @@ namespace kxrealtime.utils
             slide.Shapes.AddMediaObject2(videlUrl, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue,0,0, curW,curH);
         }
 
+        // 插入链接
         public static void InserLink(string linkUrl, string name, string info)
         {
             var slide = NewSlide();
@@ -73,6 +76,7 @@ namespace kxrealtime.utils
             objText.ActionSettings[Microsoft.Office.Interop.PowerPoint.PpMouseActivation.ppMouseClick].Hyperlink.Address = linkUrl;
         }
 
+        //打开ppt
         public static void openPPT(string filePath)
         {
             //Utils.dlFile(filePath);
@@ -83,6 +87,7 @@ namespace kxrealtime.utils
             //new PowerPoint.Application().Presentations.Open(filePath);
         }
 
+        //打开文件
         public static void openFile(string pathTmp, string fileName, string type, SHOWPROGRESS cb, ProgressTip pgCb)
         {
             cb(true);

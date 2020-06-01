@@ -13,19 +13,20 @@ namespace kxrealtime
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public partial class utilDialog : Form
     {
-
+        // 对应的id
         private string paperId;
         private string testId;
         private Timer myTimer;
-
+        // 试卷html
         private WebBrowser infoWebPage;
         private Form infoForm;
-
+        // 弹幕html
         private WebBrowser barragePage;
         private Form barrageForm;
-
+        // 答案窗口
         private Form answerResultForm;
 
+        // 初始化
         public utilDialog()
         {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace kxrealtime
         {
             this.Close();
         }
-
+        // 发送时间
         private void sendBtn_Click(object sender, EventArgs e)
         {
             var result = this.getExamInfo();
@@ -59,7 +60,7 @@ namespace kxrealtime
 
             showTimeChoice();
         }
-
+        // 显示发送
         public void showSendBtn()
         {
             var tmp = utils.Utils.getScreenPosition();
@@ -69,7 +70,7 @@ namespace kxrealtime
             this.utilsBtn.Top = this.Height / 2;
             this.Show();
         }
-
+        // 只显示工具按钮
         public void onlyUtils()
         {
             examUtils.Visible = false;
@@ -78,7 +79,7 @@ namespace kxrealtime
             this.utilsBtn.Top = this.Height / 2;
             this.Show();
         }
-
+        // 获取当前幻灯片考试信息
         private slideExamInfo getExamInfo()
         {
             var curIdx = Globals.ThisAddIn.PlaySlideIdx;
@@ -96,7 +97,7 @@ namespace kxrealtime
             }
             return result;
         }
-
+        // 改变模式
         public void checkMod()
         {
             this.paperId = null;
@@ -112,7 +113,7 @@ namespace kxrealtime
                 examUtils.Visible = false;
             }
         }
-
+        // 考试信息对应按钮等的处理
         public void examInfoHandle(slideExamInfo eData)
         {
             examUtils.Visible = false;
@@ -142,7 +143,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 停止考试处理
         private void stopMod()
         {
             timeLeft.Visible = true;
@@ -151,7 +152,7 @@ namespace kxrealtime
             examUtils.Visible = true;
             timeLeft.Text = "练习结束";
         }
-
+        // 开始倒计时
         private void startTiming(Int64 leftTime)
         {
             if (this.myTimer != null)
@@ -177,7 +178,7 @@ namespace kxrealtime
             myTimer.Enabled = true;
             myTimer.Interval = 1000;
         }
-
+        // 时间转换
         private string s2Format(Int64 time)
         {
             //Int64 h = time / 3600000;
@@ -188,14 +189,14 @@ namespace kxrealtime
             time %= 1000;
             return m.ToString() + ":" + s.ToString();
         }
-
+        // 是否是发送模式
         public void isSendMod(bool flag)
         {
             var canShowCheck = true;
             checkAns.Visible = !flag && canShowCheck;
             sendBtn.Visible = hasAnswer();// flag;
         }
-
+        // 判断是否有答案
         private bool hasAnswer()
         {
             var curIdx = Globals.ThisAddIn.PlaySlideIdx;
@@ -237,7 +238,7 @@ namespace kxrealtime
             }
             return false;
         }
-
+        // 当前题目类型
         public string curType()
         {
             var curIdx = Globals.ThisAddIn.PlaySlideIdx;
@@ -256,7 +257,7 @@ namespace kxrealtime
             }
             return "";
         }
-
+        // 显示选择时间
         public void showTimeChoice()
         {
             var tmp = new choseTime(this);
@@ -271,7 +272,7 @@ namespace kxrealtime
                 tmp.showFn(this.paperId, this.testId);
             }
         }
-
+        // 查看答案
         private void checkAns_Click(object sender, EventArgs e)
         {
             if(this.answerResultForm != null && !this.answerResultForm.IsDisposed)
@@ -319,37 +320,37 @@ namespace kxrealtime
             formTmp.Visible = true;
             this.answerResultForm = formTmp;
         }
-
+        // 页面加载完成回调
         private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             var curWebPage = sender as WebBrowser;
             curWebPage.Document.MouseMove += Document_MouseMove1;
 
         }
-
+        //鼠标移动
         private void Document_MouseMove1(object sender, HtmlElementEventArgs e)
         {
             Cursor.Show();
         }
-
+        // 隐藏点击
         private void button1_Click(object sender, EventArgs e)
         {
             //this.Close();
             this.Visible = false;
         }
-
+        // 延时点击
         private void delayBtn_Click(object sender, EventArgs e)
         {
             this.showTimeChoice();
         }
-
+        // 停止点击
         private void stopBtn_Click(object sender, EventArgs e)
         {
             var examInfo = this.getExamInfo();
             createExam(examInfo);
             sendStop(examInfo.paperId, examInfo.testId);
         }
-
+        // 结束点击
         private void sendStop(string paperId, string testId)
         {
             object sendData = (new
@@ -367,7 +368,7 @@ namespace kxrealtime
             string tmp = o.ToString();
             Globals.ThisAddIn.SendTchInfo(tmp);
         }
-
+        // 修改考试信息（用于改时间）
         private string createExam(slideExamInfo eInfo)
         {
             Uri reqUrl = new Uri($"{utils.KXINFO.KXCOURSEURL}/usr/api/upsertTest");
@@ -420,7 +421,7 @@ namespace kxrealtime
             }
             return null;
         }
-
+        // 工具栏隐藏
         private void utilsBtn_Click(object sender, EventArgs e)
         {
             this.utilsBtn.Visible = false;
@@ -428,13 +429,13 @@ namespace kxrealtime
             this.utilsPanel.Top = this.utilsBtn.Top - 100;
             this.utilsPanel.Visible = true;
         }
-
+        // 初始化
         private void utilDialog_Load(object sender, EventArgs e)
         {
             this.utilsBtn.Visible = true;
             this.utilsPanel.Visible = false;
         }
-
+        // 创建web窗口
         private void createWebForm(string url)
         {
             if (this.infoForm != null)
@@ -452,7 +453,7 @@ namespace kxrealtime
             this.infoForm.Controls.Add(this.infoWebPage);
             this.infoForm.Show();
         }
-
+        // 打开弹幕
         private void openBarrage(string url)
         {
             if (this.barrageForm != null)
@@ -469,7 +470,7 @@ namespace kxrealtime
             this.barrageForm.Controls.Add(this.barragePage);
             this.barrageForm.Show();
         }
-
+        // 初始化web窗口
         private Form initWebForm()
         {
             var infoForm = new Form();
@@ -486,7 +487,7 @@ namespace kxrealtime
             infoForm.Location = utils.Utils.getScreenPosition();
             return infoForm;
         }
-
+        // 初始化web页面
         private WebBrowser initWebPage(string url)
         {
             var infoWebPage = new WebBrowser();
@@ -498,19 +499,19 @@ namespace kxrealtime
             infoWebPage.ObjectForScripting = this;
             return infoWebPage;
         }
-
+        // 鼠标移动监听
         private void Document_MouseMove(object sender, HtmlElementEventArgs e)
         {
             Cursor.Show();
         }
-
+        // 页面加载完成
         private void InfoWebPage_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             this.infoWebPage.Document.Body.KeyPress += Body_KeyPress;
             this.infoWebPage.Document.MouseMove += Document_MouseMove;
 
         }
-
+        // esc按钮监听
         private void Body_KeyPress(object sender, HtmlElementEventArgs e)
         {
             if (e.KeyPressedCode == (char)Keys.Escape)
@@ -645,31 +646,31 @@ namespace kxrealtime
             }
         }
     }
-
+    // 发送内容结构
     public class SendKxOutContent
     {
         public string paperId { get; set; }
         public string testId { get; set; }
     }
-
+    // 发送内容结构
     public class SendKxOut
     {
         public Int64 teach_record_id { get; set; }
         public Int16 type { get; set; }
         public SendKxOutContent content { get; set; }
     }
-
+    // paper结构
     public class PaperC
     {
         public string text { get; set; }
     }
-
+    // paper内容结构
     public class PaperContent
     {
         public string t { get; set; }
         public PaperC c { get; set; }
     }
-
+    // paper数组结构
     public class PaperSel
     {
         public List<PaperContent> contents { get; set; }

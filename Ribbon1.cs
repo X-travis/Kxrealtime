@@ -21,15 +21,17 @@ namespace kxrealtime
     {
 
         PowerPoint.Application app;
-
+        // 当前登录websocket
         private webSocketClient loginWebSocket = null;
+        // 登录窗口图片
         private PictureBox loginPictureBox;
+        // 登录窗口
         private loginDialog curLoginDialog;
-
+        // 选择授课对象窗口
         private choseClass curChoseForm;
-
+        // 存放容器
         private Hashtable customTaskHash = new Hashtable();
-
+        // 当前实例
         private singleSelCtl singleSelCtlInstance
         {
             get
@@ -55,7 +57,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 当前资源库控制对象
         private kxResource ksResourceCtl
         {
             get
@@ -81,7 +83,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 当前pane
         public CustomTaskPane myCustomTaskPane
         {
             get
@@ -106,7 +108,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 当前资源库pane
         public CustomTaskPane kxResourceTaskPane
         {
             get
@@ -132,12 +134,16 @@ namespace kxrealtime
                 }
             }
         }
+        // 是否在播放
+        public bool isPlaying;
 
+        // 开始加载
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             app = Globals.ThisAddIn.Application;
         }
 
+        // 初始pane
         private void initPanes(string title)
         {
             singleSelCtlInstance = new singleSelCtl();
@@ -612,6 +618,7 @@ namespace kxrealtime
         // 变更设置按钮的显示
         public void settingChange(bool isSetting)
         {
+            isPlaying = !isSetting;
             for (int i = 1; i <= app.ActivePresentation.Slides.Count; i++)
             {
                 PowerPoint.Slide curSld = app.ActivePresentation.Slides[i];
@@ -801,8 +808,12 @@ namespace kxrealtime
         // 从当前页播放
         private void button12_Click(object sender, RibbonControlEventArgs e)
         {
+            settingChange(false);
             try
             {
+                //var curSetting = Globals.ThisAddIn.Application.ActivePresentation.SlideShowSettings;
+                //curSetting.ShowType = PpSlideShowType.ppShowTypeKiosk;
+                //curSetting.AdvanceMode = PpSlideShowAdvanceMode.ppSlideShowManualAdvance;
                 SendKeys.Send("+{F5}");
                 return;
             }

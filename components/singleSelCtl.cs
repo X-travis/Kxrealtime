@@ -11,7 +11,7 @@ namespace kxrealtime
 {
     public partial class singleSelCtl : UserControl
     {
-
+        // 选择类型
         public enum TypeSelEnum
         {
             singleSel,
@@ -26,15 +26,16 @@ namespace kxrealtime
         {
             InitializeComponent();
         }
-
+        // 当前选择pane
         private Panel selectPanel;
+        // 选择按钮
         private Button selectBtn;
         private TypeSelEnum curType;
-
+        // 当前选择label
         private ArrayList curSelLabelArr;
-
+        // 选项内容数组
         private List<fillOption> fillOptionArr;
-
+        // 获取当前类型
         public TypeSelEnum setCurSelType
         {
             get
@@ -46,7 +47,7 @@ namespace kxrealtime
                 this.curType = value;
             }
         }
-
+        // 选中回调
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;
@@ -59,7 +60,7 @@ namespace kxrealtime
             //    System.Diagnostics.Debug.WriteLine(shapeTmp.TextFrame.TextRange.Text);
             //}
         }
-
+        // 分数改变回调
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown numericUpDown = (NumericUpDown)sender;
@@ -83,7 +84,7 @@ namespace kxrealtime
         {
 
         }
-
+        // 点击按钮
         private void button1_Click(object sender, EventArgs e)
         {
             ArrayList ansTmp = new ArrayList();
@@ -95,6 +96,7 @@ namespace kxrealtime
             this.resetOption(nextValue);
         }
 
+        // 下一个选择序号
         private char FindNextSel()
         {
             char result = (char)this.curSelLabelArr[0];
@@ -109,6 +111,7 @@ namespace kxrealtime
             return (char)(result + 1);
         }
 
+        // 创建单选按钮
         public void createRadio(ArrayList labelArr, ArrayList ans)
         {
             int difY = 35;
@@ -142,7 +145,7 @@ namespace kxrealtime
             }
             this.selectBtn.Location = new System.Drawing.Point(x, y);
         }
-
+        // 创建按钮
         private System.Windows.Forms.RadioButton createRadioBtn(int posX, int posY, string text, bool isChecked)
         {
             System.Windows.Forms.RadioButton radioTmp = new System.Windows.Forms.RadioButton();
@@ -154,7 +157,7 @@ namespace kxrealtime
             radioTmp.Height = 30;
             return radioTmp;
         }
-
+        // 创建多选
         private System.Windows.Forms.CheckBox createCheckBtn(int posX, int posY, string text, bool isChecked)
         {
             System.Windows.Forms.CheckBox checkTmp = new System.Windows.Forms.CheckBox();
@@ -166,7 +169,7 @@ namespace kxrealtime
             checkTmp.Height = 30;
             return checkTmp;
         }
-
+        // 重置类型
         private void resetCurType()
         {
             int currentSlideIndex = Globals.ThisAddIn.CurSlideIdx;
@@ -201,7 +204,7 @@ namespace kxrealtime
 
             }
         }
-
+        // 重置内容
         public void resetData(float score, ArrayList ans, ArrayList labelArr)
         {
             this.resetCurType();
@@ -219,13 +222,13 @@ namespace kxrealtime
 
 
         }
-
+        // 重置分数
         private void resetVoteData()
         {
             this.voteMBtn.Checked = this.curType == TypeSelEnum.voteMultiSel;
             this.voteSBtn.Checked = this.curType == TypeSelEnum.voteSingleSel;
         }
-
+        // 重置选项
         private void resetSelData(float score, ArrayList ans, ArrayList labelArr)
         {
             numericUpDown1.Value = (decimal)score;
@@ -258,7 +261,7 @@ namespace kxrealtime
             }
         }
 
-
+        // 按钮选中回调
         private void radioButton_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
@@ -292,7 +295,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 选中按钮回调（多选）
         private void checkButton_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox rb = sender as CheckBox;
@@ -408,6 +411,7 @@ namespace kxrealtime
             textBox.Name = "kx-text-" + nextChar.ToString();
         }
 
+        // 初始化主观题
         public void initSubjectiveQ(float score, bool fillScore = false)
         {
             this.changePannelShow(TypeSelEnum.textQuestion);
@@ -416,7 +420,7 @@ namespace kxrealtime
                 numericUpDown2.Value = (decimal)score;
             }
         }
-
+        // 分值
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             numericUpDown1_ValueChanged(sender, e);
@@ -426,7 +430,7 @@ namespace kxrealtime
         {
             this.changePannelShow(curType);
         }
-
+        // 显示对应的类型pane
         private void changePannelShow(TypeSelEnum curType)
         {
             this.panel2.Visible = curType == TypeSelEnum.singleSel || curType == TypeSelEnum.multiSel;
@@ -438,7 +442,7 @@ namespace kxrealtime
             this.panel5.Top = 30;
 
         }
-
+        // 增加投票内容按钮
         private void addVoteOption_Click(object sender, EventArgs e)
         {
             ArrayList ansTmp = new ArrayList();
@@ -448,7 +452,7 @@ namespace kxrealtime
             this.curSelLabelArr.Add(nextValue);
             this.resetOption(nextValue);
         }
-
+        // 投票选中回调 单选
         private void voteSBtn_CheckedChanged(object sender, EventArgs e)
         {
             var curObj = sender as RadioButton;
@@ -458,7 +462,7 @@ namespace kxrealtime
                 changeVoteType();
             }
         }
-
+        // 投票选中回调 多选
         private void voteMBtn_CheckedChanged(object sender, EventArgs e)
         {
             var curObj = sender as RadioButton;
@@ -468,7 +472,7 @@ namespace kxrealtime
                 changeVoteType();
             }
         }
-
+        // 改变投票类型
         private void changeVoteType()
         {
             int currentSlideIndex = Globals.ThisAddIn.CurSlideIdx;
@@ -489,13 +493,13 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 初始显示填空
         public void initFillQ(float score)
         {
             this.changePannelShow(TypeSelEnum.fillQuestion);
             //numericUpDown2.Value = (decimal)score;
         }
-
+        // 填空增加按钮事件
         private void fillAddBtn_Click(object sender, EventArgs e)
         {
             var tmp = new List<fillOption>()
@@ -510,7 +514,7 @@ namespace kxrealtime
             changeFillContent(this.fillOptionArr.Count);
             getFillContent();
         }
-
+        // 增加选项
         private void addFillOption(List<fillOption> options, bool isInit = false)
         {
             if (this.fillOptionArr == null)
@@ -574,17 +578,17 @@ namespace kxrealtime
             this.fillOptionPanel.Height = 700;
             //this.fillOptionPanel.AutoScroll = true;
         }
-
+        // 分值变化
         private void ScoreInput_ValueChanged(object sender, EventArgs e)
         {
             getFillContent();
         }
-
+        // 填空答案变化
         private void AnsInput_TextChanged(object sender, EventArgs e)
         {
             getFillContent();
         }
-
+        // 获取填空内容
         private void getFillContent()
         {
             if (this.fillOptionPanel.Controls.Count < 1)
@@ -630,7 +634,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 改变填空内容
         private void changeFillContent(int idx)
         {
             int currentSlideIndex = Globals.ThisAddIn.CurSlideIdx;
@@ -644,7 +648,7 @@ namespace kxrealtime
                 }
             }
         }
-
+        // 重置填空
         public void resetFill(List<fillOption> options)
         {
             changePannelShow(TypeSelEnum.fillQuestion);
@@ -658,7 +662,7 @@ namespace kxrealtime
 
         }
     }
-
+    // 填空数据结构
     public class fillOption
     {
         public string answer;
