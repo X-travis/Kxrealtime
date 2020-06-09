@@ -31,10 +31,10 @@
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <TargetFrameworkProfile />
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>D:\新建文件夹 %282%29\kx\</PublishUrl>
+    <PublishUrl>C:\Users\dev\Desktop\开发文档\酷课堂相关\</PublishUrl>
     <InstallUrl />
     <TargetCulture>zh-chs</TargetCulture>
-    <ApplicationVersion>1.0.0.73</ApplicationVersion>
+    <ApplicationVersion>1.0.0.78</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -362,6 +362,7 @@
       <DependentUpon>utilDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="kxrealtime_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -452,6 +453,9 @@
     <None Include="Resources\fill-new.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\设置备份31.png" />
+    <None Include="Resources\设置备份3.png" />
+    <None Include="Resources\设置备份 2.png" />
     <None Include="Resources\subject-new1.png" />
     <None Include="Resources\vote-new1.png" />
     <None Include="Resources\stop1.png" />
@@ -485,7 +489,7 @@
     <ManifestKeyFile>kxrealtime_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A166713717425398A882539345D38B2863B3DA6D</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C9518CC069222CA1688DABBFC51FBC18AE8C596B</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -498,7 +502,7 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
-        <ProjectProperties HostName="PowerPoint" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="PowerPoint" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\PowerPoint\InstallRoot\Path#powerpnt.exe" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <ProjectProperties HostName="PowerPoint" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="PowerPoint" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\PowerPoint\InstallRoot\Path#powerpnt.exe" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="PowerPoint" GeneratedCodeNamespace="kxrealtime" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
           <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" PublishedHash="42EC7C3E7E354F14BC342DDDFEFC6AB9A984019C" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
