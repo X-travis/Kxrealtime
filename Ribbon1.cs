@@ -843,5 +843,17 @@ namespace kxrealtime
             }
             kxResourceTaskPane.Visible = true;
         }
+
+        public void closeAllWin()
+        {
+            if(kxResourceTaskPane != null)
+            {
+                kxResourceTaskPane.Visible = false;
+            }
+            if(myCustomTaskPane != null)
+            {
+                myCustomTaskPane.Visible = false;
+            }
+        }
     }
 }

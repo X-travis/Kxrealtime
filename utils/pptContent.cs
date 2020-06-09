@@ -9,6 +9,7 @@ using Office = Microsoft.Office.Core;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using System.IO;
+using UnityEngine;
 
 namespace kxrealtime.utils
 {
@@ -79,6 +80,7 @@ namespace kxrealtime.utils
         //打开ppt
         public static void openPPT(string filePath)
         {
+            Globals.ThisAddIn.closeWin();
             //Utils.dlFile(filePath);
             //var objApp = new PowerPoint.Application();
             Globals.ThisAddIn.Application.ActivePresentation.Close();

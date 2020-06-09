@@ -532,6 +532,12 @@ namespace kxrealtime
             }
         }
 
+        // 关闭相关的弹窗
+        public void closeWin()
+        {
+            Globals.Ribbons.Ribbon1.closeAllWin();
+        }
+
         #region VSTO 生成的代码
 
         /// <summary>
