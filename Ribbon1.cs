@@ -386,8 +386,8 @@ namespace kxrealtime
             curLoginDialog.getClose.Visible = false;
             curLoginDialog.getTitle.Visible = false;
             curLoginDialog.getLogo.Visible = false;
-            string connectID = utils.Utils.createGUID();
-          //  string connectID = "2020060409350835855";
+            //string connectID = utils.Utils.createGUID();
+            string connectID = "2020060409350835855";
             var loginContentTmp = curLoginDialog.getContent;
             loginContentTmp.Controls.Clear();
             loginPictureBox = getLoginQR(connectID);

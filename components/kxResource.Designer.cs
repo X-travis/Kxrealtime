@@ -91,11 +91,11 @@
             // savePathLabel
             // 
             this.savePathLabel.AutoSize = true;
-            this.savePathLabel.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.savePathLabel.Location = new System.Drawing.Point(25, 570);
-            this.savePathLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.savePathLabel.Font = new System.Drawing.Font("宋体", 12F);
+            this.savePathLabel.Location = new System.Drawing.Point(77, 563);
+            this.savePathLabel.Margin = new System.Windows.Forms.Padding(0);
             this.savePathLabel.Name = "savePathLabel";
-            this.savePathLabel.Size = new System.Drawing.Size(403, 30);
+            this.savePathLabel.Size = new System.Drawing.Size(269, 20);
             this.savePathLabel.TabIndex = 3;
             this.savePathLabel.Text = "正在缓存到酷课堂文件目录中";
             this.savePathLabel.Click += new System.EventHandler(this.savePathLabel_Click);
