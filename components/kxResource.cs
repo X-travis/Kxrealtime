@@ -84,7 +84,7 @@ namespace kxrealtime
         {
             var savePath = utils.Utils.getFilePath();
             var filePath = savePath + @"\" + fileName;
-            this.savePathLabel.Text = $"保存地址：{filePath}";
+          //  this.savePathLabel.Text = $"保存地址：{filePath}";
         }
 
         // 是否显示进度条
@@ -147,6 +147,16 @@ namespace kxrealtime
         }
 
         public void showQuestion()
+        {
+
+        }
+
+        private void savePathLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progresslabel_Click(object sender, EventArgs e)
         {
 
         }

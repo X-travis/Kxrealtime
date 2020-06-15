@@ -41,9 +41,10 @@
             // 
             this.resourceWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resourceWebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.resourceWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.resourceWebBrowser.Margin = new System.Windows.Forms.Padding(4);
+            this.resourceWebBrowser.MinimumSize = new System.Drawing.Size(27, 25);
             this.resourceWebBrowser.Name = "resourceWebBrowser";
-            this.resourceWebBrowser.Size = new System.Drawing.Size(332, 522);
+            this.resourceWebBrowser.Size = new System.Drawing.Size(443, 652);
             this.resourceWebBrowser.TabIndex = 0;
             // 
             // fileLoadingPic
@@ -52,9 +53,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fileLoadingPic.BackColor = System.Drawing.Color.White;
             this.fileLoadingPic.Image = global::kxrealtime.Properties.Resources.page_loading;
-            this.fileLoadingPic.Location = new System.Drawing.Point(106, 156);
+            this.fileLoadingPic.Location = new System.Drawing.Point(141, 195);
+            this.fileLoadingPic.Margin = new System.Windows.Forms.Padding(4);
             this.fileLoadingPic.Name = "fileLoadingPic";
-            this.fileLoadingPic.Size = new System.Drawing.Size(129, 145);
+            this.fileLoadingPic.Size = new System.Drawing.Size(172, 181);
             this.fileLoadingPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.fileLoadingPic.TabIndex = 1;
             this.fileLoadingPic.TabStop = false;
@@ -64,12 +66,13 @@
             this.progresslabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progresslabel.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.progresslabel.Location = new System.Drawing.Point(103, 421);
+            this.progresslabel.Location = new System.Drawing.Point(77, 486);
+            this.progresslabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.progresslabel.Name = "progresslabel";
-            this.progresslabel.Size = new System.Drawing.Size(132, 42);
+            this.progresslabel.Size = new System.Drawing.Size(299, 52);
             this.progresslabel.TabIndex = 2;
-            this.progresslabel.Text = " ";
             this.progresslabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.progresslabel.Click += new System.EventHandler(this.progresslabel_Click);
             // 
             // fileLoading
             // 
@@ -79,28 +82,33 @@
             this.fileLoading.Controls.Add(this.progresslabel);
             this.fileLoading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fileLoading.Location = new System.Drawing.Point(0, 0);
+            this.fileLoading.Margin = new System.Windows.Forms.Padding(4);
             this.fileLoading.Name = "fileLoading";
-            this.fileLoading.Size = new System.Drawing.Size(332, 522);
+            this.fileLoading.Size = new System.Drawing.Size(443, 652);
             this.fileLoading.TabIndex = 3;
             this.fileLoading.Visible = false;
             // 
             // savePathLabel
             // 
             this.savePathLabel.AutoSize = true;
-            this.savePathLabel.Location = new System.Drawing.Point(19, 456);
+            this.savePathLabel.Font = new System.Drawing.Font("宋体", 12F);
+            this.savePathLabel.Location = new System.Drawing.Point(77, 563);
+            this.savePathLabel.Margin = new System.Windows.Forms.Padding(0);
             this.savePathLabel.Name = "savePathLabel";
-            this.savePathLabel.Size = new System.Drawing.Size(65, 12);
+            this.savePathLabel.Size = new System.Drawing.Size(269, 20);
             this.savePathLabel.TabIndex = 3;
-            this.savePathLabel.Text = "保存地址：";
+            this.savePathLabel.Text = "正在缓存到酷课堂文件目录中";
+            this.savePathLabel.Click += new System.EventHandler(this.savePathLabel_Click);
             // 
             // kxResource
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.fileLoading);
             this.Controls.Add(this.resourceWebBrowser);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "kxResource";
-            this.Size = new System.Drawing.Size(332, 522);
+            this.Size = new System.Drawing.Size(443, 652);
             ((System.ComponentModel.ISupportInitialize)(this.fileLoadingPic)).EndInit();
             this.fileLoading.ResumeLayout(false);
             this.fileLoading.PerformLayout();
