@@ -267,14 +267,18 @@ namespace kxrealtime
             var singleVoteTitle = "kx-title-" + singleSelCtl.TypeSelEnum.voteSingleSel;
             var mulitVoteTitle = "kx-title-" + singleSelCtl.TypeSelEnum.voteMultiSel;
             Cursor.Show();
+            
             if (curQType == singleVoteTitle || curQType == mulitVoteTitle)
             {
                 tmp.questionSend(this.paperId, this.testId);
+                
                
             } else
             {
                 tmp.showFn(this.paperId, this.testId);
+                
             }
+          
         }
         // 查看答案
         private void checkAns_Click(object sender, EventArgs e)
