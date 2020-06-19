@@ -36,6 +36,7 @@ namespace kxrealtime
             //var otherLocation = utils.Utils.getScreenPosition(true);
             this.utilsBtn.Top = this.Height / 2;
             Globals.ThisAddIn.WebSocketMsg += ThisAddIn_WebSocketMsg;
+            answerResultForm = new Form();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -57,8 +58,9 @@ namespace kxrealtime
                     this.testId = null;
                 }
             }
-
+            Cursor.Show();
             showTimeChoice();
+            
         }
         // 显示发送
         public void showSendBtn()
@@ -264,9 +266,11 @@ namespace kxrealtime
             var curQType = this.curType();
             var singleVoteTitle = "kx-title-" + singleSelCtl.TypeSelEnum.voteSingleSel;
             var mulitVoteTitle = "kx-title-" + singleSelCtl.TypeSelEnum.voteMultiSel;
+            Cursor.Show();
             if (curQType == singleVoteTitle || curQType == mulitVoteTitle)
             {
                 tmp.questionSend(this.paperId, this.testId);
+               
             } else
             {
                 tmp.showFn(this.paperId, this.testId);
