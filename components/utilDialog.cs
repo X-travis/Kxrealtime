@@ -24,7 +24,7 @@ namespace kxrealtime
         private WebBrowser barragePage;
         private Form barrageForm;
         // 答案窗口
-        private Form answerResultForm;
+        public Form answerResultForm;
 
         // 初始化
         public utilDialog()

@@ -198,6 +198,14 @@ namespace kxrealtime
             if (Wn.View.Slide.Name.Contains("kx-slide"))
             {
                 this.utilDialogInstance.showSendBtn();
+                if (!utilDialogInstance.answerResultForm.IsDisposed)
+                {
+                    utilDialogInstance.answerResultForm.Close();
+                    utilDialogInstance.answerResultForm.Dispose();
+
+                 
+                }
+
             }
             else
             {
