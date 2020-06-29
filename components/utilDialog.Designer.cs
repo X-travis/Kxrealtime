@@ -1,4 +1,6 @@
-﻿namespace kxrealtime
+﻿using Microsoft.Office.Interop.PowerPoint;
+
+namespace kxrealtime
 {
     partial class utilDialog
     {
@@ -322,6 +324,10 @@
             this.button1.TabIndex = 3;
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.KeyDown += Button1_KeyDown;
+            this.button1.KeyUp += Button1_KeyUp;
+            //新增可以鼠标上下键关闭PPT顺利翻页
+
             // 
             // utilDialog
             // 
@@ -352,6 +358,17 @@
             this.utilsPanel.PerformLayout();
             this.ResumeLayout(false);
 
+        }
+
+        private void Button1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+           this.Close() ;
+            
+        }
+
+        private void Button1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            this.Close(); ;
         }
 
         #endregion

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
 using Websocket.Client;
 using WebSocket4Net;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
@@ -123,6 +124,7 @@ namespace kxrealtime
             this.Application.SlideShowOnPrevious += Application_SlideShowOnPrevious;
             this.Application.PresentationBeforeClose += Application_PresentationBeforeClose;
             this.Application.WindowActivate += Application_WindowActivate;
+            
 
             this.curHttpReq = utils.request.GetClient();
         }
