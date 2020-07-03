@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Security.Permissions;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Diagnostics;
 
 namespace kxrealtime
 {
@@ -133,11 +134,13 @@ namespace kxrealtime
         // 提供给web的调用方法 插入视频
         public void showVideo(string videoLink)
         {
+           // Console.WriteLine(videoLink);
             //utils.pptContent.InserVideo(videoLink);
             var nameArr = videoLink.Split('/');
             var curName = nameArr[nameArr.Length - 1];
             showFilePathTip(curName);
             utils.pptContent.openFile(videoLink, curName, "video", isShowProgress, changeProgress);
+           
         }
 
         // 提供给web的调用方法 插入链接
