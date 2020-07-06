@@ -105,7 +105,7 @@ namespace kxrealtime.utils
         }
 
         //打开文件
-        public static void openFile(string pathTmp, string fileName, string type, SHOWPROGRESS cb, ProgressTip pgCb)
+        public static void  openFile(string pathTmp, string fileName, string type, SHOWPROGRESS cb, ProgressTip pgCb)
         {
             cb(true);
             var videopath = pathTmp;
@@ -114,18 +114,27 @@ namespace kxrealtime.utils
             var task = Task.Run(() =>
             {
                 //Utils.dlFile(pathTmp, filePath);              
-                Utils.dlFileOrigin(pathTmp, filePath, "", pgCb);
+               //仅图片跟PPT会下载，视频目前不下载
+
                 try
                 {
                     switch (type)
                     {
                         case "image":
+                           
+                            Utils.dlFileOrigin(pathTmp, filePath, "", pgCb);
                             InsertImage(filePath);
                             break;
+                      
+                        
                         case "video":
                             InserVideo(videopath);
                             break;
+                       
+                        
                         case "ppt":
+                            
+                            Utils.dlFileOrigin(pathTmp, filePath, "", pgCb);
                             openPPT(filePath);
                             break;
                         default:

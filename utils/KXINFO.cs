@@ -6,13 +6,13 @@ namespace kxrealtime.utils
     public static class KXINFO
     {
         // 对应的接口域名
- //      public static string KXURL = @"https://kxrealtime-mp.dev.gdy.io";
- //      public static string KXADMINURL = @"https://kxrealtime-admin.dev.gdy.io";
- //       public static string KXSOCKETURL = @"wss://kxrealtime-mp.dev.gdy.io";
- //       public static string KXCOURSEURL = @"https://course.dev.gdy.io";
+     //  public static string KXURL = @"https://kxrealtime-mp.dev.gdy.io";
+     //  public static string KXADMINURL = @"https://kxrealtime-admin.dev.gdy.io";
+     //   public static string KXSOCKETURL = @"wss://kxrealtime-mp.dev.gdy.io";
+     //   public static string KXCOURSEURL = @"https://course.dev.gdy.io";
 
        public static string KXURL = @"https://kxrealtime-mp.kuxiao.cn";
-       public static string KXADMINURL = @"https://kxrealtime-admin.kuxiao.cn";
+      public static string KXADMINURL = @"https://kxrealtime-admin.kuxiao.cn";
        public static string KXSOCKETURL = @"wss://kxrealtime-mp.kuxiao.cn";
        public static string KXCOURSEURL = @"https://course.kuxiao.cn";
 
