@@ -124,8 +124,14 @@
   <data name="start-new" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start-new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="取消" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\取消.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="stop1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stop1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="不结束" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\不结束.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="vote-new1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vote-new1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,8 +139,11 @@
   <data name="course-qrcode1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\course-qrcode1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="contribute1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\contribute1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="结束授课(1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\结束授课(1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subject-new1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subject-new1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="divde-group-big" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\divde-group-big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -147,6 +156,9 @@
   </data>
   <data name="resource" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\resource.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="结束授课" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\结束授课.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="single-new1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\single-new1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -193,13 +205,13 @@
   <data name="check-stu-big" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\check-stu-big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="subject-new1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\subject-new1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="contribute1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\contribute1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="multi-new1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\multi-new1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="结束授课" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\结束授课.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="结束" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\结束.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

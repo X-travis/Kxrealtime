@@ -1,4 +1,5 @@
-﻿using kxrealtime.kxdata;
+﻿using kxrealtime.components;
+using kxrealtime.kxdata;
 using kxrealtime.utils;
 using Microsoft.Office.Interop.PowerPoint;
 using Newtonsoft.Json.Linq;
@@ -140,6 +141,8 @@ namespace kxrealtime
         {
             if (utils.KXINFO.KXTCHRECORDID != null && utils.KXINFO.KXTCHRECORDID.Length > 0)
             {
+                cancelForm cF = new cancelForm();
+                cF.onClosing();
                 MessageBoxButtons messbutton = MessageBoxButtons.OKCancel;
                 DialogResult dr = MessageBox.Show("是否需要结束授课", "温馨提示", messbutton);
                 if (dr == DialogResult.OK)

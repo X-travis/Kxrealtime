@@ -303,9 +303,49 @@ namespace kxrealtime.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap 不结束 {
+            get {
+                object obj = ResourceManager.GetObject("不结束", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 取消 {
+            get {
+                object obj = ResourceManager.GetObject("取消", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 结束 {
+            get {
+                object obj = ResourceManager.GetObject("结束", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 结束授课 {
             get {
                 object obj = ResourceManager.GetObject("结束授课", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap 结束授课_1_ {
+            get {
+                object obj = ResourceManager.GetObject("结束授课(1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

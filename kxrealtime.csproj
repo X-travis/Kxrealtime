@@ -290,7 +290,7 @@
       <DependentUpon>choseTime.cs</DependentUpon>
     </Compile>
     <Compile Include="components\cancelForm.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="components\cancelForm.Designer.cs">
       <DependentUpon>cancelForm.cs</DependentUpon>
@@ -463,6 +463,10 @@
     <None Include="Resources\fill-new.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\结束.png" />
+    <None Include="Resources\不结束.png" />
+    <None Include="Resources\取消.png" />
+    <None Include="Resources\结束授课%281%29.png" />
     <None Include="Resources\设置备份31.png" />
     <None Include="Resources\设置备份3.png" />
     <None Include="Resources\设置备份 2.png" />
