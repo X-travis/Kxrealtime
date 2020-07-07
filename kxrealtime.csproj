@@ -127,6 +127,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -288,6 +289,12 @@
     <Compile Include="components\choseTime.Designer.cs">
       <DependentUpon>choseTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="components\cancelForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="components\cancelForm.Designer.cs">
+      <DependentUpon>cancelForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="kxdata\paperInfo.cs" />
     <Compile Include="kxdata\upsertTeachContent.cs" />
     <Compile Include="components\kxResource.cs">
@@ -346,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="components\loginDialog.resx">
       <DependentUpon>loginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="components\cancelForm.resx">
+      <DependentUpon>cancelForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

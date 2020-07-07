@@ -163,5 +163,10 @@ namespace kxrealtime
         {
 
         }
+
+        private void fileLoadingPic_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

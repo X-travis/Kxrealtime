@@ -37,15 +37,15 @@ namespace kxrealtime
             this.timeLeft = new System.Windows.Forms.Label();
             this.delayBtn = new System.Windows.Forms.Button();
             this.utilsPanel = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.utilsBtn = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.utilsBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.examUtils.SuspendLayout();
             this.utilsPanel.SuspendLayout();
@@ -66,6 +66,8 @@ namespace kxrealtime
             this.sendBtn.Size = new System.Drawing.Size(200, 62);
             this.sendBtn.TabIndex = 1;
             this.sendBtn.Text = "发送题目";
+            //防止打开新窗体后会被点击到
+            this.sendBtn.SendToBack();
             this.sendBtn.UseVisualStyleBackColor = false;
             this.sendBtn.Click += new System.EventHandler(this.sendBtn_Click);
             // 
@@ -84,6 +86,9 @@ namespace kxrealtime
             this.checkAns.Size = new System.Drawing.Size(200, 62);
             this.checkAns.TabIndex = 2;
             this.checkAns.Text = "作答情况";
+            //防止打开新窗体后会被点击到
+            this.checkAns.SendToBack();
+
             this.checkAns.UseVisualStyleBackColor = false;
             this.checkAns.Click += new System.EventHandler(this.checkAns_Click);
             // 
@@ -161,46 +166,6 @@ namespace kxrealtime
             this.utilsPanel.TabIndex = 5;
             this.utilsPanel.Visible = false;
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(336, 14);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 24);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "×";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(17, 21);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "工具";
-            // 
-            // utilsBtn
-            // 
-            this.utilsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.utilsBtn.BackColor = System.Drawing.SystemColors.Control;
-            this.utilsBtn.FlatAppearance.BorderSize = 0;
-            this.utilsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.utilsBtn.Image = global::kxrealtime.Properties.Resources.设置备份3;
-            this.utilsBtn.Location = new System.Drawing.Point(982, 238);
-            this.utilsBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.utilsBtn.Name = "utilsBtn";
-            this.utilsBtn.Size = new System.Drawing.Size(84, 73);
-            this.utilsBtn.TabIndex = 6;
-            this.utilsBtn.UseVisualStyleBackColor = false;
-            this.utilsBtn.Click += new System.EventHandler(this.utilsBtn_Click);
-            // 
             // button8
             // 
             this.button8.FlatAppearance.BorderSize = 0;
@@ -218,6 +183,20 @@ namespace kxrealtime
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Visible = false;
             this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(336, 14);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 24);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "×";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button6
             // 
@@ -305,6 +284,32 @@ namespace kxrealtime
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(17, 21);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 15);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "工具";
+            // 
+            // utilsBtn
+            // 
+            this.utilsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.utilsBtn.BackColor = System.Drawing.SystemColors.Control;
+            this.utilsBtn.FlatAppearance.BorderSize = 0;
+            this.utilsBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.utilsBtn.Image = global::kxrealtime.Properties.Resources.设置备份3;
+            this.utilsBtn.Location = new System.Drawing.Point(982, 238);
+            this.utilsBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.utilsBtn.Name = "utilsBtn";
+            this.utilsBtn.Size = new System.Drawing.Size(84, 73);
+            this.utilsBtn.TabIndex = 6;
+            this.utilsBtn.UseVisualStyleBackColor = false;
+            this.utilsBtn.Click += new System.EventHandler(this.utilsBtn_Click);
+            // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -324,10 +329,6 @@ namespace kxrealtime
             this.button1.TabIndex = 3;
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            this.button1.KeyDown += Button1_KeyDown;
-            this.button1.KeyUp += Button1_KeyUp;
-            //新增可以鼠标上下键关闭PPT顺利翻页
-
             // 
             // utilDialog
             // 
@@ -339,8 +340,8 @@ namespace kxrealtime
             this.Controls.Add(this.utilsPanel);
             this.Controls.Add(this.examUtils);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.checkAns);
             this.Controls.Add(this.sendBtn);
+            this.Controls.Add(this.checkAns);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "utilDialog";

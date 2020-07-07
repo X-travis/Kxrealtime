@@ -303,6 +303,16 @@ namespace kxrealtime.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap 结束授课 {
+            get {
+                object obj = ResourceManager.GetObject("结束授课", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap 设置备份_2 {
             get {
                 object obj = ResourceManager.GetObject("设置备份 2", resourceCulture);
